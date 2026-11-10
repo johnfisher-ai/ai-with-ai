@@ -175,6 +175,9 @@ def _reader_key() -> str:
 
 
 RECORDING_KEY = "AIWAI_RECORDING_KEY"
+# Record mode names Anthropic's API itself, so no ANTHROPIC_BASE_URL in a session can send the book's
+# key anywhere else
+API = "https://api.anthropic.com"
 
 
 def _recording_key() -> str:
@@ -204,7 +207,7 @@ def make_client(notebook: str, mode: str | None = None, folder="recordings",
         http = anthropic.DefaultHttpxClient(transport=RecordingTransport(recording, transport))
         if not quiet:
             print(f"Record mode: every exchange is written to {recording.path}.")
-        return anthropic.Anthropic(api_key=key, http_client=http, max_retries=0)
+        return anthropic.Anthropic(api_key=key, base_url=API, http_client=http, max_retries=0)
     recording.load()
     if not quiet:
         n = len(recording.exchanges)

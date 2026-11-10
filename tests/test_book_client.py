@@ -243,3 +243,10 @@ def test_the_recording_check_passes_a_recording_and_catches_tampering(folder, mo
     path.write_text(json.dumps(data))
     problems = " ".join(check_recordings.check(path))
     assert "response fields" in problems and "key does not match" in problems
+
+
+def test_record_mode_sends_the_key_only_to_anthropics_api(folder, monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_BASE_URL", "https://example.invalid/somewhere-else")
+    fake = FakeAPI([(200, message())])
+    ask(book_client.make_client("demo", mode="record", folder=folder, transport=fake, quiet=True))
+    assert fake.requests[0].url.host == "api.anthropic.com"
