@@ -54,6 +54,7 @@
     --fg-c-green: #4de5b6;
     --fg-c-pink: #e08cb1;
     --fg-c-purple: #b596ea;
+    --p-bd-a5dee4: #395a5d;
     --p-bd-a7f3d0: #31634c;
     --p-bd-bfd3fb: #2b3e64;
     --p-bd-bfdbfe: #284466;
@@ -65,6 +66,7 @@
     --p-bd-fde68a: #6c5f2b;
     --p-bd-ffc9b8: #683727;
     --p-bg-e6effe: #172233;
+    --p-bg-e6f6f7: #1e2d2e;
     --p-bg-ecfdf5: #193025;
     --p-bg-eef2ff: #151c32;
     --p-bg-eff6ff: #152232;
@@ -76,6 +78,7 @@
     --p-bg-fffbeb: #332d16;
     --p-bg-ffffff: #141c36;
     --p-fg-047857: #4de5ba;
+    --p-fg-0f6b74: #5acdd8;
     --p-fg-15803d: #5ed48a;
     --p-fg-1a2138: #e8eaf6;
     --p-fg-1d4ed8: #8ca3e3;
@@ -107,14 +110,15 @@
     --link: #0e7490;
     --link-hover: #164e63;
     --fg-c-blue: initial; --fg-c-cyan: initial; --fg-c-green: initial; --fg-c-pink: initial;
-    --fg-c-purple: initial; --p-bd-a7f3d0: initial; --p-bd-bfd3fb: initial; --p-bd-bfdbfe: initial;
-    --p-bd-c7d2fe: initial; --p-bd-cccccc: initial; --p-bd-cdd3e3: initial; --p-bd-d8c7fb: initial;
-    --p-bd-fcd9a6: initial; --p-bd-fde68a: initial; --p-bd-ffc9b8: initial; --p-bg-e6effe: initial;
-    --p-bg-ecfdf5: initial; --p-bg-eef2ff: initial; --p-bg-eff6ff: initial; --p-bg-f0e9fe: initial;
-    --p-bg-f4f6fb: initial; --p-bg-fbfcfe: initial; --p-bg-fef3e2: initial; --p-bg-fff1ec: initial;
-    --p-bg-fffbeb: initial; --p-bg-ffffff: initial; --p-fg-047857: initial; --p-fg-15803d: initial;
-    --p-fg-1a2138: initial; --p-fg-1d4ed8: initial; --p-fg-3730a3: initial; --p-fg-4a5578: initial;
-    --p-fg-6d28d9: initial; --p-fg-92400e: initial; --p-fg-9a3412: initial;
+    --fg-c-purple: initial; --p-bd-a5dee4: initial; --p-bd-a7f3d0: initial; --p-bd-bfd3fb: initial;
+    --p-bd-bfdbfe: initial; --p-bd-c7d2fe: initial; --p-bd-cccccc: initial; --p-bd-cdd3e3: initial;
+    --p-bd-d8c7fb: initial; --p-bd-fcd9a6: initial; --p-bd-fde68a: initial; --p-bd-ffc9b8: initial;
+    --p-bg-e6effe: initial; --p-bg-e6f6f7: initial; --p-bg-ecfdf5: initial; --p-bg-eef2ff: initial;
+    --p-bg-eff6ff: initial; --p-bg-f0e9fe: initial; --p-bg-f4f6fb: initial; --p-bg-fbfcfe: initial;
+    --p-bg-fef3e2: initial; --p-bg-fff1ec: initial; --p-bg-fffbeb: initial; --p-bg-ffffff: initial;
+    --p-fg-047857: initial; --p-fg-0f6b74: initial; --p-fg-15803d: initial; --p-fg-1a2138: initial;
+    --p-fg-1d4ed8: initial; --p-fg-3730a3: initial; --p-fg-4a5578: initial; --p-fg-6d28d9: initial;
+    --p-fg-92400e: initial; --p-fg-9a3412: initial;
   }
   /* zero specificity: a figure that draws its own panel keeps it, and one that relied on the white page gets a white panel */
   :where([data-theme="dark"]) :where(figure:not(.rpt-fig), .svg-wrap, .nb-fig) { color: #1a2138; background-color: #ffffff; border-radius: 12px; }
