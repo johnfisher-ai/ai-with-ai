@@ -127,9 +127,17 @@ pages use the same middle dot. `apply_chapter_nav.py` relies on the `Ch N ·` fo
   as strikethrough. Write "12 dollars" and "about 0.89".
 - **Dated claims.** A claim about a model, a price, a context window, a library or a tool can go stale.
   Write "as of <month year>" with it, and add it to the punch list's dated-claims list.
-- **Honest data.** Every dataset is written for the book. Call it realistic or teaching data on its card
-  and in its workbook's `Notes` sheet, never real data. No dataset describes a real organization or
-  person.
+- **Honest data.** Every dataset is written for the book and describes no real organization or person. A
+  downloadable dataset says so in its workbook's `Notes` sheet and carries a short "Teaching dataset" tag on its
+  card, and never calls itself real data.
+- **State provenance once.** The author decided on November 10, 2026, after reviewing Chapter 1, that the
+  introduction explains once that the examples' records are written for the book and that the notebooks replay
+  recorded responses, with a live option. Chapters and notebooks don't repeat either. Describe the data and the
+  outputs precisely, as an engineer would ("The triage routine evaluates ticket payloads and invokes a large
+  language model (LLM) to perform categorical classification. The sample output below illustrates the input
+  tickets alongside the model's inferred category assignments."), and leave out "written for the book", "no
+  customer wrote them" and "recorded on <date>". The notebook's Setup output already names the recording's model
+  and date. A dated claim such as a price keeps its "as of <month year>".
 - **Public information only.** Where the book names a company's product, describe only what the company
   has published, with no roadmap and no claim that one product is best.
 - **The accent is coral `#ff7a59`.** It replaces the first book's cyan in the logo, the top bar and the

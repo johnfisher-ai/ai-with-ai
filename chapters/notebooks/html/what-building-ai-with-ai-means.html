@@ -7794,20 +7794,20 @@ a.anchor-link {
   }
 </style>
 <!-- End of mermaid configuration --><!-- book-head -->
-<meta name="description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets written for the book.">
+<meta name="description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets.">
 <meta name="author" content="John Fisher">
 <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/notebooks/html/what-building-ai-with-ai-means.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
 <meta property="og:title" content="What building AI with AI means · Chapter 1 · Notebook">
-<meta property="og:description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets written for the book.">
+<meta property="og:description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets.">
 <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/notebooks/html/what-building-ai-with-ai-means.html">
 <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
 <meta property="og:image:width" content="2400">
 <meta property="og:image:height" content="1260">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="What building AI with AI means · Chapter 1 · Notebook">
-<meta name="twitter:description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets written for the book.">
+<meta name="twitter:description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets.">
 <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
 <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../../assets/img/apple-touch-icon.png">
@@ -7826,7 +7826,7 @@ a.anchor-link {
 <div style="background:linear-gradient(135deg,#1b1448 0%,#3b1f5e 55%,#7c2d12 100%);border-radius:18px;padding:34px 30px;color:#fff;font-family:Inter,Segoe UI,sans-serif">
 <div style="font-size:12px;letter-spacing:3px;color:#fed7aa;font-weight:700;text-transform:uppercase">Chapter 1 · What building AI with AI means</div>
 <h1 class="book-hero-title" style="font-size:34px;font-weight:900;line-height:1.1;margin:10px 0 6px">What building AI with AI means</h1>
-<div style="font-size:15px;color:#ffe4d6;max-width:740px;line-height:1.6">A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets written for the book.</div>
+<div style="font-size:15px;color:#ffe4d6;max-width:740px;line-height:1.6">A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets.</div>
 <div style="font-size:13px;color:#fed7aa;margin-top:14px">Building AI with AI: A Visual Handbook · John Fisher</div>
 </div>
 </div>
@@ -7839,8 +7839,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>This notebook runs the chapter's two ideas on eight support tickets for an online store, all written for the book. First a language model classifies each ticket, as a component behind a single function call. Then the model writes a small helper function, and test cases written beforehand decide whether it is accepted. A final section totals what the calls cost.</p>
-<p>The answers are replayed from calls recorded for the book with Claude Sonnet 5.5 on November 10, 2026, so the notebook runs with no key and prints the same thing every time. Set <code>LIVE = True</code> in Setup to send the same requests with your own key. Your answers may differ from the recorded ones, and the calls are billed to your account.</p>
+<p>This notebook runs the chapter's two ideas on eight support tickets for an online store. First a language model classifies each ticket, as a component behind a single function call. Then the model writes a small helper function, and test cases written beforehand decide whether it is accepted. A final section totals what the calls cost.</p>
 </div>
 </div>
 </div>
@@ -7922,7 +7921,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Eight support tickets for an online store, written for this book. No customer wrote them.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Eight support tickets for an online store</span>
 <span class="n">TICKETS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"I was charged twice for my March order and only got one receipt."</span><span class="p">,</span>
     <span class="s2">"The reset link in your email says it has expired, and I still can't sign in."</span><span class="p">,</span>

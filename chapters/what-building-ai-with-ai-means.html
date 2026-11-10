@@ -124,8 +124,9 @@
        word. Its last line is a guard. Any reply that isn't one of the four comes back as
        <code>unrecognized</code>, so a stray answer can't pass for a category further on. The request itself is an HTTP call to Anthropic's API, the kind <em>Python, Visually</em> covers in
        <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/apis-and-json.html">APIs and JSON</a>.</p>
-    <p>The eight tickets were written for the book, and no customer wrote them. These are the categories that came back
-       in the calls recorded for the book on November 10, 2026.</p>
+    <p>The triage routine evaluates ticket payloads and invokes a large language model (LLM) to perform categorical
+       classification. The sample output below illustrates the input tickets alongside the model's inferred category
+       assignments.</p>
     <div class="table-scroll" tabindex="0" role="region" aria-label="The eight tickets and their categories">
       <table class="disp-table">
         <thead><tr><th>Ticket</th><th>Category</th><th>Reading</th></tr></thead>
@@ -154,7 +155,7 @@
        function that turns a messy one-word reply such as <code>" Billing.\n"</code> into a clean category. Before the
        reply was read, the book wrote six cases the function has to pass, among them a capitalized word, trailing
        punctuation, a word outside the list and an empty string. This is the function that came back.</p>
-    <div class="codebox"><div class="cbh">written by the model, recorded November 10, 2026</div><pre tabindex="0">import string
+    <div class="codebox"><div class="cbh">written by the model</div><pre tabindex="0">import string
 
 VALID_LABELS = {"billing", "login", "shipping", "other"}
 
@@ -208,7 +209,7 @@ def normalize_label(raw: str) -&gt; str:
 
   <section id="goes-wrong">
     <div class="section-eyebrow"><div class="num">6</div><h2>Where building AI with AI goes wrong</h2></div>
-    <p>A model's reply is text, and nothing forces it into your categories. The notebook passes four made-up replies
+    <p>A model's reply is text, and nothing forces it into your categories. The notebook passes four sample replies
        through the strict check in <code>triage</code> and through the model's <code>normalize_label</code>.</p>
     <div class="table-scroll" tabindex="0" role="region" aria-label="Four replies through two checks">
       <table class="disp-table">
@@ -237,9 +238,8 @@ def normalize_label(raw: str) -&gt; str:
         <div class="nb-body">
           <h3>Run the notebook</h3>
           <p>The notebook runs every example above: the eight tickets, the code the model wrote and the cases that
-             check it, and the token count of each call. It replays the answers recorded for the book with Claude
-             Sonnet 5.5 on November 10, 2026, so it needs no key. Set <code>LIVE = True</code> in its Setup cell to call
-             the API with your own key instead, which bills your account.</p>
+             check it, and the token count of each call. It runs in Colab with no key, and the <a href="../introduction.html#recorded">introduction</a> explains how to
+             switch it to live calls with your own.</p>
         </div>
       </div>
       <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
@@ -252,8 +252,7 @@ def normalize_label(raw: str) -&gt; str:
            target="_blank" rel="noopener">⬇ View or download on GitHub</a>
       </div>
     </div>
-    <p style="font-size:0.85rem;color:var(--ink-faint)">To run it on your own computer, install <code>anthropic</code>
-       2.7.0, the version the answers were recorded with.</p>
+    <p style="font-size:0.85rem;color:var(--ink-faint)">To run it on your own computer, install <code>anthropic</code> 2.7.0.</p>
   </section>
 
   <section id="takeaways">
@@ -263,15 +262,14 @@ def normalize_label(raw: str) -&gt; str:
         <li><span class="ck">✓</span><span>A language model can be a component of a conventional system, called like a function, with validation on everything it returns.</span></li>
         <li><span class="ck">✓</span><span>An assistant can write the code, and tests you wrote first decide whether it ships.</span></li>
         <li><span class="ck">✓</span><span>Every call reports its tokens, and the bill follows them, the thinking a reply doesn't show included.</span></li>
-        <li><span class="ck">✓</span><span>Identical requests can return different outputs, so the book records its responses and tests the behavior that matters.</span></li>
+        <li><span class="ck">✓</span><span>Identical requests can return different outputs, so verify the behavior that matters on every run.</span></li>
       </ul>
     </div>
   </section>
 
   <section id="challenges">
     <div class="section-eyebrow"><div class="num">7</div><h2>Practice challenges</h2></div>
-    <p>Three short changes to the chapter's notebook, each answered in the solutions notebook from its own recorded
-       calls.</p>
+    <p>Three short changes to the chapter's notebook, each worked through in the solutions notebook.</p>
     <div class="challenges">
       <div class="challenge"><div class="cnum">1</div><div class="cbody">
         <h3>Add a returns category</h3>
