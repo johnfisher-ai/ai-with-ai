@@ -24,8 +24,10 @@ These cost the first book real time when broken. They are not preferences.
   and undo a pushed change with `git revert`. Treat every existing commit as published.
 - **No `Co-Authored-By` trailer** on commits.
 - **The repository is public.** Never commit an API key, a bearer token, a request or organization
-  ID, or a path under `/home` or `/Users`, in a file or in a notebook's saved output. Keys reach a
-  session only through the environment's secure credential form.
+  ID, or a path under `/home` or `/Users`, in a file or in a notebook's saved output. A key reaches a
+  session only by the route the author chooses (the punch list's Q7), never through a file in this
+  repository, a command line or the chat. The environment's credential form can't hold a key for
+  Anthropic's own host, so it is not that route.
 - **Never edit the first book or Python, Visually from a session on this one.** Both are references.
   Clone either read-only to compare or to read a guide, with pushing disabled in the clone, as the
   companion repository's file 3 explains.
@@ -154,6 +156,12 @@ client is built by `chapters/notebooks/book_client.py`, which changes only the t
 | live | `LIVE = True` in Setup | The real API with the reader's key from Colab's secrets panel (`ANTHROPIC_API_KEY`), or that environment variable elsewhere. Nothing is written |
 | record | `BOOK_MODE=record` in a session | The real API, and each exchange is written to the recording |
 
+- **Models, by chapter.** The author decided on November 10, 2026 to mix models by chapter. A notebook
+  uses `claude-sonnet-5-5` by default, `claude-opus-5-5` where the chapter needs harder reasoning, and
+  `claude-haiku-5-5` where the chapter is about choosing a cheaper model. Each notebook names its model
+  in its requests, and its recording and its replay line name it again. Readers who switch to live mode
+  pay for that model with their own key, so the chapter states the model and its price as of the
+  recording's month.
 - **The pin.** SDK 2.7.0, in `tests/requirements.txt`, `requirements.txt` and every Setup cell. Colab
   doesn't ship the SDK, and installing it there keeps Colab's own `httpx2` (2.16.0) and `pydantic`
   (checked on the replica, November 10). Change the pin in all three places together, and record the
