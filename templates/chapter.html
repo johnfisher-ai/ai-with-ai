@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- The chapter skeleton. A new chapter starts as a copy of this file, saved as chapters/<slug>.html.
+       Replace every CHAPTER-SLUG, Chapter title, PART-NUMBER, Part title and N, keep the parts in this order,
+       and keep the fixed headings word for word (the punch list lists them). Remove this comment and the
+       robots tag below in the copy. Nothing links here, and search engines are told to skip it. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Ch N · Chapter title · Building AI with AI</title>
+  <meta name="description" content="One sentence that says what the chapter teaches, used for search results and link previews.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/CHAPTER-SLUG.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="Chapter title · Chapter N">
+  <meta property="og:description" content="One sentence that says what the chapter teaches, used for search results and link previews.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/CHAPTER-SLUG.html">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Chapter title · Chapter N">
+  <meta name="twitter:description" content="One sentence that says what the chapter teaches, used for search results and link previews.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/book.css">
+  <link rel="stylesheet" href="../assets/css/chapter.css">
+  <link rel="stylesheet" href="../assets/css/quiz.css">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <script src="../assets/js/theme.js"></script>
+</head>
+<body class="chapter">
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../toc.html">Contents</a>
+    <a href="notebooks/html/CHAPTER-SLUG.html" class="btn btn-primary" style="padding:0.4rem 1rem;font-size:0.8rem">🐍 Notebook</a>
+  </div>
+</nav>
+<div class="read-progress" id="readProgress"></div>
+
+<header class="chapter-hero">
+  <div class="chapter-hero-inner">
+    <div class="crumb">
+      <a href="../toc.html">Contents</a><span class="sep">/</span>
+      <span>Part PART-NUMBER · Part title</span><span class="sep">/</span>
+      <span>Chapter N</span>
+    </div>
+    <h1>Chapter <span class="accent">title</span></h1>
+    <p class="dek">Two or three sentences on what the chapter teaches and what the reader will build or measure in its
+       notebook.</p>
+    <div class="hero-meta">
+      <div class="m">⏱️ <b>~15 min</b>&nbsp;read</div>
+      <div class="m">🐍 <b>Notebook</b>&nbsp;included</div>
+      <div class="m">📊 <b>Chapter N</b></div>
+    </div>
+  </div>
+</header>
+
+<main class="reading">
+
+  <section id="intro">
+    <p class="lead">The opening paragraph. It names the problem the chapter solves in plain words, with one
+       <span class="term">defined term</span> and one <span class="hl">highlighted idea</span>.</p>
+
+    <div class="def-card">
+      <div class="sigma">AI</div>
+      <div class="def-body">
+        <span class="def-kw">A defined term</span> is explained here in one or two sentences.
+      </div>
+    </div>
+
+    <div class="callout key">
+      <div class="cico">🤖</div>
+      <div><div class="ctitle">The chapter in one line</div>
+        <p>The single idea a reader should keep if they read nothing else.</p></div>
+    </div>
+  </section>
+
+  <section id="first-idea">
+    <div class="section-eyebrow"><div class="num">1</div><h2>A heading that says what this section covers</h2></div>
+    <p>A section carries one idea and at least one figure. Every number it quotes is printed by the notebook.</p>
+    <figure style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.6rem 1.2rem">
+      <svg viewBox="0 0 720 160" width="100%" font-family="Inter, sans-serif" role="img" aria-label="A request goes from the notebook to the model, and a response comes back">
+        <text x="360" y="20" text-anchor="middle" font-size="12" fill="#1a2138" font-weight="800">A figure title in sentence case</text>
+        <rect x="60" y="50" width="200" height="70" rx="12" fill="#eef2ff" stroke="#c7d2fe"/>
+        <text x="160" y="90" text-anchor="middle" font-size="12" fill="#3730a3" font-weight="700">Your code</text>
+        <rect x="460" y="50" width="200" height="70" rx="12" fill="#fff1ec" stroke="#ffc9b8"/>
+        <text x="560" y="90" text-anchor="middle" font-size="12" fill="#9a3412" font-weight="700">The model</text>
+        <line x1="270" y1="75" x2="450" y2="75" stroke="#4a5578" stroke-width="1.6"/>
+        <path d="M450 75 l-8 -4 v8 z" fill="#4a5578"/>
+        <text x="360" y="68" text-anchor="middle" font-size="10" fill="#4a5578">request</text>
+        <line x1="450" y1="100" x2="270" y2="100" stroke="#4a5578" stroke-width="1.6"/>
+        <path d="M270 100 l8 -4 v8 z" fill="#4a5578"/>
+        <text x="360" y="116" text-anchor="middle" font-size="10" fill="#4a5578">response</text>
+      </svg>
+    </figure>
+  </section>
+
+  <!-- The notebook block. Its heading is fixed book-wide. -->
+  <section id="notebook">
+    <div class="nb-cta" style="display:block">
+      <div style="display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.3rem">
+        <div class="nb-ic">🐍</div>
+        <div class="nb-body">
+          <h3>Run the notebook</h3>
+          <p>One or two sentences on what the notebook runs. It replays recorded model responses, so it needs no
+             key, and its live switch calls the API with your own.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+        <a class="btn btn-primary" href="notebooks/html/CHAPTER-SLUG.html">📓 View notebook (code and outputs)</a>
+        <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+           href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/CHAPTER-SLUG.ipynb"
+           target="_blank" rel="noopener">▶ Open in Colab</a>
+        <a class="btn btn-ghost" style="background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)"
+           href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/CHAPTER-SLUG.ipynb"
+           target="_blank" rel="noopener">⬇ View or download on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="takeaways">
+    <div class="takeaways">
+      <h3>🎓 In brief</h3>
+      <ul>
+        <li><span class="ck">✓</span><span>Each point is a full sentence. Bold only a label that names a thing.</span></li>
+        <li><span class="ck">✓</span><span>Three to five points, each saying something the chapter showed.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="challenges">
+    <div class="section-eyebrow"><div class="num">2</div><h2>Practice challenges</h2></div>
+    <p>A sentence that introduces the challenges and what they work on.</p>
+    <div class="challenges">
+      <div class="challenge"><div class="cnum">1</div><div class="cbody">
+        <h3>A short name for the task</h3>
+        <p>What to do, in one or two sentences.</p>
+        <div class="chint">Hint: the function or idea to reach for.</div></div></div>
+    </div>
+    <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:0.4rem">
+      <a class="btn btn-primary" href="notebooks/html/CHAPTER-SLUG--solutions.html">📓 View solutions</a>
+      <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+         href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/CHAPTER-SLUG--solutions.ipynb"
+         target="_blank" rel="noopener">▶ Open solutions in Colab</a>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <div class="section-eyebrow"><div class="num">3</div><h2>Test yourself</h2></div>
+    <p>A sentence on what the questions cover. Answers are saved in this browser, so you can return to them.</p>
+    <div id="quiz-root"></div>
+  </section>
+
+  <div class="callout key" style="margin-top:2rem">
+    <div class="cico">➡️</div>
+    <div><div class="ctitle">Up next</div>
+      <p><strong>The next chapter's title</strong> and one sentence on what it adds.</p></div>
+  </div>
+
+  <nav class="chapter-nav" aria-label="Previous and next chapter">
+    <a class="cn-btn prev" href="../introduction.html">
+      <span style="font-size:1.3rem">←</span>
+      <span><span class="cn-dir">Chapter N · Previous</span><br><span class="cn-title">The previous chapter's title</span></span>
+    </a>
+    <a class="cn-btn next" href="../toc.html">
+      <span><span class="cn-dir">Chapter N · Next</span><br><span class="cn-title">The next chapter's title</span></span>
+      <span style="font-size:1.3rem">→</span>
+    </a>
+  </nav>
+
+</main>
+
+<footer class="book-footer" style="background:#0a1230;color:#8892b0;border-top:none">
+  <strong style="color:#cbd5e1">Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  Chapter N &nbsp;·&nbsp; © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+const bar = document.getElementById('readProgress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = ((h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100) + '%';
+});
+</script>
+
+<script>
+  // The quiz is saved under this book's prefix and the chapter's slug, never a number, because the
+  // books in the family share one web address and so one browser storage.
+  window.QUIZ_ID = "aiwai-CHAPTER-SLUG";
+  window.QUIZ_DATA = [
+    {
+      q: "A question that checks one idea from the chapter",
+      options: ["A wrong answer", "The right answer", "Another wrong answer", "A third wrong answer"],
+      answer: 1,
+      explain: "Why the right answer is right, in one sentence."
+    }
+  ];
+</script>
+<script src="../assets/js/quiz.js"></script>
+</body>
+</html>

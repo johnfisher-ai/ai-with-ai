@@ -1,0 +1,393 @@
+/* ============================================================
+   Chapter layout and components, Building AI with AI: A Visual Handbook
+   Reusable across all chapter pages. Pairs with book.css.
+   All diagrams on chapter pages are inline SVG or CSS, so every one is editable.
+   ============================================================ */
+
+body.chapter { padding-top: 60px; background: var(--p-bg-fbfcfe, #fbfcfe); color: var(--p-fg-1a2138, #1a2138); }
+
+/* Light-theme overrides for chapter reading pages
+   (the title/TOC pages are dark; chapters read better light) */
+body.chapter {
+  --ink:        #1a2138;
+  --ink-soft:   #4a5578;
+  --ink-faint:  #666f8e;   /* 4.6:1 on --panel-2; was #8b94b3 at 3:1 */
+  --line:       #e6e9f2;
+  --panel:      #ffffff;
+  --panel-2:    #f4f6fb;
+  --c-cyan:     #0891b2;
+  --c-cyan-bg:  #e0f7fb;
+  --c-purple:   #7c3aed;
+  --c-purple-bg:#f0e9fe;
+  --c-amber:    #d97706;
+  --c-amber-bg: #fef3e2;
+  --c-green:    #059669;
+  --c-green-bg: #e3f6ee;
+  --c-pink:     #db2777;
+  --c-pink-bg:  #fce7f3;
+  --c-blue:     #2563eb;
+  --c-blue-bg:  #e6effe;
+  --c-red:      #dc2626;
+  /* darker shades of the accents for small text, each 4.5:1 or more on white and the tinted panels */
+  --c-cyan-text: #0e7490;
+  --c-green-text:#047857;
+  --c-amber-text:#b45309;
+  --link:       #0e7490;
+  --link-hover: #164e63;
+}
+
+/* Links. The book's cyan is 1.7:1 on these light pages and its hover color is white, so a link here takes
+   --link, and a link in running text is underlined so it stands apart from the words around it.
+   :where() keeps these rules as weak as a bare `a`, so styled links and buttons keep their own look. */
+:where(body.chapter) a:where(:not([class])) { color: var(--link); }
+:where(body.chapter) a:where(:not([class])):hover { color: var(--link-hover); }
+:where(body.chapter main) a:where(:not([class])) {
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px;
+}
+/* the dark hero and notebook panels keep the book's cyan */
+:where(body.chapter) :is(.chapter-hero, .nb-cta) a:where(:not([class])) { color: var(--cyan); }
+:where(body.chapter) :is(.chapter-hero, .nb-cta) a:where(:not([class])):hover { color: #fff; }
+
+/* progress bar under nav */
+.read-progress {
+  position: fixed; top: 60px; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--c-purple), var(--c-amber));
+  z-index: 999; transition: width 0.1s linear;
+}
+
+/* ---------- Chapter hero ---------- */
+.chapter-hero {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #0a1230 0%, #141d44 55%, #1b1448 100%);
+  color: #fff; padding: 3.5rem 2rem 3rem;
+}
+.chapter-hero::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(600px 300px at 10% -10%, rgba(255,122,89,0.18), transparent 60%),
+    radial-gradient(500px 300px at 95% 120%, rgba(124,58,237,0.22), transparent 60%);
+  pointer-events: none;
+}
+.chapter-hero-inner { position: relative; max-width: 880px; margin: 0 auto; }
+.crumb {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-bottom: 1.4rem;
+}
+.crumb a { color: rgba(255,255,255,0.75); }
+.crumb a:hover { color: #fff; }
+.crumb .sep { opacity: 0.4; }
+.chapter-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #ff7a59; margin-bottom: 1rem;
+}
+.chapter-kicker .pill {
+  background: rgba(255,122,89,0.12); border: 1px solid rgba(255,122,89,0.3);
+  padding: 3px 10px; border-radius: 100px;
+}
+.chapter-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 900;
+  line-height: 1.06; letter-spacing: -0.03em; margin-bottom: 1rem;
+}
+.chapter-hero h1 .accent {
+  /* the hero is dark in both themes, so the violet stop stays light; written as rgb() so tokenize.py leaves it */
+  background: linear-gradient(110deg, #ff7a59, rgb(167,139,250) 60%, #fbbf24);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.chapter-hero .dek {
+  font-size: 1.05rem; color: rgba(255,255,255,0.75);
+  max-width: 640px; line-height: 1.6;
+}
+.hero-meta {
+  display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.8rem;
+  padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.12);
+}
+.hero-meta .m { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: rgba(255,255,255,0.7); }
+.hero-meta .m b { color: #fff; font-weight: 700; }
+
+/* ---------- Reading column ---------- */
+.reading { max-width: 880px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+.reading > section { margin-bottom: 3.2rem; scroll-margin-top: 80px; }
+
+.section-eyebrow {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 1.1rem;
+}
+.section-eyebrow .num {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.95rem; color: #fff;
+  background: linear-gradient(135deg, var(--c-cyan), var(--c-purple));
+}
+.section-eyebrow h2 {
+  font-size: 1.5rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em;
+}
+.reading p { font-size: 1.02rem; line-height: 1.75; color: var(--ink-soft); margin-bottom: 1rem; }
+.reading p .hl { color: var(--ink); font-weight: 600; }
+.reading p .term { color: var(--fg-c-purple, var(--c-purple)); font-weight: 600; }
+.lead { font-size: 1.2rem !important; line-height: 1.7 !important; color: var(--ink) !important; }
+/* A table too wide for a phone scrolls inside this box. The box takes the table's margin so desktop spacing is unchanged */
+.table-scroll { overflow-x: auto; margin: 1.2rem 0; }
+.table-scroll > table { margin: 0; }
+@media (max-width: 560px) {
+  /* Long identifiers such as file and column names may break anywhere rather than push the page sideways */
+  body.chapter code { overflow-wrap: anywhere; }
+  .reading table th, .reading table td { padding-left: 0.5rem; padding-right: 0.5rem; }
+}
+
+/* ---------- Definition card ---------- */
+.def-card {
+  display: flex; gap: 1.4rem; align-items: flex-start;
+  background: var(--panel); border: 1px solid var(--line);
+  border-left: 4px solid var(--c-cyan);
+  border-radius: 14px; padding: 1.6rem 1.8rem;
+  box-shadow: 0 8px 30px rgba(20,30,80,0.05); margin: 1.5rem 0;
+}
+.def-card .sigma {
+  width: 60px; height: 60px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; font-weight: 800; color: #fff;
+  background: linear-gradient(135deg, #0a1230, #2a1a6e);
+}
+.def-card .def-body strong { color: var(--ink); }
+.def-card .def-body { font-size: 1.1rem; line-height: 1.65; color: var(--ink-soft); }
+.def-card .def-kw { color: var(--fg-c-purple, var(--c-purple)); font-weight: 700; }
+
+/* ---------- Study brief (capstone openings) ---------- */
+.brief-card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-left: 4px solid var(--c-amber);
+  border-radius: 14px; padding: 1.4rem 1.7rem;
+  box-shadow: 0 8px 30px rgba(20,30,80,0.05); margin: 1.5rem 0;
+}
+.brief-card .bh {
+  font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.09em;
+  color: var(--c-amber-text); margin-bottom: 0.95rem;
+}
+.brief-card dl { display: grid; grid-template-columns: 9rem 1fr; gap: 0.6rem 1.2rem; margin: 0; }
+.brief-card dt {
+  font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--ink-faint); padding-top: 0.22rem;
+}
+.brief-card dd { margin: 0; font-size: 0.95rem; line-height: 1.62; color: var(--ink-soft); }
+.brief-card dd strong { color: var(--ink); font-weight: 700; }
+@media (max-width: 640px) {
+  .brief-card { padding: 1.2rem 1.3rem; }
+  .brief-card dl { grid-template-columns: 1fr; gap: 0.2rem; }
+  .brief-card dd { margin-bottom: 0.7rem; }
+  .brief-card dd:last-child { margin-bottom: 0; }
+}
+
+/* ---------- Quote ---------- */
+.quote {
+  position: relative; margin: 2rem 0; padding: 1.5rem 1.8rem 1.5rem 3.4rem;
+  background: linear-gradient(135deg, var(--c-purple-bg), var(--c-cyan-bg));
+  border-radius: 14px; color: var(--ink);
+}
+.quote::before {
+  content: "\201C"; position: absolute; left: 1rem; top: 0.4rem;
+  font-family: Georgia, serif; font-size: 3.5rem; color: var(--fg-c-purple, var(--c-purple)); opacity: 0.45;
+}
+.quote .q { font-size: 1.15rem; font-style: italic; line-height: 1.5; font-weight: 500; }
+.quote .a { display: block; margin-top: 0.6rem; font-size: 0.85rem; font-weight: 700; color: var(--fg-c-purple, var(--c-purple)); font-style: normal; }
+
+/* ---------- Pillars flow (Collect→…→Present) ---------- */
+.pillars {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+.pillar {
+  position: relative; text-align: center; padding: 1.2rem 0.6rem;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  transition: all 0.25s ease;
+}
+.pillar:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(20,30,80,0.10); border-color: transparent; }
+.pillar .pic {
+  width: 54px; height: 54px; margin: 0 auto 0.7rem; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.pillar .pname { font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.3rem; }
+.pillar .pdesc { font-size: 0.74rem; color: var(--ink-faint); line-height: 1.4; }
+.pillar .pstep {
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+  width: 22px; height: 22px; border-radius: 50%; background: var(--ink);
+  color: #fff; font-size: 0.7rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.pillars .arrow {
+  display: flex; align-items: center; justify-content: center; color: var(--ink-faint);
+}
+@media (max-width: 720px){ .pillars { grid-template-columns: repeat(2, 1fr); } .pillars .arrow{ display:none; } }
+
+/* ---------- Generic feature/info grids ---------- */
+.cardgrid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.cols-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 720px){ .cols-2,.cols-3,.cols-4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px){ .cols-2,.cols-3,.cols-4 { grid-template-columns: 1fr; } }
+
+.ic-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1.3rem; transition: all 0.25s ease;
+}
+.ic-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(20,30,80,0.08); }
+.ic-card .ic {
+  width: 44px; height: 44px; border-radius: 11px; margin-bottom: 0.85rem;
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+}
+.ic-card h3, .ic-card h4 { font-size: 0.98rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem; }
+.ic-card p { font-size: 0.85rem !important; line-height: 1.55 !important; color: var(--ink-soft) !important; margin: 0 !important; }
+
+/* color helpers */
+.bg-cyan{background:var(--c-cyan-bg)} .bg-purple{background:var(--c-purple-bg)}
+.bg-amber{background:var(--c-amber-bg)} .bg-green{background:var(--c-green-bg)}
+.bg-pink{background:var(--c-pink-bg)} .bg-blue{background:var(--c-blue-bg)}
+.tx-cyan{color:var(--c-cyan-text)} .tx-purple{color:var(--fg-c-purple, var(--c-purple))}
+.tx-amber{color:var(--c-amber-text)} .tx-green{color:var(--c-green-text)}
+.tx-pink{color:var(--fg-c-pink, var(--c-pink))} .tx-blue{color:var(--fg-c-blue, var(--c-blue))}
+
+/* ---------- Branch (descriptive vs inferential) ---------- */
+.branches { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1.5rem 0; }
+@media (max-width: 720px){ .branches { grid-template-columns: 1fr; } }
+.branch {
+  border-radius: 16px; padding: 1.6rem; border: 1px solid var(--line);
+  background: var(--panel); position: relative; overflow: hidden;
+}
+.branch .btag {
+  display: inline-flex; align-items: center; gap: 8px; font-weight: 800;
+  font-size: 1.05rem; margin-bottom: 0.8rem;
+}
+.branch .bnum {
+  width: 28px; height: 28px; border-radius: 8px; color: #fff; font-size: 0.85rem;
+  display: flex; align-items: center; justify-content: center; font-weight: 800;
+}
+.branch ul { list-style: none; margin: 0.8rem 0 0; padding: 0; }
+.branch li { font-size: 0.88rem; color: var(--ink-soft); padding: 0.35rem 0 0.35rem 1.5rem; position: relative; line-height: 1.5; }
+.branch li::before { content: "▸"; position: absolute; left: 0; font-weight: 700; }
+.branch.descr { border-top: 4px solid var(--c-cyan); }
+.branch.descr li::before { color: var(--fg-c-cyan, var(--c-cyan)); }
+.branch.infer { border-top: 4px solid var(--c-purple); }
+.branch.infer li::before { color: var(--fg-c-purple, var(--c-purple)); }
+
+/* ---------- "Data → Insight → Action" strip ---------- */
+.flow-strip { display: flex; align-items: stretch; gap: 0.5rem; margin: 1.5rem 0; flex-wrap: wrap; }
+.flow-node {
+  flex: 1; min-width: 150px; border-radius: 14px; padding: 1.3rem; text-align: center;
+  color: #fff; position: relative;
+}
+.flow-node h3, .flow-node h4 { font-size: 1rem; margin-bottom: 0.3rem; }
+.flow-node p { font-size: 0.8rem !important; color: rgba(255,255,255,0.85) !important; margin: 0 !important; line-height: 1.45 !important; }
+.flow-arrow { display: flex; align-items: center; color: var(--ink-faint); font-size: 1.5rem; }
+@media (max-width: 600px){
+  .flow-strip { flex-direction: column; }
+  .flow-arrow { align-self: center; transform: rotate(90deg); }
+}
+
+/* ---------- Timeline ---------- */
+.timeline { position: relative; margin: 1.8rem 0 0.5rem; padding-left: 0; }
+.timeline::before {
+  content: ""; position: absolute; left: 19px; top: 8px; bottom: 8px; width: 2px;
+  background: linear-gradient(var(--c-cyan), var(--c-purple), var(--c-amber));
+}
+.tl-item { position: relative; padding: 0 0 1.4rem 3.2rem; }
+.tl-dot {
+  position: absolute; left: 10px; top: 2px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--p-bg-ffffff, #fff); border: 3px solid var(--c-purple); z-index: 1;
+}
+.tl-era { font-size: 0.74rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-c-purple, var(--c-purple)); }
+.tl-title { font-weight: 700; color: var(--ink); font-size: 0.98rem; margin: 1px 0 2px; }
+.tl-desc { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.5; }
+
+/* ---------- Stats → ML bridge ---------- */
+.bridge {
+  background: linear-gradient(135deg, #0a1230 0%, #1a1452 100%); color: #fff;
+  border-radius: 18px; padding: 2rem; margin: 1.5rem 0; position: relative; overflow: hidden;
+}
+.bridge::before{
+  content:""; position:absolute; inset:0;
+  background: radial-gradient(500px 200px at 80% 0%, rgba(255,122,89,0.18), transparent 60%);
+}
+.bridge-eq {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.6rem;
+}
+.eq-box {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px; padding: 0.8rem 1rem; text-align: center; min-width: 96px;
+}
+.eq-box .ei { font-size: 1.5rem; }
+.eq-box .el { font-size: 0.78rem; font-weight: 700; margin-top: 4px; }
+.eq-box.highlight { background: rgba(255,122,89,0.16); border-color: rgba(255,122,89,0.5); }
+.eq-op { font-size: 1.5rem; font-weight: 700; color: rgba(255,255,255,0.6); }
+
+.map-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1.2rem; transition: all 0.25s ease;
+}
+.map-card:hover{ transform: translateY(-3px); box-shadow: 0 12px 28px rgba(20,30,80,0.10); }
+.map-card .stat-side { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-cyan-text); }
+.map-card .arrow-down { color: var(--ink-faint); font-size: 1.1rem; margin: 2px 0; }
+.map-card .ml-side { font-weight: 700; color: var(--ink); font-size: 0.95rem; }
+.map-card p { font-size: 0.82rem !important; color: var(--ink-soft) !important; margin: 0.4rem 0 0 !important; line-height: 1.5 !important; }
+
+/* ---------- Callout boxes ---------- */
+.callout {
+  display: flex; gap: 1rem; border-radius: 13px; padding: 1.2rem 1.4rem; margin: 1.4rem 0;
+  border: 1px solid var(--line); background: var(--panel-2);
+}
+.callout .cico { font-size: 1.4rem; flex-shrink: 0; }
+.callout > div:not(.cico) { min-width: 0; }
+.callout .ctitle { font-weight: 700; color: var(--ink); margin-bottom: 0.25rem; font-size: 0.95rem; }
+.callout p { margin: 0 !important; font-size: 0.88rem !important; color: var(--ink-soft) !important; line-height: 1.6 !important; }
+.callout.tip { background: var(--c-green-bg); border-color: transparent; }
+.callout.key { background: var(--c-amber-bg); border-color: transparent; }
+.callout.note{ background: var(--c-blue-bg); border-color: transparent; }
+
+/* ---------- Takeaways ---------- */
+.takeaways {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+  padding: 1.6rem 1.8rem; box-shadow: 0 8px 30px rgba(20,30,80,0.05);
+}
+.takeaways h3 { font-size: 1.15rem; color: var(--ink); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+.takeaways ul { list-style: none; margin: 0; padding: 0; }
+.takeaways li { display: flex; gap: 12px; padding: 0.55rem 0; font-size: 0.95rem; color: var(--ink-soft); line-height: 1.55; border-bottom: 1px dashed var(--line); }
+.takeaways li:last-child { border-bottom: none; }
+.takeaways li .ck { color: var(--fg-c-green, var(--c-green)); flex-shrink: 0; font-weight: 800; }
+/* .tick and .rw-find supply their own bullet via the .ck marker, so suppress the native list disc */
+.tick, .rw-find, .step-list { list-style: none; }
+/* Catch-all: any list item that carries its own .ck marker should not also show the native disc */
+li:has(> .ck) { list-style: none; }
+
+/* ---------- Notebook CTA ---------- */
+.nb-cta {
+  display: flex; align-items: center; gap: 1.3rem; flex-wrap: wrap;
+  background: linear-gradient(135deg, #0a1230, #19134a); color: #fff;
+  border-radius: 16px; padding: 1.6rem 1.8rem; margin: 1.5rem 0;
+}
+.nb-cta .nb-ic {
+  width: 54px; height: 54px; border-radius: 13px; flex-shrink: 0;
+  background: rgba(16,185,129,0.18); display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+}
+.nb-cta .nb-body { flex: 1; min-width: 220px; }
+.nb-cta h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+.nb-cta p { font-size: 0.85rem !important; color: rgba(255,255,255,0.72) !important; margin: 0 !important; }
+.nb-cta code { background: rgba(255,255,255,0.1); padding: 2px 7px; border-radius: 5px; font-size: 0.82rem; }
+
+/* A plain button for light panels, such as the GitHub link beside a solutions notebook */
+.btn-outline { background: var(--panel); color: var(--ink); border: 1px solid var(--p-bd-cdd3e3, #cdd3e3); }
+.btn-outline:hover { background: var(--panel-2); color: var(--ink); border-color: var(--ink-faint); }
+
+/* ---------- Chapter nav ---------- */
+.chapter-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
+.cn-btn {
+  flex: 1; min-width: 200px; display: flex; align-items: center; gap: 12px;
+  padding: 1.1rem 1.3rem; border-radius: 13px; border: 1px solid var(--line);
+  background: var(--panel); transition: all 0.25s ease; text-decoration: none;
+}
+.cn-btn:hover { border-color: var(--c-purple); box-shadow: 0 8px 24px rgba(124,58,237,0.12); transform: translateY(-2px); }
+.cn-btn .cn-dir { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+.cn-btn .cn-title { font-weight: 700; color: var(--ink); font-size: 0.95rem; }
+.cn-btn.next { text-align: right; justify-content: flex-end; }
+
+/* SVG helpers */
+svg .editable { /* marker class: these strokes/fills are safe to recolor */ }

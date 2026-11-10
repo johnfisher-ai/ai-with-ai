@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building AI with AI · A Visual Handbook</title>
+  <meta name="description" content="A free, visual handbook on building software that uses a language model, and on using an AI assistant to build it. Visual chapters and notebooks you can run in Colab, by John Fisher. Being written.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:description" content="A free, visual handbook on building with language models and with AI assistants. Visual chapters and notebooks you can run in Colab.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+  <meta property="og:image:alt" content="Building AI with AI: A Visual Handbook. Visual chapters and notebooks you can run in Colab. By John Fisher.">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Building AI with AI: A Visual Handbook">
+  <meta name="twitter:description" content="A free, visual handbook on building with language models and with AI assistants. Visual chapters and notebooks you can run in Colab.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/css/book.css">
+  <style>
+    /* Title page only */
+    body { overflow-x: hidden; }
+    .glow-1 {
+      position: fixed; width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%);
+      top: -200px; left: -150px; pointer-events: none; z-index: 0;
+    }
+    .glow-2 {
+      position: fixed; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255,122,89,0.12) 0%, transparent 70%);
+      bottom: -100px; right: -100px; pointer-events: none; z-index: 0;
+    }
+    .hero {
+      position: relative; z-index: 10; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 80px 2rem 4rem; text-align: center;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,122,89,0.08); border: 1px solid rgba(255,122,89,0.25);
+      color: var(--cyan); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 2rem;
+    }
+    .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+    .hero-title {
+      font-size: clamp(2.8rem, 7vw, 6rem); font-weight: 900; line-height: 1.05;
+      letter-spacing: -0.03em; margin-bottom: 0.3em;
+    }
+    .hero-title .line1 { display: block; color: #fff; }
+    .hero-title .line2 {
+      display: block;
+      background: linear-gradient(110deg, var(--cyan) 0%, #a78bfa 55%, var(--amber) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.1rem; font-weight: 300; letter-spacing: 0.02em;
+      color: rgba(232,234,246,0.7); margin-bottom: 0.8rem;
+    }
+    .title-divider {
+      width: 80px; height: 3px; margin: 0 auto 2.5rem;
+      background: linear-gradient(90deg, var(--cyan), var(--purple)); border-radius: 2px;
+    }
+    .hero-text {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: var(--text-dim);
+      max-width: 620px; margin: 0 auto 2.5rem;
+    }
+    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem; }
+    .btn-enter {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 1rem 2.2rem; border-radius: 10px; font-weight: 700; font-size: 1rem;
+      background: linear-gradient(135deg, #e5603f 0%, var(--purple) 100%);
+      color: #fff; text-decoration: none; box-shadow: 0 4px 30px rgba(255,122,89,0.30);
+      transition: all 0.25s ease;
+    }
+    .btn-enter:hover { transform: translateY(-3px); color: #fff; }
+    .author-card {
+      display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 1.6rem;
+      border-radius: var(--radius-lg); background: var(--card-bg); border: 1px solid var(--card-border);
+    }
+    .author-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, #e5603f, var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.2rem; color: #fff; flex-shrink: 0;
+    }
+    .author-info { text-align: left; }
+    .author-name { font-weight: 700; font-size: 1rem; color: #fff; }
+    .author-role { font-size: 0.78rem; color: var(--text-dim); margin-top: 1px; }
+    .feature-grid {
+      position: relative; z-index: 10; max-width: 1100px; margin: 0 auto; padding: 0 2rem 6rem;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem;
+    }
+    @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
+    .feature-card {
+      padding: 1.6rem; border-radius: var(--radius-lg);
+      background: var(--card-bg); border: 1px solid var(--card-border);
+    }
+    .fc-icon {
+      width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .fc-icon.coral  { background: rgba(255,122,89,0.12); }
+    .fc-icon.purple { background: rgba(124,58,237,0.15); }
+    .fc-icon.green  { background: rgba(16,185,129,0.12); }
+    .feature-card h2 { font-weight: 700; font-size: 0.95rem; color: #fff; margin-bottom: 0.4rem; }
+    .feature-card p  { font-size: 0.85rem; color: var(--text-dim); line-height: 1.55; }
+    .feature-card p a { text-decoration: underline; text-underline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="glow-1"></div>
+<div class="glow-2"></div>
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="introduction.html" class="nav-wide">Introduction</a>
+    <a href="toc.html">Contents</a>
+  </div>
+</nav>
+
+<main>
+<section class="hero">
+  <div class="eyebrow"><span class="dot"></span>Being written · 2026</div>
+
+  <h1 class="hero-title">
+    <span class="line1">Building AI</span>
+    <span class="line2">with AI</span>
+  </h1>
+  <p class="hero-sub">A Visual Handbook</p>
+  <div class="title-divider"></div>
+
+  <p class="hero-text">How to build software that uses a language model, and how to use an AI assistant while you
+     build it. Every idea is drawn as a picture, explained in plain words and run in a notebook you can open in
+     Colab.</p>
+
+  <div class="hero-cta">
+    <a href="introduction.html" class="btn-enter">Read the introduction
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M4 9h10M10 5l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <a href="toc.html" class="btn btn-ghost">View the contents</a>
+  </div>
+
+  <div class="author-card">
+    <div class="author-avatar" aria-hidden="true">JF</div>
+    <div class="author-info">
+      <div class="author-name">John Fisher</div>
+      <div class="author-role">Second book in the Visual Handbook family</div>
+    </div>
+  </div>
+</section>
+
+<div class="feature-grid">
+  <div class="feature-card">
+    <div class="fc-icon coral" aria-hidden="true">🗺️</div>
+    <h2>A picture for every idea</h2>
+    <p>Each chapter draws its ideas as diagrams before it explains them, from what a single request carries to how
+       an agent decides its next step.</p>
+  </div>
+  <div class="feature-card">
+    <div class="fc-icon purple" aria-hidden="true">🐍</div>
+    <h2>Notebooks that run with no key</h2>
+    <p>Every notebook replays recorded model responses by default, so it runs in Colab for free and prints what
+       the chapter quotes. A switch calls the live API with your own key.</p>
+  </div>
+  <div class="feature-card">
+    <div class="fc-icon green" aria-hidden="true">📚</div>
+    <h2>Built on the first book</h2>
+    <p>Where a chapter needs statistics, it links to <a href="https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/">Statistics,
+       Data Science and AI: A Visual Handbook</a>, the complete first book in the family.</p>
+  </div>
+</div>
+</main>
+
+<footer class="book-footer">
+  <strong>Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+</body>
+</html>

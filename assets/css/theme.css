@@ -1,0 +1,117 @@
+/* ============================================================
+   Light and dark themes for the chapters, reports and front pages.
+   Written by build_theme.py in the private notes repository from the
+   color variables the pages use. Do not edit by hand: change the
+   script or a page and run it again.
+
+   A page is dark when <html data-theme="dark">, which assets/js/theme.js
+   sets from the reader's switch or, failing that, the device setting.
+   Each --p-<role>-<hex> variable falls back to its light color, so the
+   light pages need nothing here. Figures keep their light panels.
+   ============================================================ */
+
+/* The light and dark switch, which theme.js adds to the top bar. The bar is dark in both themes. */
+.theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 34px; height: 34px; padding: 0; border-radius: 50%;
+  background: transparent; color: var(--text-dim);
+  border: 1px solid rgba(255,255,255,0.22); cursor: pointer; transition: var(--transition);
+}
+.theme-toggle:hover { color: var(--cyan); border-color: rgba(0,212,255,0.55); }
+.theme-toggle:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.theme-toggle svg { width: 18px; height: 18px; display: block; }
+/* the narrowest phones: closer links and a smaller switch, so the bar still fits at 320 px */
+@media (max-width: 380px) {
+  .topnav .nav-links { gap: 0.5rem; }
+  .theme-toggle { width: 30px; height: 30px; }
+}
+
+@media screen {
+  :root[data-theme="dark"] { color-scheme: dark; }
+  [data-theme="dark"] body.chapter,
+  [data-theme="dark"] body.report {
+    background-color: #0d1429;
+    color: #e8eaf6;
+    --ink: #e8eaf6;
+    --ink-soft: #c3c9df;
+    --ink-faint: #a0a9c6;
+    --line: #2a3556;
+    --panel: #141c36;
+    --panel-2: #1a2340;
+    --c-cyan-bg: #1b2f32;
+    --c-purple-bg: #201732;
+    --c-amber-bg: #342918;
+    --c-green-bg: #1f2f28;
+    --c-pink-bg: #311a27;
+    --c-blue-bg: #172233;
+    --c-cyan-text: #56bfdc;
+    --c-green-text: #4de5ba;
+    --c-amber-text: #e38f4f;
+    --link: #56bfdc;
+    --link-hover: #a5f3fc;
+    --fg-c-blue: #85a3e6;
+    --fg-c-cyan: #4ec7e4;
+    --fg-c-green: #4de5b6;
+    --fg-c-pink: #e08cb1;
+    --fg-c-purple: #b596ea;
+    --p-bd-a7f3d0: #31634c;
+    --p-bd-bfdbfe: #284466;
+    --p-bd-c7d2fe: #283465;
+    --p-bd-cccccc: #3a4568;
+    --p-bd-cdd3e3: #3a4257;
+    --p-bd-fde68a: #6c5f2b;
+    --p-bg-ecfdf5: #193025;
+    --p-bg-eef2ff: #151c32;
+    --p-bg-eff6ff: #152232;
+    --p-bg-f4f6fb: #1a2340;
+    --p-bg-fbfcfe: #0d1429;
+    --p-bg-fde8e8: #311919;
+    --p-bg-fffbeb: #332d16;
+    --p-bg-ffffff: #141c36;
+    --p-fg-047857: #4de5ba;
+    --p-fg-065f46: #51e1b9;
+    --p-fg-15803d: #5ed48a;
+    --p-fg-1a2138: #e8eaf6;
+    --p-fg-1d4ed8: #8ca3e3;
+    --p-fg-3730a3: #a19dda;
+    --p-fg-92400e: #df9263;
+    --p-fg-991b1b: #e09090;
+  }
+
+  /* figures stay as drawn, on their light panels */
+  [data-theme="dark"] :is(figure:not(.rpt-fig), .svg-wrap, .nb-fig) {
+    color-scheme: light;
+    --ink: #1a2138;
+    --ink-soft: #4a5578;
+    --ink-faint: #666f8e;
+    --line: #e6e9f2;
+    --panel: #ffffff;
+    --panel-2: #f4f6fb;
+    --c-cyan-bg: #e0f7fb;
+    --c-purple-bg: #f0e9fe;
+    --c-amber-bg: #fef3e2;
+    --c-green-bg: #e3f6ee;
+    --c-pink-bg: #fce7f3;
+    --c-blue-bg: #e6effe;
+    --c-cyan-text: #0e7490;
+    --c-green-text: #047857;
+    --c-amber-text: #b45309;
+    --link: #0e7490;
+    --link-hover: #164e63;
+    --fg-c-blue: initial; --fg-c-cyan: initial; --fg-c-green: initial; --fg-c-pink: initial;
+    --fg-c-purple: initial; --p-bd-a7f3d0: initial; --p-bd-bfdbfe: initial; --p-bd-c7d2fe: initial;
+    --p-bd-cccccc: initial; --p-bd-cdd3e3: initial; --p-bd-fde68a: initial; --p-bg-ecfdf5: initial;
+    --p-bg-eef2ff: initial; --p-bg-eff6ff: initial; --p-bg-f4f6fb: initial; --p-bg-fbfcfe: initial;
+    --p-bg-fde8e8: initial; --p-bg-fffbeb: initial; --p-bg-ffffff: initial; --p-fg-047857: initial;
+    --p-fg-065f46: initial; --p-fg-15803d: initial; --p-fg-1a2138: initial; --p-fg-1d4ed8: initial;
+    --p-fg-3730a3: initial; --p-fg-92400e: initial; --p-fg-991b1b: initial;
+  }
+  /* zero specificity: a figure that draws its own panel keeps it, and one that relied on the white page gets a white panel */
+  :where([data-theme="dark"]) :where(figure:not(.rpt-fig), .svg-wrap, .nb-fig) { color: #1a2138; background-color: #ffffff; border-radius: 12px; }
+
+  /* report pages: a page darker than the paper, and the sticky bar, which was translucent white */
+  [data-theme="dark"] body.report { background-color: #0d1429; }
+  [data-theme="dark"] .rpt-sticky { background: rgba(13,20,41,0.94); }
+  /* the five-pillars strip numbers its cards with white digits on the ink color, which turns light here */
+  [data-theme="dark"] .pillar .pstep { background: #38446a; }
+}

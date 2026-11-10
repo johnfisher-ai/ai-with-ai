@@ -1,0 +1,11 @@
+# The libraries the chapter notebooks import, for running them outside Colab.
+# In Colab each notebook's Setup installs what Colab lacks, at the version its outputs were recorded with.
+anthropic         # every notebook that calls a model, in replay or live mode
+httpx             # the replay transport the notebooks build their client on
+numpy
+pandas
+matplotlib
+
+# To open the notebooks and render them to HTML
+jupyter
+nbconvert

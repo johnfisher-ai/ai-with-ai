@@ -1,0 +1,124 @@
+name: Build & Deploy Book to GitHub Pages
+
+# Runs on every push to main and publishes the whole site to Pages.
+#
+# The rendered notebook HTML is committed to the repo, so this workflow only
+# re-renders the notebooks that actually changed in the push. Anything it is
+# not certain about (a manual run, a force push, a workflow edit, a missing
+# HTML file) falls back to rendering everything, so a stale page is never
+# published to save time.
+#
+# To force a full re-render at any time, run this workflow manually from the
+# Actions tab. A change to inject_notebook_backlinks.py needs no re-render:
+# the injector rewrites its card and head tags on every page each run.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2          # the parent commit, so a single-commit push needs no extra fetch
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      # Pinned to the versions sessions render with, so a page rendered here is
+      # byte for byte the page committed. Change them together with a re-render.
+      - name: Install nbconvert
+        run: >-
+          pip install --quiet nbconvert==7.17.2 mistune==3.4.0 pygments==2.21.0
+          jupyterlab_pygments==0.3.0 bleach==6.4.0 tinycss2==1.5.1
+          beautifulsoup4==4.15.0 jinja2==3.1.6 markupsafe==3.0.3 nbformat==5.11.1
+
+      - name: Decide which notebooks need rendering
+        id: pick
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          set -uo pipefail
+          mkdir -p chapters/notebooks/html
+
+          render_all () {
+            echo "Rendering everything: $1"
+            ls chapters/notebooks/*.ipynb > /tmp/to_render 2>/dev/null || : > /tmp/to_render
+          }
+
+          if [ "$EVENT" != "push" ]; then
+            render_all "run was triggered manually"
+          elif [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            render_all "no previous commit on record for this branch"
+          elif ! git cat-file -e "${BEFORE}^{commit}" 2>/dev/null \
+            && ! git fetch --no-tags --depth=1 origin "$BEFORE" 2>/dev/null; then
+            render_all "previous commit $BEFORE is not reachable"
+          elif git diff --name-only "$BEFORE" "$AFTER" -- .github/workflows/deploy.yml | grep -q .; then
+            render_all "the build itself changed"
+          else
+            git diff --name-only --diff-filter=d "$BEFORE" "$AFTER" -- chapters/notebooks \
+              | grep '\.ipynb$' > /tmp/to_render || : > /tmp/to_render
+            echo "$(wc -l < /tmp/to_render | tr -d ' ') notebook(s) changed in this push"
+          fi
+
+          # Safety net: render any notebook whose HTML is missing from the checkout.
+          for nb in chapters/notebooks/*.ipynb; do
+            [ -e "$nb" ] || continue
+            name=$(basename "${nb%.ipynb}")
+            if [ ! -f "chapters/notebooks/html/${name}.html" ]; then
+              echo "$nb" >> /tmp/to_render
+              echo "  (no committed HTML for $name, adding it)"
+            fi
+          done
+          sort -u /tmp/to_render -o /tmp/to_render
+
+          echo "count=$(wc -l < /tmp/to_render | tr -d ' ')" >> "$GITHUB_OUTPUT"
+          echo "--- to render ---"
+          sed 's/^/  /' /tmp/to_render
+
+      - name: Render notebooks to HTML
+        run: |
+          set -euo pipefail
+          n=0
+          while IFS= read -r nb; do
+            [ -e "$nb" ] || continue
+            name=$(basename "${nb%.ipynb}")
+            echo "Rendering $name"
+            jupyter nbconvert --to html --output-dir chapters/notebooks/html --output "$name.html" "$nb"
+            n=$((n + 1))
+          done < /tmp/to_render
+          echo "rendered $n notebook(s) of $(ls chapters/notebooks/*.ipynb | wc -l | tr -d ' ')"
+          # Idempotent: gives every page the current card, head tags and styles.
+          python scripts/inject_notebook_backlinks.py
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true          # auto-enable Pages (build type = GitHub Actions) on first run
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

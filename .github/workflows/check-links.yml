@@ -1,0 +1,42 @@
+name: Check links
+
+# Fails a push that leaves a link pointing at nothing.
+#
+# Separate from deploy.yml on purpose. This one is cheap, has no permissions
+# beyond reading the checkout, and runs on pull requests as well as pushes, so
+# a broken link is visible before it is merged rather than after it is live.
+#
+# What it catches that a human will not: the Colab and github.com/blob URLs.
+# Each one encodes a path inside this repository, and a dead one is silent. The
+# chapter page loads perfectly and the notebook 404s only when a reader clicks
+# the button.
+#
+# It also validates the backlink table in scripts/inject_notebook_backlinks.py.
+# That script rewrites notebook HTML at deploy time, so a wrong anchor there
+# outlives any fix to the rendered pages: the next re-render puts it back.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-links-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Resolve every link
+        run: python3 scripts/check_links.py

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found · Building AI with AI</title>
+  <meta name="robots" content="noindex">
+  <!-- GitHub Pages serves this page for a missing address at any depth, so every link is absolute -->
+  <link rel="icon" href="https://johnfisher-ai.github.io/ai-with-ai/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="https://johnfisher-ai.github.io/ai-with-ai/assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="https://johnfisher-ai.github.io/ai-with-ai/assets/css/book.css">
+  <link rel="stylesheet" href="https://johnfisher-ai.github.io/ai-with-ai/assets/css/chapter.css">
+  <link rel="stylesheet" href="https://johnfisher-ai.github.io/ai-with-ai/assets/css/theme.css">
+  <script src="https://johnfisher-ai.github.io/ai-with-ai/assets/js/theme.js"></script>
+</head>
+<body class="chapter">
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="https://johnfisher-ai.github.io/ai-with-ai/index.html">Home</a>
+    <a href="https://johnfisher-ai.github.io/ai-with-ai/toc.html">Contents</a>
+  </div>
+</nav>
+
+<header class="chapter-hero">
+  <div class="chapter-hero-inner">
+    <h1>This page <span class="accent">isn't here</span></h1>
+    <p class="dek">The address may be mistyped, or the page may not be published yet. Chapters are named by their
+       topic, and the contents lists every one.</p>
+  </div>
+</header>
+
+<main class="reading">
+  <section id="where">
+    <p id="asked" hidden>No page lives at <code id="asked-path"></code>.</p>
+    <p>Start from one of these:</p>
+    <ul style="margin:0 0 1.2rem;padding-left:1.4rem;color:var(--ink-soft);line-height:1.9">
+      <li><a href="https://johnfisher-ai.github.io/ai-with-ai/toc.html">The contents</a>, every part and chapter</li>
+      <li><a href="https://johnfisher-ai.github.io/ai-with-ai/introduction.html">The introduction</a>, how the book works</li>
+      <li><a href="https://johnfisher-ai.github.io/ai-with-ai/index.html">The title page</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="book-footer" style="background:#0a1230;color:#8892b0;border-top:none">
+  <strong style="color:#cbd5e1">Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+  // Show the address that was asked for, as text only
+  var path = decodeURIComponent(location.pathname);
+  if (path && !/\/404(\.html)?$/.test(path)) {
+    document.getElementById("asked-path").textContent = path;
+    document.getElementById("asked").hidden = false;
+  }
+</script>
+</body>
+</html>

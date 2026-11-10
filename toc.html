@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contents · Building AI with AI</title>
+  <meta name="description" content="The contents of Building AI with AI: A Visual Handbook, a free book on building with language models and AI assistants. Chapters appear here as they are published.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/toc.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="Contents · Building AI with AI">
+  <meta property="og:description" content="Every part and chapter of Building AI with AI: A Visual Handbook, with each chapter listed as it is published.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/toc.html">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contents · Building AI with AI">
+  <meta name="twitter:description" content="Every part and chapter of Building AI with AI: A Visual Handbook, with each chapter listed as it is published.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/css/book.css">
+  <style>
+    body { padding-top: 60px; }
+
+    /* ── Layout ── */
+    .toc-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: calc(100vh - 60px);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky; top: 60px; height: calc(100vh - 60px);
+      overflow-y: auto; overflow-x: hidden;
+      background: var(--navy-2);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 0;
+    }
+    .sidebar-header {
+      padding: 0 1.25rem 1rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.75rem;
+    }
+    .sidebar-header h2 {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;
+    }
+    .search-box {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+    }
+    .search-box svg { flex-shrink: 0; color: var(--text-muted); }
+    .search-box input {
+      background: none; border: none; outline: none;
+      color: var(--text); font-size: 0.82rem; width: 100%;
+      font-family: inherit;
+    }
+    .search-box input::placeholder { color: var(--text-muted); }
+
+    .part-nav-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0.45rem 1.25rem; cursor: pointer;
+      font-size: 0.78rem; color: var(--text-dim); font-weight: 500;
+      transition: var(--transition); border-left: 2px solid transparent;
+      text-decoration: none;
+    }
+    .part-nav-item:hover { color: var(--cyan); background: rgba(255,122,89,0.05); }
+    .part-nav-item.active { color: var(--cyan); border-left-color: var(--cyan); background: rgba(255,122,89,0.07); }
+    .part-nav-num {
+      width: 20px; height: 20px; border-radius: 4px;
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 700; flex-shrink: 0;
+    }
+
+    /* ── Main ── */
+    .toc-main {
+      padding: 2.5rem 3rem 5rem;
+      max-width: 900px; min-width: 0;
+    }
+    .toc-page-header { margin-bottom: 2.5rem; }
+    .toc-page-header h1 {
+      font-size: 2.2rem; font-weight: 900; color: #fff;
+      letter-spacing: -0.03em; margin-bottom: 0.5rem;
+    }
+    .toc-page-header p { color: var(--text-dim); font-size: 0.9rem; }
+    .toc-meta {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+      margin-top: 1.25rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .toc-meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-dim); }
+    .toc-meta-item strong { color: var(--text); }
+
+    /* ── Part block ── */
+    .part-block {
+      margin-bottom: 1.25rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .part-block:hover { border-color: rgba(255,255,255,0.13); }
+    .part-block.expanded { border-color: rgba(255,122,89,0.2); }
+
+    .part-header {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.1rem 1.4rem; cursor: pointer;
+      background: rgba(255,255,255,0.03);
+      transition: background 0.2s; user-select: none;
+    }
+    .part-header:hover { background: rgba(255,255,255,0.055); }
+    .part-block.expanded .part-header { background: rgba(255,122,89,0.06); }
+
+    .part-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .part-meta { flex: 1; min-width: 0; }
+    .part-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px;
+    }
+    .part-title {
+      font-size: 1rem; font-weight: 700; color: #fff;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .part-count {
+      font-size: 0.72rem; color: var(--text-muted); margin-top: 1px;
+    }
+    .part-chevron {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: transform 0.25s ease;
+    }
+    .part-block.expanded .part-chevron { transform: rotate(180deg); }
+
+    /* Chapter list */
+    .chapter-list {
+      display: none; padding: 0.5rem 0 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .part-block.expanded .chapter-list { display: block; }
+
+    .ch-item {
+      display: flex; align-items: baseline; gap: 0.75rem;
+      padding: 0.55rem 1.4rem 0.55rem 1.4rem;
+      transition: background 0.15s;
+      text-decoration: none;
+    }
+    .ch-item:hover { background: rgba(255,255,255,0.04); }
+    .ch-num {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--text-muted); width: 28px; flex-shrink: 0;
+      padding-top: 1px;
+    }
+    .ch-title-wrap { flex: 1; }
+    .ch-title {
+      font-size: 0.875rem; color: var(--text);
+      font-weight: 500; display: block;
+      transition: color 0.15s;
+    }
+    .ch-item:hover .ch-title { color: var(--cyan); }
+    .ch-desc {
+      font-size: 0.76rem; color: #b3bcda;
+      margin-top: 2px; display: block; line-height: 1.45;
+    }
+    .ch-badges { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; }
+    .badge-nb {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 1px 6px; border-radius: 4px;
+      background: rgba(16,185,129,0.1); color: var(--green);
+      border: 1px solid rgba(16,185,129,0.25);
+    }
+    .badge-ready {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 1px 6px; border-radius: 4px;
+      background: rgba(255,122,89,0.12); color: var(--cyan);
+      border: 1px solid rgba(255,122,89,0.35);
+    }
+    .badge-soon {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 1px 6px; border-radius: 4px;
+      background: rgba(255,255,255,0.05); color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    /* Transient "Updated" badge for a published chapter whose content just changed */
+    .badge-upd {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 1px 6px; border-radius: 4px;
+      background: rgba(167,139,250,0.14); color: #a78bfa;
+      border: 1px solid rgba(167,139,250,0.4);
+    }
+    /* Not-yet-written chapters: visible but non-clickable */
+    .ch-item.disabled { opacity: 0.55; cursor: default; }
+    .ch-item.disabled:hover { background: transparent; }
+    .ch-item.disabled:hover .ch-title { color: var(--text); }
+    .ch-item.ready .ch-title { color: var(--cyan); }
+
+    /* Part color themes */
+    .pi1  .part-icon { background:rgba(255,122,89,0.12); }
+    .pi2  .part-icon { background:rgba(167,139,250,0.12); }
+    .pi3  .part-icon { background:rgba(245,158,11,0.12); }
+    .pi4  .part-icon { background:rgba(16,185,129,0.12); }
+    .pi5  .part-icon { background:rgba(244,114,182,0.12); }
+    .pi6  .part-icon { background:rgba(59,130,246,0.12); }
+    .pi7  .part-icon { background:rgba(251,146,60,0.12); }
+    .pi8  .part-icon { background:rgba(52,211,153,0.12); }
+    .pi9  .part-icon { background:rgba(196,181,253,0.12); }
+    .pi10 .part-icon { background:rgba(253,186,116,0.12); }
+    .pi11 .part-icon { background:rgba(129,140,248,0.12); }
+    .pi12 .part-icon { background:rgba(34,211,238,0.12); }
+    .pi13 .part-icon { background:rgba(163,230,53,0.12); }
+    .pi14 .part-icon { background:rgba(248,113,113,0.12); }
+    .pi15 .part-icon { background:rgba(192,132,252,0.12); }
+    .pi16 .part-icon { background:rgba(94,234,212,0.12); }
+    .pi17 .part-icon { background:rgba(251,207,232,0.1); }
+    .pi18 .part-icon { background:rgba(254,240,138,0.1); }
+    .pi19 .part-icon { background:rgba(125,211,252,0.12); }
+    .pi20 .part-icon { background:rgba(244,114,182,0.12); }
+    .pi21 .part-icon { background:rgba(45,212,191,0.12); }
+    .pi22 .part-icon { background:rgba(251,191,36,0.12); }
+    .pi23 .part-icon { background:rgba(167,139,250,0.12); }
+    .pi24 .part-icon { background:rgba(56,189,248,0.12); }
+    .pi25 .part-icon { background:rgba(244,114,182,0.12); }
+
+    /* Expand all toggle */
+    .toc-controls {
+      display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+    }
+    .ctrl-btn {
+      padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer;
+      font-size: 0.78rem; font-weight: 600; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04); color: var(--text-dim);
+      font-family: inherit; transition: var(--transition);
+    }
+    .ctrl-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    /* Search highlight */
+    .ch-item.hidden { display: none; }
+    .part-block.all-hidden { opacity: 0.3; pointer-events: none; }
+
+    @media (max-width: 800px) {
+      .toc-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .toc-main { padding: 1.5rem 1.25rem 4rem; }
+      .part-title { white-space: normal; }
+      .ch-title-wrap { min-width: 0; overflow-wrap: break-word; }
+    }
+  </style>
+  <style>
+    /* hidden wins over the display set on .toc-meta and .toc-controls, for an empty manifest */
+    [hidden] { display: none !important; }
+    .toc-empty {
+      border: 1px dashed var(--border); border-radius: var(--radius-lg);
+      padding: 1.4rem 1.5rem; color: var(--text-dim); font-size: 0.9rem; line-height: 1.6;
+    }
+    .toc-empty strong { color: var(--text); }
+    .toc-empty a { text-decoration: underline; text-underline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="toc.html" class="active">Contents</a>
+  </div>
+</nav>
+
+<div class="toc-layout">
+
+  <aside class="sidebar" aria-label="Parts">
+    <div class="sidebar-header">
+      <h2>Navigate</h2>
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10 10l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input type="text" id="search-input" placeholder="Search chapters…" aria-label="Search chapters">
+      </div>
+    </div>
+    <a class="part-nav-item" href="introduction.html" style="border-left-color:var(--cyan);color:var(--cyan);font-weight:700">
+      <span class="part-nav-num" style="background:rgba(255,122,89,0.15)">★</span>Introduction
+    </a>
+    <div id="part-nav"></div>
+  </aside>
+
+  <main class="toc-main">
+    <div class="toc-page-header">
+      <h1 class="gradient-text">Contents</h1>
+      <p>Building AI with AI, part by part. A chapter becomes a link when it is published.</p>
+      <div class="toc-meta" id="toc-meta"></div>
+    </div>
+
+    <a href="introduction.html" style="display:flex;align-items:center;gap:1.1rem;text-decoration:none;
+       background:linear-gradient(135deg, rgba(255,122,89,0.12), rgba(124,58,237,0.16));
+       border:1px solid rgba(255,122,89,0.3);border-radius:16px;padding:1.3rem 1.5rem;margin-bottom:1.6rem">
+      <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#e5603f,var(--purple));
+           display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0" aria-hidden="true">🚀</div>
+      <div style="flex:1">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan)">Start here</div>
+        <div style="font-size:1.1rem;font-weight:800;color:#fff">Introduction</div>
+        <div style="font-size:0.82rem;color:var(--text-dim);margin-top:2px">What the book covers, how the notebooks and Colab work, and how the recorded model calls keep every notebook runnable without a key.</div>
+      </div>
+      <span style="font-size:1.4rem;color:var(--cyan)" aria-hidden="true">→</span>
+    </a>
+
+    <div class="toc-controls" id="toc-controls">
+      <button class="ctrl-btn" type="button" onclick="expandAll()">Expand all</button>
+      <button class="ctrl-btn" type="button" onclick="collapseAll()">Collapse all</button>
+    </div>
+
+    <div id="toc-container"></div>
+    <div class="toc-empty" id="toc-empty" hidden>
+      <strong>The chapters are being planned.</strong> Each part and chapter will appear here once its outline
+      is settled, and each chapter becomes a link when it is published. Meanwhile, the
+      <a href="introduction.html">introduction</a> explains how the book will work, and the first book in the family,
+      <a href="https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/">Statistics, Data Science and AI: A Visual Handbook</a>,
+      is complete.
+    </div>
+  </main>
+</div>
+
+<footer class="book-footer">
+  <strong>Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+// The manifest. Chapter numbers come from the order of PARTS, so inserting a chapter renumbers every
+// chapter after it (scripts/apply_chapter_nav.py re-stamps the pages). Each part is
+//   { n:1, emoji:"...", title:"...", desc:"...", chapters:[ {n:1, slug:"...", t:"...", d:"..."}, ... ] },
+// with slugs made of words, never numbers or dates, and permanent once published.
+const PARTS = [
+];
+
+// The chapters that are published. A chapter in PARTS but not here shows as coming soon.
+// Edit it by slicing this block, never with a document-wide replace (the book's CLAUDE.md explains why).
+const AVAILABLE = new Set([
+]);
+
+// Transient "Updated" badges for published chapters whose content changed this push cycle, by slug.
+// Clear it again at the next push.
+const UPDATED_CHAPTERS = new Set([]);
+// Chapters with no companion notebook, so they get no notebook badge
+const NO_NOTEBOOK = new Set([]);
+
+// Render the contents
+const container = document.getElementById('toc-container');
+const navEl = document.getElementById('part-nav');
+
+let chapterNum = 0;   // running, position-based chapter number
+PARTS.forEach((part) => {
+  const totalChs = part.chapters.length;
+
+  const navItem = document.createElement('a');
+  navItem.className = 'part-nav-item';
+  navItem.href = `#part-${part.n}`;
+  navItem.innerHTML = `<span class="part-nav-num">${part.n}</span>${part.title}`;
+  navEl.appendChild(navItem);
+
+  const block = document.createElement('div');
+  block.className = `part-block pi${part.n}`;
+  block.id = `part-${part.n}`;
+
+  const chapterItems = part.chapters.map(ch => {
+    chapterNum++;
+    const ready = AVAILABLE.has(ch.slug);
+    const href  = `chapters/${ch.slug}.html`;
+    const tag   = ready ? 'a' : 'div';
+    const attrs = ready ? `class="ch-item ready" href="${href}"` : `class="ch-item disabled"`;
+    const statusBadge = ready
+      ? '<span class="badge-ready">✓ Ready</span>' + (NO_NOTEBOOK.has(ch.slug) ? '' : '<span class="badge-nb">🐍 Notebook</span>')
+      : '<span class="badge-soon">Coming soon</span>';
+    return `
+    <${tag} ${attrs}>
+      <span class="ch-num">${String(chapterNum).padStart(2,'0')}</span>
+      <span class="ch-title-wrap">
+        <span class="ch-title">${ch.t}</span>
+        <span class="ch-desc">${ch.d}</span>
+        <span class="ch-badges">
+          ${(ready && UPDATED_CHAPTERS.has(ch.slug)) ? '<span class="badge-upd">✦ Updated</span>' : ''}
+          ${statusBadge}
+        </span>
+      </span>
+    </${tag}>`;
+  }).join('');
+
+  block.innerHTML = `
+    <div class="part-header" onclick="togglePart(this)">
+      <div class="part-icon" aria-hidden="true">${part.emoji}</div>
+      <div class="part-meta">
+        <div class="part-label">Part ${part.n} of ${PARTS.length}</div>
+        <div class="part-title">${part.title}</div>
+        <div class="part-count">${totalChs} chapter${totalChs>1?'s':''} · ${part.desc}</div>
+      </div>
+      <div class="part-chevron">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="chapter-list">${chapterItems}</div>
+  `;
+  container.appendChild(block);
+});
+
+// The counts in the header come from the manifest, so they are never typed by hand
+const published = PARTS.reduce((k, p) => k + p.chapters.filter(c => AVAILABLE.has(c.slug)).length, 0);
+if (PARTS.length) {
+  document.getElementById('toc-meta').innerHTML =
+    `<div class="toc-meta-item">📚 <strong>${PARTS.length}</strong>&nbsp;parts</div>` +
+    `<div class="toc-meta-item">📖 <strong>${chapterNum}</strong>&nbsp;chapters planned</div>` +
+    `<div class="toc-meta-item">✓ <strong>${published}</strong>&nbsp;published</div>`;
+} else {
+  document.getElementById('toc-meta').hidden = true;
+  document.getElementById('toc-controls').hidden = true;
+  document.getElementById('toc-empty').hidden = false;
+}
+
+function togglePart(header) {
+  header.parentElement.classList.toggle('expanded');
+}
+function expandAll() {
+  document.querySelectorAll('.part-block').forEach(b => b.classList.add('expanded'));
+}
+function collapseAll() {
+  document.querySelectorAll('.part-block').forEach(b => b.classList.remove('expanded'));
+}
+
+// Search
+document.getElementById('search-input').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  document.querySelectorAll('.part-block').forEach(block => {
+    let anyVisible = false;
+    block.querySelectorAll('.ch-item').forEach(item => {
+      const match = !q || item.textContent.toLowerCase().includes(q);
+      item.classList.toggle('hidden', !match);
+      if (match) anyVisible = true;
+    });
+    block.classList.toggle('all-hidden', !anyVisible);
+    if (q && anyVisible) block.classList.add('expanded');
+  });
+});
+
+// Highlight the part in view in the sidebar
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.part-nav-item').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('href') === `#${id}`);
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+document.querySelectorAll('.part-block').forEach(b => observer.observe(b));
+</script>
+</body>
+</html>

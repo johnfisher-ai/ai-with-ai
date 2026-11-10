@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction · Building AI with AI</title>
+  <meta name="description" content="How Building AI with AI works: visual chapters, notebooks that run in Colab, and model calls recorded so every notebook runs without a key. The book is being written, and chapters appear as they are published.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/introduction.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="Introduction · Building AI with AI">
+  <meta property="og:description" content="How the book works: visual chapters, notebooks that run in Colab, and recorded model calls that need no key.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/introduction.html">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Introduction · Building AI with AI">
+  <meta name="twitter:description" content="How the book works: visual chapters, notebooks that run in Colab, and recorded model calls that need no key.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/css/book.css">
+  <link rel="stylesheet" href="assets/css/chapter.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script src="assets/js/theme.js"></script>
+</head>
+<body class="chapter">
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="introduction.html" class="active">Introduction</a>
+    <a href="toc.html">Contents</a>
+  </div>
+</nav>
+<div class="read-progress" id="readProgress"></div>
+
+<header class="chapter-hero">
+  <div class="chapter-hero-inner">
+    <div class="crumb">
+      <a href="index.html">Home</a><span class="sep">/</span><span>Introduction</span>
+    </div>
+    <div class="chapter-kicker"><span class="pill">Start here</span> Being written</div>
+    <h1>Building AI <span class="accent">with AI</span></h1>
+    <p class="dek">A visual, hands-on book about building software that uses a language model, and about using an AI
+       assistant to help build it. Each chapter pairs a page of diagrams and plain explanation with a notebook
+       you can run in your browser.</p>
+    <div class="hero-meta">
+      <div class="m">📖 <b>Chapters</b>&nbsp;as they are published</div>
+      <div class="m">🐍 <b>Notebooks</b>&nbsp;that run in Colab</div>
+      <div class="m">🔁 <b>Recorded model calls</b>&nbsp;that need no key</div>
+    </div>
+  </div>
+</header>
+
+<main class="reading">
+
+  <section id="intent">
+    <p class="lead">A language model will answer almost anything you send it. Building something dependable on top of
+       one takes the same habits as any other engineering, applied to a component whose output changes from one
+       call to the next. This book teaches those habits with a <span class="term">picture for every idea</span>
+       and <span class="term">code you can run</span>.</p>
+
+    <div class="callout note">
+      <div class="cico">🚧</div>
+      <div><div class="ctitle">The book is being written</div>
+        <p>This page and the contents are in place, and the chapters are being planned. Each chapter appears in the
+           <a href="toc.html">contents</a> as soon as it is published. Until then, the first book in the family,
+           <a href="https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/"><em>Statistics, Data Science
+           and AI: A Visual Handbook</em></a>, is complete and free to read.</p></div>
+    </div>
+  </section>
+
+  <section id="covers">
+    <div class="section-eyebrow"><div class="num">1</div><h2>What the book will cover</h2></div>
+    <p>The chapters follow the order in which a working system comes together. They start with a single call to a
+       model and what comes back from it. Later chapters treat a prompt as code that can be versioned and tested,
+       measure whether answers are good enough before trusting them, and give a model documents to read and tools
+       to use. The last parts cover working alongside an AI coding assistant, keeping a system safe and running it
+       in production.</p>
+    <p>Where a chapter needs statistics, such as a confidence interval around an evaluation score, it links to the
+       chapter of the first book that explains it.</p>
+  </section>
+
+  <section id="how">
+    <div class="section-eyebrow"><div class="num">2</div><h2>How each chapter works</h2></div>
+    <p>A chapter has two halves that are meant to be read together.</p>
+    <div class="branches">
+      <div class="branch descr">
+        <div class="btag"><span class="bnum" style="background:var(--c-cyan)">A</span><span class="tx-cyan">The chapter page</span></div>
+        <p style="margin:0;font-size:0.92rem;color:var(--ink-soft)">Diagrams and short explanations you read in the browser.</p>
+        <ul>
+          <li>Sections that each carry one idea</li>
+          <li>Figures drawn as editable SVG</li>
+          <li>Practice challenges and a quiz at the end</li>
+        </ul>
+      </div>
+      <div class="branch infer">
+        <div class="btag"><span class="bnum" style="background:var(--c-purple)">B</span><span class="tx-purple">The notebook</span></div>
+        <p style="margin:0;font-size:0.92rem;color:var(--ink-soft)">The same ideas as Python you can run and change.</p>
+        <ul>
+          <li>Every number in the chapter printed by the code</li>
+          <li>A solutions notebook for the challenges</li>
+          <li>Three ways to open it, described below</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cardgrid cols-3">
+      <div class="ic-card"><div class="ic bg-cyan">📓</div>
+        <h3>View it</h3>
+        <p><strong>View notebook</strong> shows the code and its saved output as a web page, with nothing to install.</p></div>
+      <div class="ic-card"><div class="ic bg-amber">▶️</div>
+        <h3>Run it in Colab</h3>
+        <p><strong>Open in Colab</strong> loads your own copy in Google Colab, where you can run and edit it. Running
+           needs a free Google sign-in.</p></div>
+      <div class="ic-card"><div class="ic bg-purple">⬇️</div>
+        <h3>Download it</h3>
+        <p>The raw <code>.ipynb</code> file is on GitHub, to run on your own computer.</p></div>
+    </div>
+  </section>
+
+  <section id="recorded">
+    <div class="section-eyebrow"><div class="num">3</div><h2>Notebooks that call a model</h2></div>
+    <p>Most notebooks send requests to a language model through Anthropic's Python library. A live call needs an API
+       key and returns a slightly different answer each time, which would make the book's numbers impossible to check, so
+       every notebook can run in either of two modes.</p>
+    <div class="cardgrid cols-2">
+      <div class="ic-card bg-green"><div class="ic" style="background:var(--p-bg-ffffff, #fff)">🔁</div>
+        <h3>Replay by default</h3>
+        <p>The notebook answers each request from a recording kept in the book's repository. It needs no key, makes no
+           network call and prints the same thing on every run, so the page and the notebook always agree. The
+           notebook names the model and the date each recording came from.</p></div>
+      <div class="ic-card bg-amber"><div class="ic" style="background:var(--p-bg-ffffff, #fff)">⚡</div>
+        <h3>Live calls with your own key</h3>
+        <p>One switch at the top of the notebook sends the same requests to the real API with your own key, kept in
+           Colab's secrets panel. The answers will differ from the recorded ones, and the cost of the calls is billed
+           to your account.</p></div>
+    </div>
+  </section>
+
+  <section id="before">
+    <div class="section-eyebrow"><div class="num">4</div><h2>What helps before you start</h2></div>
+    <p>You will get the most from the book if you can read short Python programs and have used a notebook before.
+       The free library <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/"><em>Python, Visually</em></a>
+       covers both from the beginning. No background in machine learning is assumed, and the chapters explain each
+       idea about models as they need it.</p>
+  </section>
+
+  <nav class="chapter-nav" aria-label="Previous and next page">
+    <a class="cn-btn prev" href="index.html">
+      <span style="font-size:1.3rem">←</span>
+      <span><span class="cn-dir">Back to</span><br><span class="cn-title">Title page</span></span>
+    </a>
+    <a class="cn-btn next" href="toc.html">
+      <span><span class="cn-dir">Next</span><br><span class="cn-title">Contents</span></span>
+      <span style="font-size:1.3rem">→</span>
+    </a>
+  </nav>
+
+</main>
+
+<footer class="book-footer" style="background:#0a1230;color:#8892b0;border-top:none">
+  <strong style="color:#cbd5e1">Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  Introduction &nbsp;·&nbsp; © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+const bar = document.getElementById('readProgress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = ((h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100) + '%';
+});
+</script>
+</body>
+</html>
