@@ -202,9 +202,11 @@
       border: 1px solid rgba(167,139,250,0.4);
     }
     /* Not-yet-written chapters: visible but non-clickable */
-    .ch-item.disabled { opacity: 0.55; cursor: default; }
+    /* Muted colors, not opacity, so the text still reads at 4.5:1 on the navy page */
+    .ch-item.disabled { cursor: default; }
+    .ch-item.disabled .ch-title { color: var(--text-dim); }
     .ch-item.disabled:hover { background: transparent; }
-    .ch-item.disabled:hover .ch-title { color: var(--text); }
+    .ch-item.disabled:hover .ch-title { color: var(--text-dim); }
     .ch-item.ready .ch-title { color: var(--cyan); }
 
     /* Part color themes */
@@ -351,6 +353,144 @@
 //   { n:1, emoji:"...", title:"...", desc:"...", chapters:[ {n:1, slug:"...", t:"...", d:"..."}, ... ] },
 // with slugs made of words, never numbers or dates, and permanent once published.
 const PARTS = [
+  {
+    n:1, emoji:"🔌", title:"Working with a model",
+    desc:"One request to a model and everything that comes back from it.",
+    chapters:[
+      {n:1, slug:"what-building-ai-with-ai-means", t:"What building AI with AI means", d:"The two senses of the title (a model as a component of a system, and an assistant as a collaborator in building it), and a map of the book"},
+      {n:2, slug:"how-a-language-model-produces-text", t:"How a language model produces text", d:"Tokens, next-token probabilities, sampling and temperature, shown on recorded outputs"},
+      {n:3, slug:"tokens-context-and-cost", t:"Tokens, context and cost", d:"Counting tokens, the context window, and what a call costs, all dated"},
+      {n:4, slug:"your-first-model-call", t:"Your first model call", d:"The Messages API through the SDK, roles and the system prompt, and the replay switch every notebook uses"},
+      {n:5, slug:"reading-a-response", t:"Reading a response", d:"Stop reasons, usage, errors, rate limits and retries"},
+    ]
+  },
+  {
+    n:2, emoji:"📝", title:"Prompts as code",
+    desc:"Prompts written, templated, structured and reviewed like code.",
+    chapters:[
+      {n:6, slug:"writing-a-clear-prompt", t:"Writing a clear prompt", d:"Context, task, constraints and the shape of the answer, with before-and-after recordings"},
+      {n:7, slug:"examples-in-the-prompt", t:"Examples in the prompt", d:"Few-shot prompting, choosing examples and the bias examples bring"},
+      {n:8, slug:"prompt-templates-and-variables", t:"Prompt templates and variables", d:"Prompts as functions of their inputs, escaping and long documents"},
+      {n:9, slug:"structured-output", t:"Structured output", d:"Asking for JSON, validating it with a schema and recovering from bad output"},
+      {n:10, slug:"letting-the-model-think-first", t:"Letting the model think first", d:"Step-by-step reasoning and extended thinking, and when they help"},
+      {n:11, slug:"versioning-and-reviewing-prompts", t:"Versioning and reviewing prompts", d:"Prompts in version control, diffs and review, and tying a prompt version to its scores"},
+    ]
+  },
+  {
+    n:3, emoji:"📏", title:"Measuring quality",
+    desc:"Test sets, graders and the uncertainty in every score.",
+    chapters:[
+      {n:12, slug:"why-evaluation-comes-first", t:"Why evaluation comes first", d:"What goes wrong without a measure, and the loop of change, run and compare"},
+      {n:13, slug:"building-a-test-set", t:"Building a test set", d:"Choosing cases, edge cases and size, and keeping it out of the prompt"},
+      {n:14, slug:"grading-with-code", t:"Grading with code", d:"Exact match, patterns, schema checks and classification metrics"},
+      {n:15, slug:"grading-with-a-model", t:"Grading with a model", d:"A model as judge, rubrics, the judge's own biases and checking the judge against people"},
+      {n:16, slug:"human-review-and-agreement", t:"Human review and agreement", d:"Review queues, rubrics for people and agreement between raters"},
+      {n:17, slug:"uncertainty-in-evaluation-scores", t:"Uncertainty in evaluation scores", d:"Confidence intervals for a pass rate and comparing two prompts on the same cases"},
+      {n:18, slug:"case-study-evaluating-a-ticket-triage-prompt", t:"Evaluating a ticket triage prompt", d:"A teaching dataset of support tickets, a test set, two graders and a decision between two prompts"},
+    ]
+  },
+  {
+    n:4, emoji:"📚", title:"Giving the model knowledge",
+    desc:"Embeddings, search and answers grounded in documents.",
+    chapters:[
+      {n:19, slug:"embeddings-and-similarity", t:"Embeddings and similarity", d:"Text as vectors, cosine similarity and what nearness does and doesn't mean"},
+      {n:20, slug:"splitting-documents-into-chunks", t:"Splitting documents into chunks", d:"Chunk size, overlap and structure-aware splitting"},
+      {n:21, slug:"vector-search", t:"Vector search", d:"Indexes, nearest neighbors and the trade between speed and recall"},
+      {n:22, slug:"hybrid-search-and-reranking", t:"Hybrid search and reranking", d:"Keyword and vector search together, and a second pass that reorders"},
+      {n:23, slug:"answering-from-retrieved-documents", t:"Answering from retrieved documents", d:"Grounding, citations and saying \"not in the documents\""},
+      {n:24, slug:"evaluating-retrieval", t:"Evaluating retrieval", d:"Recall at k, faithfulness to the sources and where errors start"},
+      {n:25, slug:"case-study-a-policy-question-assistant", t:"A policy question assistant", d:"Questions answered with citations over a set of policy documents written for the book"},
+    ]
+  },
+  {
+    n:5, emoji:"🛠️", title:"Tools and agents",
+    desc:"Tools a model can call, and agents that choose them.",
+    chapters:[
+      {n:26, slug:"tool-use", t:"Tool use", d:"Describing a function to the model, the request and result cycle, and errors"},
+      {n:27, slug:"designing-good-tools", t:"Designing good tools", d:"Names, descriptions, inputs and outputs a model uses well"},
+      {n:28, slug:"the-agent-loop", t:"The agent loop", d:"A model choosing tools until a task is done, with limits on steps and spending"},
+      {n:29, slug:"planning-memory-and-state", t:"Planning, memory and state", d:"Plans, scratch notes and what to keep between turns"},
+      {n:30, slug:"connecting-tools-with-mcp", t:"Connecting tools with MCP", d:"The Model Context Protocol as published, servers and clients, and permissions"},
+      {n:31, slug:"systems-of-several-agents", t:"Systems of several agents", d:"Splitting work between agents, handing off and checking each other"},
+      {n:32, slug:"case-study-an-agent-that-cleans-a-dataset", t:"An agent that cleans a dataset", d:"An agent with a few data tools working on a messy teaching dataset, with every change logged"},
+    ]
+  },
+  {
+    n:6, emoji:"🤝", title:"Building with a coding assistant",
+    desc:"Specs, tests and review when an AI assistant writes the code.",
+    chapters:[
+      {n:33, slug:"how-coding-assistants-work", t:"How coding assistants work", d:"An assistant as an agent with file, shell and search tools, and what it can and can't see"},
+      {n:34, slug:"writing-a-spec-an-assistant-can-follow", t:"Writing a spec an assistant can follow", d:"Goals, constraints, examples and what done means"},
+      {n:35, slug:"tests-as-the-contract", t:"Tests as the contract", d:"Writing tests first and letting them judge the assistant's code"},
+      {n:36, slug:"reviewing-code-an-assistant-wrote", t:"Reviewing code an assistant wrote", d:"What to read closely, common failure patterns and asking for a second review"},
+      {n:37, slug:"project-instructions-and-memory", t:"Project instructions and memory", d:"Instruction files, punch lists and keeping a long project consistent across sessions"},
+      {n:38, slug:"version-control-with-an-assistant", t:"Version control with an assistant", d:"Small commits, never rewriting history, and undoing with a revert"},
+      {n:39, slug:"case-study-how-this-book-is-built", t:"How this book is built", d:"The book's own workflow, its checks and the errors they caught"},
+    ]
+  },
+  {
+    n:7, emoji:"🗂️", title:"Data for and from models",
+    desc:"Data a model writes, labels or extracts, and how to check it.",
+    chapters:[
+      {n:40, slug:"generating-synthetic-data", t:"Generating synthetic data", d:"Writing teaching and test data with a model, labeled as made up"},
+      {n:41, slug:"labeling-data-with-a-model", t:"Labeling data with a model", d:"Label quality, disagreement with people and where to spend human review"},
+      {n:42, slug:"extracting-structure-from-text", t:"Extracting structure from text", d:"Fields from free text into a table, and measuring the extraction"},
+      {n:43, slug:"checking-data-a-model-produced", t:"Checking data a model produced", d:"Duplicates, drift from the brief, leaks of the prompt and checks by sample"},
+      {n:44, slug:"case-study-labeling-support-tickets", t:"Labeling support tickets", d:"Labeling a teaching ticket set with a model, then auditing it against people"},
+    ]
+  },
+  {
+    n:8, emoji:"⚖️", title:"Adapting and choosing models",
+    desc:"Prompting, retrieval, fine-tuning and choosing a model by measurement.",
+    chapters:[
+      {n:45, slug:"prompting-retrieval-or-fine-tuning", t:"Prompting, retrieval or fine-tuning", d:"Which change fixes which problem, with a decision chart"},
+      {n:46, slug:"how-fine-tuning-works", t:"How fine-tuning works", d:"Training on examples, what it changes and what it costs, explained without training a model"},
+      {n:47, slug:"choosing-a-model", t:"Choosing a model", d:"Quality, speed and cost measured on the book's own test set"},
+      {n:48, slug:"caching-and-batching", t:"Caching and batching", d:"Reusing a prompt's prefix, answering in batches and what each saves"},
+    ]
+  },
+  {
+    n:9, emoji:"🛡️", title:"Safety and security",
+    desc:"Injection, secrets, guardrails, red-teaming and bias.",
+    chapters:[
+      {n:49, slug:"prompt-injection", t:"Prompt injection", d:"Instructions hidden in data, and defenses that hold and that don't"},
+      {n:50, slug:"protecting-data-and-secrets", t:"Protecting data and secrets", d:"Keys, personal data in prompts and logs, and what never to send"},
+      {n:51, slug:"guardrails-on-input-and-output", t:"Guardrails on input and output", d:"Checks before and after a call, and measuring their false alarms"},
+      {n:52, slug:"red-teaming-a-system", t:"Red-teaming a system", d:"Planning attacks on your own system, recording them and fixing what they find"},
+      {n:53, slug:"bias-in-model-output", t:"Bias in model output", d:"Measuring differences in answers across groups"},
+      {n:54, slug:"disclosure-and-licensing", t:"Disclosure and licensing", d:"Telling users a model is involved, terms of use and licensing what a model helped make"},
+    ]
+  },
+  {
+    n:10, emoji:"🚀", title:"Shipping and running",
+    desc:"From a notebook to a service you can monitor and trust.",
+    chapters:[
+      {n:55, slug:"from-notebook-to-service", t:"From notebook to service", d:"Wrapping a working prompt in a small web service with its tests"},
+      {n:56, slug:"logging-and-tracing-model-calls", t:"Logging and tracing model calls", d:"What to record about each call, and following one request through a system"},
+      {n:57, slug:"monitoring-quality-in-production", t:"Monitoring quality in production", d:"Sampling live answers, scoring them and noticing drift"},
+      {n:58, slug:"controlling-cost-and-latency", t:"Controlling cost and latency", d:"Budgets, limits, streaming and the cheapest model that passes"},
+      {n:59, slug:"testing-a-change-before-release", t:"Testing a change before release", d:"Offline evaluation, then a controlled experiment with live traffic"},
+      {n:60, slug:"handling-failures-gracefully", t:"Handling failures gracefully", d:"Timeouts, fallbacks and saying \"I can't\""},
+    ]
+  },
+  {
+    n:11, emoji:"🏗️", title:"Capstone projects",
+    desc:"Five projects that combine the parts.",
+    chapters:[
+      {n:61, slug:"capstone-a-ticket-triage-service", t:"A ticket triage service", d:"Parts 1 to 3 and 10, from prompt to tested service with monitoring"},
+      {n:62, slug:"capstone-a-cited-research-assistant", t:"A cited research assistant", d:"Part 4 end to end, over a document set written for the book"},
+      {n:63, slug:"capstone-an-evaluation-harness", t:"An evaluation harness", d:"A reusable harness with code and model graders and confidence intervals"},
+      {n:64, slug:"capstone-an-agent-that-answers-from-a-database", t:"An agent that answers from a database", d:"Questions in plain words turned into checked SQL over a teaching database"},
+      {n:65, slug:"capstone-a-small-app-built-with-an-assistant", t:"A small app built with an assistant", d:"Part 6 end to end, from spec and tests to a reviewed, working app"},
+    ]
+  },
+  {
+    n:12, emoji:"🧭", title:"Closing",
+    desc:"What to practice next.",
+    chapters:[
+      {n:66, slug:"where-to-go-next", t:"Where to go next", d:"What to practice next, and how to keep the book's dated claims current for yourself"},
+    ]
+  },
 ];
 
 // The chapters that are published. A chapter in PARTS but not here shows as coming soon.
