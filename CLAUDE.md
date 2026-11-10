@@ -26,7 +26,9 @@ These cost the first book real time when broken. They are not preferences.
 - **The repository is public.** Never commit an API key, a bearer token, a request or organization
   ID, or a path under `/home` or `/Users`, in a file or in a notebook's saved output. Keys reach a
   session only through the environment's secure credential form.
-- **Never edit the first book from a session on this one.** Clone it read-only to compare.
+- **Never edit the first book or Python, Visually from a session on this one.** Both are references.
+  Clone either read-only to compare or to read a guide, with pushing disabled in the clone, as the
+  companion repository's file 3 explains.
 - **On resume:** `git log --oneline -5`. A cloud session clones from GitHub, so everything in it is
   already pushed.
 
@@ -194,7 +196,12 @@ is always yours.
 3. **A realistic dataset** in `data/` where a chapter works on records, with its `Data`, `Codebook` and
    `Notes` sheets, a dataset card and a download button, labeled as written for the book.
 4. **Embed notebook figures** in the chapter as PNGs in `assets/img/` with `.nb-fig`.
-5. **Link the first book by slug** where a chapter needs statistics.
+5. **Link the companions** instead of re-teaching what they cover. Statistics goes to the first book's
+   chapter, by slug (`https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/chapters/<slug>.html`).
+   Python and its libraries go to the guide in *Python, Visually*
+   (`https://johnfisher-ai.github.io/Python-Visual-Guides/<guide-slug>.html`), johnfisher-ai/Python-Visual-Guides,
+   whose `manifest.json` lists every guide's slug and whether it is published. Link only a published guide,
+   and name a guide by its title, never its number. The punch list maps the guides to this book's parts.
 
 ---
 

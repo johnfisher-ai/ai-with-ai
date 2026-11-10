@@ -4,6 +4,8 @@ A free, visual book on building software that uses a language model, and on usin
 build it. Each chapter is an HTML page with inline SVG figures and a companion Python notebook that runs in
 Colab. By **John Fisher**. It is the second book in the Visual Handbook family, after
 [*Statistics, Data Science and AI: A Visual Handbook*](https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/).
+Its chapters link to that book for statistics, and to the guides in
+[*Python, Visually*](https://johnfisher-ai.github.io/Python-Visual-Guides/) for Python and its libraries.
 
 🌐 **Live site:** https://johnfisher-ai.github.io/ai-with-ai/
 
