@@ -42,7 +42,7 @@ These cost the first book real time when broken. They are not preferences.
 | `chapters/notebooks/` (recordings and helper) | The recorded model responses the notebooks replay, and the helper module that builds the replaying client. Planned for the first notebook round. |
 | `templates/chapter.html` | The chapter skeleton. Every new chapter starts as a copy. Not linked, marked noindex, and skipped by the link check. |
 | `data/` | Datasets, all written for the book. Workbooks have `Data`, `Codebook` and `Notes` sheets. |
-| `assets/css/`, `assets/js/` | `book.css`, `chapter.css`, `quiz.css`, `report.css`, `quiz.js`, and the dark theme: `theme.css` (**generated**) and `theme.js`. |
+| `assets/css/`, `assets/js/` | `book.css`, `chapter.css`, `challenges.css`, `report.css`, and the dark theme: `theme.css` (**generated**) and `theme.js`. |
 | `assets/img/` | The favicon, the iPhone icon, the link-preview card (`social-card.png`, 2400 × 1260) and chapter figures. |
 | `toc.html` | **The manifest.** Single source of truth for structure. |
 | `scripts/` | `apply_chapter_nav.py`, `inject_notebook_backlinks.py`, `check_links.py`, `build_notebook_html.sh` and `build_sitemap.py`, copied from the first book with this book's names. |
@@ -76,21 +76,20 @@ in `scripts/inject_notebook_backlinks.py`. Change them all together.
 **Titles carry no em dash.** A chapter's tab title is `Ch N · Title · Building AI with AI`, and other
 pages use the same middle dot. `apply_chapter_nav.py` relies on the `Ch N ·` form.
 
-**Quiz IDs are `aiwai-<slug>`.** The books in the family share the address johnfisher-ai.github.io and so
-one browser storage, so the prefix keeps this book's saved answers apart from the first book's. Never key
-a quiz by chapter number.
+**No quizzes.** The author decided on November 10, 2026 that this book has no quizzes, so the first book's
+`quiz.js` and its quiz styles were left out, and a chapter ends with its practice challenges.
 
 ---
 
 ## House style
 
-- **The 12 writing rules** in the companion repository's CLAUDE.md apply to every page, caption, quiz,
-  notebook cell and commit message from the first draft. Run its `style_scan.py` on a new chapter before
+- **The 12 writing rules** in the companion repository's CLAUDE.md apply to every page, caption,
+  challenge, notebook cell and commit message from the first draft. Run its `style_scan.py` on a new chapter before
   its first commit, and read the opening and closing paragraphs aloud.
 - **Fixed book-wide headings,** word for word, approved by the author on November 10, 2026: "In brief"
-  (the takeaways box), "Practice challenges", "Test yourself", "Run the notebook" (the notebook block's
-  heading), "Where <topic> goes wrong" (a concept chapter's last numbered section, naming its own topic),
-  and for a case study or capstone "What this does not settle" followed by "What to watch". Every other
+  (the takeaways box), "Practice challenges", "Run the notebook" (the notebook block's heading),
+  "Where <topic> goes wrong" (a concept chapter's last numbered section, naming its own topic), and for a
+  case study or capstone "What this does not settle" followed by "What to watch". Every other
   heading is the chapter's own, in sentence case with no colon or comma device.
 - **Chapter titles are in sentence case** ("Your first model call"), as the author decided on November 10,
   2026. A case study's title has no "Case study:" prefix. Its slug starts `case-study-`, and its hero's

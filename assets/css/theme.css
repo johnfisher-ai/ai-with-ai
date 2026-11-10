@@ -65,17 +65,14 @@
     --p-bg-eff6ff: #152232;
     --p-bg-f4f6fb: #1a2340;
     --p-bg-fbfcfe: #0d1429;
-    --p-bg-fde8e8: #311919;
     --p-bg-fffbeb: #332d16;
     --p-bg-ffffff: #141c36;
     --p-fg-047857: #4de5ba;
-    --p-fg-065f46: #51e1b9;
     --p-fg-15803d: #5ed48a;
     --p-fg-1a2138: #e8eaf6;
     --p-fg-1d4ed8: #8ca3e3;
     --p-fg-3730a3: #a19dda;
     --p-fg-92400e: #df9263;
-    --p-fg-991b1b: #e09090;
   }
 
   /* figures stay as drawn, on their light panels */
@@ -102,9 +99,8 @@
     --fg-c-purple: initial; --p-bd-a7f3d0: initial; --p-bd-bfdbfe: initial; --p-bd-c7d2fe: initial;
     --p-bd-cccccc: initial; --p-bd-cdd3e3: initial; --p-bd-fde68a: initial; --p-bg-ecfdf5: initial;
     --p-bg-eef2ff: initial; --p-bg-eff6ff: initial; --p-bg-f4f6fb: initial; --p-bg-fbfcfe: initial;
-    --p-bg-fde8e8: initial; --p-bg-fffbeb: initial; --p-bg-ffffff: initial; --p-fg-047857: initial;
-    --p-fg-065f46: initial; --p-fg-15803d: initial; --p-fg-1a2138: initial; --p-fg-1d4ed8: initial;
-    --p-fg-3730a3: initial; --p-fg-92400e: initial; --p-fg-991b1b: initial;
+    --p-bg-fffbeb: initial; --p-bg-ffffff: initial; --p-fg-047857: initial; --p-fg-15803d: initial;
+    --p-fg-1a2138: initial; --p-fg-1d4ed8: initial; --p-fg-3730a3: initial; --p-fg-92400e: initial;
   }
   /* zero specificity: a figure that draws its own panel keeps it, and one that relied on the white page gets a white panel */
   :where([data-theme="dark"]) :where(figure:not(.rpt-fig), .svg-wrap, .nb-fig) { color: #1a2138; background-color: #ffffff; border-radius: 12px; }

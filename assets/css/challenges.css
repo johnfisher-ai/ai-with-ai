@@ -1,0 +1,30 @@
+/* ============================================================
+   Practice challenges, Building AI with AI: A Visual Handbook
+   The challenge cards at the end of a chapter. Pairs with chapter.css.
+   The first book's quiz styles were left out, because this book has no quizzes.
+   ============================================================ */
+
+/* ---------- Practice challenges ---------- */
+.challenges { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.challenge {
+  display: flex; gap: 1rem; align-items: flex-start;
+  background: var(--panel); border: 1px solid var(--line);
+  border-left: 4px solid var(--c-amber); border-radius: 13px;
+  padding: 1.2rem 1.4rem; transition: all 0.2s ease;
+}
+.challenge:hover { box-shadow: 0 10px 26px rgba(20,30,80,0.07); transform: translateY(-2px); }
+.challenge .cnum {
+  width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1rem; color: #fff;
+  background: linear-gradient(135deg, var(--c-amber), #f59e0b);
+}
+.challenge { min-width: 0; }
+.challenge .cbody { min-width: 0; overflow-wrap: break-word; }
+.challenge .cbody h3, .challenge .cbody h4 { font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+.challenge .cbody p { font-size: 0.9rem !important; color: var(--ink-soft) !important; margin: 0 !important; line-height: 1.6 !important; }
+.challenge .cbody code {
+  background: var(--panel-2); border: 1px solid var(--line);
+  padding: 1px 6px; border-radius: 5px; font-size: 0.82rem; color: var(--fg-c-purple, var(--c-purple));
+}
+.challenge .chint { font-size: 0.8rem; color: var(--ink-faint); margin-top: 0.4rem; font-style: italic; }

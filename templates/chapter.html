@@ -30,7 +30,7 @@
   <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
   <link rel="stylesheet" href="../assets/css/book.css">
   <link rel="stylesheet" href="../assets/css/chapter.css">
-  <link rel="stylesheet" href="../assets/css/quiz.css">
+  <link rel="stylesheet" href="../assets/css/challenges.css">
   <link rel="stylesheet" href="../assets/css/theme.css">
   <script src="../assets/js/theme.js"></script>
 </head>
@@ -169,11 +169,6 @@
     </div>
   </section>
 
-  <section id="quiz">
-    <div class="section-eyebrow"><div class="num">4</div><h2>Test yourself</h2></div>
-    <p>A sentence on what the questions cover. Answers are saved in this browser, so you can return to them.</p>
-    <div id="quiz-root"></div>
-  </section>
 
   <div class="callout key" style="margin-top:2rem">
     <div class="cico">➡️</div>
@@ -207,19 +202,5 @@ window.addEventListener('scroll', () => {
 });
 </script>
 
-<script>
-  // The quiz is saved under this book's prefix and the chapter's slug, never a number, because the
-  // books in the family share one web address and so one browser storage.
-  window.QUIZ_ID = "aiwai-CHAPTER-SLUG";
-  window.QUIZ_DATA = [
-    {
-      q: "A question that checks one idea from the chapter",
-      options: ["A wrong answer", "The right answer", "Another wrong answer", "A third wrong answer"],
-      answer: 1,
-      explain: "Why the right answer is right, in one sentence."
-    }
-  ];
-</script>
-<script src="../assets/js/quiz.js"></script>
 </body>
 </html>
