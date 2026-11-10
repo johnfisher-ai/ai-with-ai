@@ -4,8 +4,9 @@ A visual HTML book with companion Jupyter notebooks, on building software that u
 and on using an AI assistant to build it. Public repository, published to GitHub Pages on every push to
 `main`. The second book in the Visual Handbook family, after johnfisher-ai/Statistics-Data-Science-AI-Visual-Book.
 
-**Author: John Fisher.** Started November 10, 2026. The part outline is in the companion repository's
-punch list, and no chapter is written yet.
+**Author: John Fisher.** Started November 10, 2026. The part outline, 12 parts and 66 chapters with their
+slugs, was approved on November 10 and is in the companion repository's punch list. No chapter is
+written yet.
 
 ---
 
@@ -86,10 +87,14 @@ a quiz by chapter number.
 - **The 12 writing rules** in the companion repository's CLAUDE.md apply to every page, caption, quiz,
   notebook cell and commit message from the first draft. Run its `style_scan.py` on a new chapter before
   its first commit, and read the opening and closing paragraphs aloud.
-- **Fixed book-wide headings,** word for word: "In brief" (the takeaways box), "Practice challenges",
-  "Test yourself", "Run the notebook" (the notebook block's heading), and the others the punch list lists
-  once the author approves them. Every other heading is the chapter's own, in sentence case with no
-  colon or comma device. Parallel chapters (case studies, capstones) get their own words, so check each
+- **Fixed book-wide headings,** word for word, approved by the author on November 10, 2026: "In brief"
+  (the takeaways box), "Practice challenges", "Test yourself", "Run the notebook" (the notebook block's
+  heading), "Where <topic> goes wrong" (a concept chapter's last numbered section, naming its own topic),
+  and for a case study or capstone "What this does not settle" followed by "What to watch". Every other
+  heading is the chapter's own, in sentence case with no colon or comma device.
+- **Chapter titles are in sentence case** ("Your first model call"), as the author decided on November 10,
+  2026. A case study's title has no "Case study:" prefix. Its slug starts `case-study-`, and its hero's
+  kicker says "Case study". Parallel chapters (case studies, capstones) get their own words, so check each
   new chapter's h2 headings against the register in the punch list.
 - **American English**, strictly.
 - **No prose em dashes,** in any form, and none in `<title>` either. Use commas or parentheses.

@@ -3,7 +3,7 @@
 <head>
   <!-- The chapter skeleton. A new chapter starts as a copy of this file, saved as chapters/<slug>.html.
        Replace every CHAPTER-SLUG, Chapter title, PART-NUMBER, Part title and N, keep the parts in this order,
-       and keep the fixed headings word for word (the punch list lists them). Remove this comment and the
+       and keep the fixed headings word for word (the punch list lists them). Titles are in sentence case. Remove this comment and the
        robots tag below in the copy. Nothing links here, and search engines are told to skip it. -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -110,6 +110,15 @@
     </figure>
   </section>
 
+  <!-- A concept chapter's last numbered section, under this fixed heading with the chapter's own topic named
+       in it: the failure modes a builder meets with this topic and how to spot each one. A case study or a
+       capstone has none, and closes instead with two fixed sections, "What this does not settle" and then
+       "What to watch". -->
+  <section id="goes-wrong">
+    <div class="section-eyebrow"><div class="num">2</div><h2>Where the chapter's topic goes wrong</h2></div>
+    <p>Each failure mode in a sentence or two, with the sign that shows it in a notebook run.</p>
+  </section>
+
   <!-- The notebook block. Its heading is fixed book-wide. -->
   <section id="notebook">
     <div class="nb-cta" style="display:block">
@@ -144,7 +153,7 @@
   </section>
 
   <section id="challenges">
-    <div class="section-eyebrow"><div class="num">2</div><h2>Practice challenges</h2></div>
+    <div class="section-eyebrow"><div class="num">3</div><h2>Practice challenges</h2></div>
     <p>A sentence that introduces the challenges and what they work on.</p>
     <div class="challenges">
       <div class="challenge"><div class="cnum">1</div><div class="cbody">
@@ -161,7 +170,7 @@
   </section>
 
   <section id="quiz">
-    <div class="section-eyebrow"><div class="num">3</div><h2>Test yourself</h2></div>
+    <div class="section-eyebrow"><div class="num">4</div><h2>Test yourself</h2></div>
     <p>A sentence on what the questions cover. Answers are saved in this browser, so you can return to them.</p>
     <div id="quiz-root"></div>
   </section>
