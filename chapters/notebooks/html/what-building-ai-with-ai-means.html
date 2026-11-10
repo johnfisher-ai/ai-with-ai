@@ -7794,20 +7794,20 @@ a.anchor-link {
   }
 </style>
 <!-- End of mermaid configuration --><!-- book-head -->
-<meta name="description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A model used as one part of an ordinary program, and an assistant that writes code which tests then check, both run on a handful of support tickets written for the book.">
+<meta name="description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets written for the book.">
 <meta name="author" content="John Fisher">
 <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/notebooks/html/what-building-ai-with-ai-means.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
 <meta property="og:title" content="What building AI with AI means · Chapter 1 · Notebook">
-<meta property="og:description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A model used as one part of an ordinary program, and an assistant that writes code which tests then check, both run on a handful of support tickets written for the book.">
+<meta property="og:description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets written for the book.">
 <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/notebooks/html/what-building-ai-with-ai-means.html">
 <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
 <meta property="og:image:width" content="2400">
 <meta property="og:image:height" content="1260">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="What building AI with AI means · Chapter 1 · Notebook">
-<meta name="twitter:description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A model used as one part of an ordinary program, and an assistant that writes code which tests then check, both run on a handful of support tickets written for the book.">
+<meta name="twitter:description" content="The companion notebook for Chapter 1, What building AI with AI means, of Building AI with AI: A Visual Handbook. A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets written for the book.">
 <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
 <link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../../assets/img/apple-touch-icon.png">
@@ -7826,7 +7826,7 @@ a.anchor-link {
 <div style="background:linear-gradient(135deg,#1b1448 0%,#3b1f5e 55%,#7c2d12 100%);border-radius:18px;padding:34px 30px;color:#fff;font-family:Inter,Segoe UI,sans-serif">
 <div style="font-size:12px;letter-spacing:3px;color:#fed7aa;font-weight:700;text-transform:uppercase">Chapter 1 · What building AI with AI means</div>
 <h1 class="book-hero-title" style="font-size:34px;font-weight:900;line-height:1.1;margin:10px 0 6px">What building AI with AI means</h1>
-<div style="font-size:15px;color:#ffe4d6;max-width:740px;line-height:1.6">A model used as one part of an ordinary program, and an assistant that writes code which tests then check, both run on a handful of support tickets written for the book.</div>
+<div style="font-size:15px;color:#ffe4d6;max-width:740px;line-height:1.6">A language model as a component of a conventional program, and an assistant whose code is verified by tests, both run on eight support tickets written for the book.</div>
 <div style="font-size:13px;color:#fed7aa;margin-top:14px">Building AI with AI: A Visual Handbook · John Fisher</div>
 </div>
 </div>
@@ -7839,7 +7839,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>This notebook runs the chapter's two ideas on eight support tickets for an online store, all written for the book. First a language model sorts each ticket into a category, as one function inside an ordinary program. Then the model writes a small helper function, and cases the book wrote beforehand decide whether to keep it. A last section adds up what the calls cost.</p>
+<p>This notebook runs the chapter's two ideas on eight support tickets for an online store, all written for the book. First a language model classifies each ticket, as a component behind a single function call. Then the model writes a small helper function, and test cases written beforehand decide whether it is accepted. A final section totals what the calls cost.</p>
 <p>The answers are replayed from calls recorded for the book with Claude Sonnet 5.5 on November 10, 2026, so the notebook runs with no key and prints the same thing every time. Set <code>LIVE = True</code> in Setup to send the same requests with your own key. Your answers may differ from the recorded ones, and the calls are billed to your account.</p>
 </div>
 </div>
@@ -7909,7 +7909,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="A-model-as-one-part-of-a-program">A model as one part of a program<a class="anchor-link" href="#A-model-as-one-part-of-a-program">¶</a></h2><p><code>triage</code> looks like any other function. It takes a ticket and returns a category. Inside, it sends the ticket to the model with a short instruction, the <em>system prompt</em>, that lists the four allowed categories, and reads the word that comes back. The rest of the program never needs to know a model was involved, and that is what makes the model a component.</p>
+<h2 id="A-model-as-a-component">A model as a component<a class="anchor-link" href="#A-model-as-a-component">¶</a></h2><p><code>triage</code> looks like any other function. It takes a ticket and returns a category. Inside, it sends the ticket to the model with a short instruction, the <em>system prompt</em>, that lists the four allowed categories, and reads the word that comes back. The rest of the program never needs to know a model was involved, and that is what makes the model a component.</p>
 <p>A reply's <code>content</code> is a list of blocks, and <code>answer_text</code> keeps only the text blocks. The last line of <code>triage</code> is a guard. A reply that isn't one of the four categories comes back as <code>unrecognized</code>, so it can't pass for a category further on.</p>
 </div>
 </div>
@@ -8132,7 +8132,7 @@ pass  normalize_label('') -&gt; 'other', expected 'other'
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>All six cases pass, so the function earns its place in the program. Had one failed, the fix would start from the failing case, by asking again with that case in the request or by correcting the code by hand, and the cases would decide again. This is the second sense of the book's title. An assistant writes the code, and you keep what passes the checks you wrote yourself. Part 6 builds this way of working out in full.</p>
+<p>All six cases pass, so the function is accepted into the program. Had one failed, the fix would start from the failing case, by asking again with that case in the request or by correcting the code by hand, and the cases would decide again. This is the second sense of the book's title. An assistant writes the code, and you accept what passes the tests you wrote yourself. Part 6 develops this workflow in full.</p>
 </div>
 </div>
 </div>
@@ -8269,7 +8269,7 @@ about 0.0047 dollars at those prices
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Recap">Recap<a class="anchor-link" href="#Recap">¶</a></h2><ul>
-<li>A model can be one part of an ordinary program. <code>triage</code> hides the call behind a function, and a guard keeps a reply outside the list from passing as a category.</li>
+<li>A model can be a component of a conventional program. <code>triage</code> hides the call behind a function, and a guard keeps a reply outside the list from passing as a category.</li>
 <li>Two of the eight labels were judgment calls, and only a test set can say how often such calls go the right way.</li>
 <li>A model can also write code. The book's six cases checked <code>normalize_label</code> before it was used, and all six passed.</li>
 <li>Replies report their token counts. The nine calls cost about half a cent at November 2026 prices, and the three hardest tickets cost the most because the model thought before answering.</li>

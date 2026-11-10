@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ch 1 · What building AI with AI means · Building AI with AI</title>
-  <meta name="description" content="What it means to build AI with AI: a language model as one part of an ordinary program, and an AI assistant that writes code you check, both run on eight support tickets written for the book.">
+  <meta name="description" content="What it means to build AI with AI: a language model as a component of a conventional system, and an AI assistant that writes code you verify, both run on eight support tickets written for the book.">
   <meta name="author" content="John Fisher">
   <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/what-building-ai-with-ai-means.html">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
   <meta property="og:title" content="What building AI with AI means · Chapter 1">
-  <meta property="og:description" content="What it means to build AI with AI: a language model as one part of an ordinary program, and an AI assistant that writes code you check, both run on eight support tickets written for the book.">
+  <meta property="og:description" content="What it means to build AI with AI: a language model as a component of a conventional system, and an AI assistant that writes code you verify, both run on eight support tickets written for the book.">
   <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/what-building-ai-with-ai-means.html">
   <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
   <meta property="og:image:width" content="2400">
@@ -19,7 +19,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="What building AI with AI means · Chapter 1">
-  <meta name="twitter:description" content="What it means to build AI with AI: a language model as one part of an ordinary program, and an AI assistant that writes code you check, both run on eight support tickets written for the book.">
+  <meta name="twitter:description" content="What it means to build AI with AI: a language model as a component of a conventional system, and an AI assistant that writes code you verify, both run on eight support tickets written for the book.">
   <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
   <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
@@ -67,9 +67,7 @@
       <span>Chapter 1</span>
     </div>
     <h1>What building AI <span class="accent">with AI means</span></h1>
-    <p class="dek">The title has two meanings, and the book needs both. A language model can be one part of a program
-       you build, and an AI assistant can help you write that program. This chapter runs each on eight support tickets,
-       shows what the calls cost, and maps the rest of the book.</p>
+    <p class="dek">The title has two meanings, and the book needs both. A language model can be a component inside the system you build, and an AI assistant can be a collaborator in building it. This chapter puts each to work on eight support tickets, measures what the calls cost, and maps the rest of the book.</p>
     <div class="hero-meta">
       <div class="m">⏱️ <b>~12 min</b>&nbsp;read</div>
       <div class="m">🐍 <b>Notebook</b>&nbsp;included</div>
@@ -81,53 +79,50 @@
 <main class="reading">
 
   <section id="intro">
-    <p class="lead">Most of a program does exactly what its code says. A language model is a different kind of part.
-       You send it text, it sends text back, and the reply to the same request can change from one call to the next.
-       Building with that part takes the habits of any careful engineering, applied to a component you can't read
-       line by line. This book teaches those habits, and it uses the same kind of model as an
-       <span class="hl">assistant</span> while it builds.</p>
+    <p class="lead">Traditional code executes deterministically. A language model is a fundamentally different
+       building block. You send text in, get text back, and identical inputs can yield entirely different outputs.
+       Building reliably around that behavior requires traditional <span class="term">engineering discipline</span>
+       adapted for an opaque component. This book teaches that discipline, leveraging the model itself as an
+       <span class="hl">assistant</span> throughout the process.</p>
 
     <div class="def-card">
       <div class="sigma">AI</div>
       <div class="def-body">
         <span class="def-kw">Building AI with AI</span> means two things in this book. A
-        <span class="def-kw">model as a component</span> is a language model your program calls, the way it would call
-        any function, and whose answer it checks. An <span class="def-kw">assistant as a collaborator</span> is a model
-        that writes code, tests or documents for you, which you keep only after checking them yourself.
+        <span class="def-kw">model as a component</span> is a language model your program calls the way it would call any other function or service, and whose output it validates. An <span class="def-kw">assistant as a collaborator</span> is a model
+        that writes code, tests or documents for you, which you accept only after verifying them yourself.
       </div>
     </div>
 
     <div class="callout key">
       <div class="cico">🤖</div>
       <div><div class="ctitle">The chapter in one line</div>
-        <p>Whether the model is inside your program or helping you write it, you decide what counts as a good answer,
-           and you check every answer against that.</p></div>
+        <p>Whether the model runs inside your system or helps you build it, you define what a correct output is, and you verify every output against that definition.</p></div>
     </div>
   </section>
 
   <section id="two-meanings">
     <div class="section-eyebrow"><div class="num">1</div><h2>What the title means</h2></div>
-    <p>In the first meaning, the model is a part of the system you build. A support desk might send each incoming
-       ticket to a model and ask which team should handle it, and the rest of the desk's software uses the answer.
-       In the second meaning, the model helps build the system. You describe a function you need, an assistant writes
-       it, and tests you wrote decide whether it stays. Most chapters are about the first meaning. Part 6 is about the
-       second, and Chapter 39, How this book is built, shows the book's own work with an assistant.</p>
+    <p>In the first meaning, the model is a component of the system you build. A support desk might route each incoming
+       ticket through a model that names the team to handle it, and the rest of the desk's software acts on that output.
+       In the second meaning, the model is a collaborator in the engineering process. You specify a function, an
+       assistant writes it, and tests you wrote decide whether it ships. Most chapters cover the first meaning. Part 6
+       covers the second, and Chapter 39, How this book is built, shows the book's own workflow with an assistant.</p>
     <figure style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
       <svg viewBox="0 0 720 260" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Two panels. On the left, a program sends a ticket to the model, gets one word back, passes it through a guard and keeps a category. On the right, you send a request to an assistant, it writes a function, and tests you wrote first decide whether to keep it or ask again."><defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5578"/></marker></defs><text x="180" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2138">A model as a component</text><text x="540" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2138">An assistant as a collaborator</text><line x1="360" y1="40" x2="360" y2="250" stroke="#e6e9f2" stroke-width="1.5"/><rect x="30" y="60" width="120" height="56" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="90.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#3730a3">Your program</text><text x="90.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">triage(ticket)</text><rect x="210" y="60" width="120" height="56" rx="10" fill="#fff1ec" stroke="#ffc9b8"/><text x="270.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#9a3412">The model</text><text x="270.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">Claude Sonnet 5.5</text><line x1="152" y1="78" x2="207" y2="78" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="72" text-anchor="middle" font-size="9.5" fill="#4a5578">ticket</text><line x1="208" y1="100" x2="153" y2="100" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="115" text-anchor="middle" font-size="9.5" fill="#4a5578">one word</text><rect x="30" y="160" width="120" height="50" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="90.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#047857">A guard</text><text x="90.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">in the list, or not</text><line x1="90" y1="118" x2="90" y2="157" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><rect x="210" y="160" width="120" height="50" rx="10" fill="#f4f6fb" stroke="#cdd3e3"/><text x="270.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#1a2138">The category</text><text x="270.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">billing, login, ...</text><line x1="152" y1="185" x2="207" y2="185" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="240" text-anchor="middle" font-size="10" fill="#4a5578">Your code calls the model like any other function.</text><rect x="390" y="60" width="110" height="56" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="445.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#3730a3">You</text><text x="445.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">a request in words</text><rect x="570" y="60" width="120" height="56" rx="10" fill="#fff1ec" stroke="#ffc9b8"/><text x="630.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#9a3412">The assistant</text><text x="630.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">writes the code</text><line x1="502" y1="88" x2="567" y2="88" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="535" y="82" text-anchor="middle" font-size="9.5" fill="#4a5578">request</text><rect x="570" y="160" width="120" height="50" rx="10" fill="#f4f6fb" stroke="#cdd3e3"/><text x="630.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#1a2138">normalize_label</text><text x="630.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">the code it wrote</text><line x1="630" y1="118" x2="630" y2="157" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><rect x="390" y="160" width="110" height="50" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="445.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#047857">Your tests</text><text x="445.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">written first</text><line x1="567" y1="185" x2="503" y2="185" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="535" y="179" text-anchor="middle" font-size="9.5" fill="#4a5578">checked by</text><text x="445" y="232" text-anchor="middle" font-size="10" font-weight="700" fill="#047857">pass: keep it</text><text x="445" y="246" text-anchor="middle" font-size="10" fill="#4a5578">fail: ask again or fix it</text></svg>
     </figure>
     <p>The models behind both are the large language models the first book introduces in
-       <a href="https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/chapters/nlp-and-large-language-models.html">NLP and large language models</a>. This book treats them as
-       something to build with, so it starts from what you send and what comes back.</p>
+       <a href="https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/chapters/nlp-and-large-language-models.html">NLP and large language models</a>. This book treats them as building blocks, so it starts from their interface, the text you send and the text that
+       comes back.</p>
   </section>
 
   <section id="component">
-    <div class="section-eyebrow"><div class="num">2</div><h2>A model inside an ordinary function</h2></div>
+    <div class="section-eyebrow"><div class="num">2</div><h2>A model behind a function call</h2></div>
     <p>The chapter's notebook defines <code>triage</code>, a function that takes a ticket and returns one of four
        categories: billing, login, shipping or other. Inside, it sends the ticket to Claude Sonnet 5.5 with a short
        instruction, the <span class="term">system prompt</span>, that lists the categories and asks for exactly one
        word. Its last line is a guard. Any reply that isn't one of the four comes back as
-       <code>unrecognized</code>, so a stray answer can't pass for a category further on. Sending the request is an
-       ordinary call over the web, which <em>Python, Visually</em> explains in
+       <code>unrecognized</code>, so a stray answer can't pass for a category further on. The request itself is an HTTP call to Anthropic's API, the kind <em>Python, Visually</em> covers in
        <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/apis-and-json.html">APIs and JSON</a>.</p>
     <p>The eight tickets were written for the book, and no customer wrote them. These are the categories that came back
        in the calls recorded for the book on November 10, 2026.</p>
@@ -154,7 +149,7 @@
   </section>
 
   <section id="assistant">
-    <div class="section-eyebrow"><div class="num">3</div><h2>An assistant that writes code you check</h2></div>
+    <div class="section-eyebrow"><div class="num">3</div><h2>An assistant that writes code you verify</h2></div>
     <p>The second half of the notebook asks the same model for code. It requests <code>normalize_label</code>, a
        function that turns a messy one-word reply such as <code>" Billing.\n"</code> into a clean category. Before the
        reply was read, the book wrote six cases the function has to pass, among them a capitalized word, trailing
@@ -172,10 +167,9 @@ def normalize_label(raw: str) -&gt; str:
     cleaned = cleaned.strip(string.punctuation + string.whitespace)
 
     return cleaned if cleaned in VALID_LABELS else "other"</pre></div>
-    <p>All six cases pass, so the function earns its place. It also handles something the request never asked for,
+    <p>All six cases pass, so the function is accepted. It also handles something the request never asked for,
        returning <code>other</code> when the reply isn't a string at all. The notebook runs the code with
-       <code>exec</code>, which would run whatever the model had written, so it is read before it is run. The cases are
-       the contract, and the habits of writing them are in <em>Python, Visually</em>'s
+       <code>exec</code>, which would run whatever the model had written, so the code is reviewed before it runs. The cases are the contract, and the practice of writing them is covered in <em>Python, Visually</em>'s
        <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/testing-and-packaging.html">Testing and Packaging</a>.</p>
     <p>The solutions notebook sent the identical request again and got back a slightly different function, with fewer
        blank lines and with whitespace and punctuation listed in the other order. It did the same job and passed three
@@ -185,7 +179,7 @@ def normalize_label(raw: str) -&gt; str:
 
   <section id="cost">
     <div class="section-eyebrow"><div class="num">4</div><h2>What each call costs</h2></div>
-    <p>Every reply reports the tokens it read and wrote, and the API bills by those counts. The notebook's nine calls
+    <p>Every response reports its input and output token counts, and the API bills on those counts. The notebook's nine calls
        read 665 tokens and wrote 337, about half a cent at Claude Sonnet 5.5's prices as of November 2026, which
        were 2 dollars per million input tokens and 10 dollars per million output tokens.</p>
     <figure style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
@@ -200,8 +194,7 @@ def normalize_label(raw: str) -&gt; str:
 
   <section id="map">
     <div class="section-eyebrow"><div class="num">5</div><h2>How the book is organized</h2></div>
-    <p>The parts follow the order in which a working system comes together. Part 1 makes calls and reads replies, and
-       Part 2 treats a prompt as code. Part 3 comes early on purpose, because every later part needs a way to measure
+    <p>The parts follow the order in which a working system comes together. Part 1 covers the request and response cycle, and Part 2 treats a prompt as code. Part 3 comes early on purpose, because every later part needs a way to measure
        what it builds. Parts 4, 5, 7 and 8 give the model documents, tools and data and choose between models. Part 6
        turns to the assistant, Parts 9 and 10 cover safety and running a system, and five capstones put the parts
        together.</p>
@@ -228,15 +221,12 @@ def normalize_label(raw: str) -&gt; str:
         </tbody>
       </table>
     </div>
-    <p>The strict check stops <code>Billing.</code> because of a capital and a period, so a person or a retry has to
-       deal with work that a little cleanup would have saved. The normalizer accepts it, and also files the word
-       refund and a whole sentence under <code>other</code> without saying the model failed to answer. Each design
-       fails in its own way, and a system built on a model has to choose which failure it can live with and count how
-       often it happens.</p>
-    <p>The chapter met other failures too. Two labels were judgment calls, and only a test set can say how often such
+    <p>The strict check stops <code>Billing.</code> because of a capital and a period, so a human or a retry has to handle a case that trivial normalization would have resolved. The normalizer accepts it, and also files the word
+       refund and a whole sentence under <code>other</code> without saying the model failed to answer. Each design has its own failure mode, and a system built on a model has to choose the one it can tolerate and
+       measure how often it occurs.</p>
+    <p>The chapter surfaced other failure modes as well. Two labels were judgment calls, and only a test set can say how often such
        calls go the right way. The same request for code returned two versions, so a result seen once can't be assumed
-       next time. The hardest tickets cost the most, through thinking that a reply doesn't show. And code from a model
-       runs whatever it says, so it is read and tested before it is used. None of this showed as an error in the eight
+       next time. The hardest tickets cost the most, through thinking that a reply doesn't show. And model-written code executes whatever it contains, so it is reviewed and tested before it runs. None of this showed as an error in the eight
        tickets, where every reply was clean, and one good run says little about the next thousand.</p>
   </section>
 
@@ -270,10 +260,10 @@ def normalize_label(raw: str) -&gt; str:
     <div class="takeaways">
       <h3>🎓 In brief</h3>
       <ul>
-        <li><span class="ck">✓</span><span>A language model can be one part of an ordinary program, called like a function, with a guard on what it returns.</span></li>
-        <li><span class="ck">✓</span><span>An assistant can write the code, and checks you wrote first decide whether it stays.</span></li>
+        <li><span class="ck">✓</span><span>A language model can be a component of a conventional system, called like a function, with validation on everything it returns.</span></li>
+        <li><span class="ck">✓</span><span>An assistant can write the code, and tests you wrote first decide whether it ships.</span></li>
         <li><span class="ck">✓</span><span>Every call reports its tokens, and the bill follows them, the thinking a reply doesn't show included.</span></li>
-        <li><span class="ck">✓</span><span>The same request can return a different answer, so the book records its answers and tests what matters.</span></li>
+        <li><span class="ck">✓</span><span>Identical requests can return different outputs, so the book records its responses and tests the behavior that matters.</span></li>
       </ul>
     </div>
   </section>

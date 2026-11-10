@@ -90,6 +90,23 @@ pages use the same middle dot. `apply_chapter_nav.py` relies on the `Ch N ·` fo
 
 ## House style
 
+- **Voice and audience.** The author set this on November 10, 2026, after reviewing Chapter 1. The reader is an
+  aspiring AI engineer who already programs in Python and other languages and wants to build AI systems with AI.
+  Write for an engineer, in a mix of three registers:
+  - **Technical and precise,** above all in a chapter's opening paragraph. Chapter 1's lead is the model: "Traditional
+    code executes deterministically. A language model is a fundamentally different building block. You send text in,
+    get text back, and identical inputs can yield entirely different outputs."
+  - **Direct and natural** for explanation.
+  - **Lean and conversational** where a sentence only needs to move the reader on.
+
+  Use engineering vocabulary where it is the accurate word: engineering, discipline, practices, process, component,
+  building block, system, deterministic and non-deterministic, validate, verify, mindset. Avoid these:
+  - "part" for a piece of a system. Say component, building block, element or system, and keep "Part" for the
+    book's twelve parts.
+  - "habits" for engineering practice. Say engineering discipline, practices or rigorous craft.
+  - "while it builds" and "while you build it". Say "while building" or "throughout the process".
+  - Soft or folksy phrasing ("earns its place", "a different kind of part"). Say what happens: the function is
+    accepted, the output is validated, the test fails.
 - **The 12 writing rules** in the companion repository's CLAUDE.md apply to every page, caption,
   challenge, notebook cell and commit message from the first draft. Run its `style_scan.py` on a new chapter before
   its first commit, and read the opening and closing paragraphs aloud.
