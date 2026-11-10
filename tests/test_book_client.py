@@ -58,13 +58,20 @@ class FakeAPI(httpx2.BaseTransport):
         return httpx2.Response(status, headers=headers, content=content)
 
 
+def sent_key(request):
+    """The key a request carried, in whichever header this SDK version sends it."""
+    auth = request.headers.get("authorization", "")
+    return auth.split(" ", 1)[1] if " " in auth else request.headers.get("x-api-key")
+
+
 def ask(client, text="Say hello."):
     return client.messages.create(model=MODEL, max_tokens=64, messages=[{"role": "user", "content": text}])
 
 
 @pytest.fixture
 def folder(tmp_path, monkeypatch):
-    monkeypatch.setenv("ANTHROPIC_API_KEY", "fixture-key-for-record-mode")
+    monkeypatch.setenv("AIWAI_RECORDING_KEY", "fixture-key-for-record-mode")
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     monkeypatch.delenv("BOOK_MODE", raising=False)
     return tmp_path
 
@@ -155,17 +162,44 @@ def test_an_error_response_is_recorded_and_replayed_as_the_same_error(folder):
 
 def test_replay_needs_no_key_and_reports_what_it_replays(folder, monkeypatch, capsys):
     record(folder, [(200, message())], [ask])
-    monkeypatch.delenv("ANTHROPIC_API_KEY")
+    monkeypatch.delenv("AIWAI_RECORDING_KEY")
     client = book_client.make_client("demo", folder=folder)
     out = capsys.readouterr().out
     assert f"Replaying 1 recorded response from {MODEL}, recorded " in out
     assert ask(client).content[0].text == FIXTURE_TEXT
 
 
-def test_live_mode_without_a_key_says_how_to_add_one(folder, monkeypatch):
-    monkeypatch.delenv("ANTHROPIC_API_KEY")
+def test_live_mode_without_a_key_says_how_to_add_one(folder):
     with pytest.raises(RuntimeError, match="secrets panel"):
         book_client.make_client("demo", mode="live", folder=folder, quiet=True)
+
+
+def test_live_mode_never_uses_the_books_recording_key(folder):
+    # AIWAI_RECORDING_KEY is set by the fixture and ANTHROPIC_API_KEY is not: live mode must refuse
+    with pytest.raises(RuntimeError, match="ANTHROPIC_API_KEY"):
+        book_client.make_client("demo", mode="live", folder=folder, quiet=True)
+
+
+def test_live_mode_sends_the_readers_key(folder, monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "fixture-reader-key")
+    fake = FakeAPI([(200, message())])
+    ask(book_client.make_client("demo", mode="live", folder=folder, transport=fake, quiet=True))
+    assert sent_key(fake.requests[0]) == "fixture-reader-key"
+    assert not (folder / "demo.json").exists()
+
+
+def test_record_mode_sends_only_the_recording_key(folder, monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "fixture-reader-key")
+    fake = FakeAPI([(200, message())])
+    ask(book_client.make_client("demo", mode="record", folder=folder, transport=fake, quiet=True))
+    assert sent_key(fake.requests[0]) == "fixture-key-for-record-mode"
+
+
+def test_record_mode_refuses_a_readers_key_alone(folder, monkeypatch):
+    monkeypatch.delenv("AIWAI_RECORDING_KEY")
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "fixture-reader-key")
+    with pytest.raises(RuntimeError, match="AIWAI_RECORDING_KEY"):
+        book_client.make_client("demo", mode="record", folder=folder, quiet=True)
 
 
 def test_a_missing_recording_and_an_unknown_mode_fail_clearly(folder):

@@ -12,9 +12,14 @@ replay  Each request is answered from the notebook's recording, `recordings/<not
         A request with no recording fails with a message that names it, never with an invented answer.
 live    The real API, with the reader's key from Colab's secrets panel (or the ANTHROPIC_API_KEY
         environment variable elsewhere). Nothing is written. Answers will differ from the recorded ones.
-record  For the book's own sessions. The real API, and every exchange is written to the recording,
-        with the model, the date and the SDK version, and with every response header dropped except
-        the content type, so no request ID or organization ID is kept.
+record  For the book's own sessions. The real API, with the book's recording key, and every exchange
+        is written to the recording, with the model, the date and the SDK version, and with every
+        response header dropped except the content type, so no request ID or organization ID is kept.
+
+Two keys, kept apart. Live mode reads only the reader's ANTHROPIC_API_KEY. Record mode reads only
+AIWAI_RECORDING_KEY, the author's key for building the book, which the book's cloud environment holds
+under that name so that no other program in a session takes it for its own key, and which no reader
+has or needs.
 
 The mode can also be set with the BOOK_MODE environment variable, which the book's sessions use to
 record. A request is matched to its recording by its method, path, query and body, so a notebook's
@@ -169,6 +174,18 @@ def _reader_key() -> str:
     return key
 
 
+RECORDING_KEY = "AIWAI_RECORDING_KEY"
+
+
+def _recording_key() -> str:
+    key = os.environ.get(RECORDING_KEY)
+    if not key:
+        raise RuntimeError(f"book_client: record mode is for the book's own sessions and reads only the "
+                           f"{RECORDING_KEY} environment variable, which is not set. To call the API with "
+                           f"your own key, set LIVE = True in Setup instead.")
+    return key
+
+
 def make_client(notebook: str, mode: str | None = None, folder="recordings",
                 transport: httpx2.BaseTransport | None = None, quiet: bool = False) -> anthropic.Anthropic:
     """The notebook's Anthropic client. `transport` replaces the real network, for the helper's tests."""
@@ -183,7 +200,7 @@ def make_client(notebook: str, mode: str | None = None, folder="recordings",
         http = anthropic.DefaultHttpxClient(transport=transport) if transport else None
         return anthropic.Anthropic(api_key=_reader_key(), http_client=http)
     if mode == "record":
-        key = _reader_key()
+        key = _recording_key()
         http = anthropic.DefaultHttpxClient(transport=RecordingTransport(recording, transport))
         if not quiet:
             print(f"Record mode: every exchange is written to {recording.path}.")

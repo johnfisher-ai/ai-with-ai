@@ -24,10 +24,11 @@ These cost the first book real time when broken. They are not preferences.
   and undo a pushed change with `git revert`. Treat every existing commit as published.
 - **No `Co-Authored-By` trailer** on commits.
 - **The repository is public.** Never commit an API key, a bearer token, a request or organization
-  ID, or a path under `/home` or `/Users`, in a file or in a notebook's saved output. A key reaches a
-  session only by the route the author chooses (the punch list's Q7), never through a file in this
-  repository, a command line or the chat. The environment's credential form can't hold a key for
-  Anthropic's own host, so it is not that route.
+  ID, or a path under `/home` or `/Users`, in a file or in a notebook's saved output. The author's key
+  for building the book reaches a session only as the `AIWAI_RECORDING_KEY` environment variable, which
+  the author sets in the book's cloud environment (the punch list's Q7), never through a file in this
+  repository, a command line or the chat. Only record mode reads it. Never copy it into
+  `ANTHROPIC_API_KEY`, the name other programs, Claude Code among them, read for their own key.
 - **Never edit the first book or Python, Visually from a session on this one.** Both are references.
   Clone either read-only to compare or to read a guide, with pushing disabled in the clone, as the
   companion repository's file 3 explains.
@@ -153,8 +154,8 @@ client is built by `chapters/notebooks/book_client.py`, which changes only the t
 | Mode | How it is chosen | What happens |
 |---|---|---|
 | replay | The default | Each request is answered from `chapters/notebooks/recordings/<notebook>.json`. No key, no network, and every run prints the same. A request with no recording raises the SDK's `NotFoundError` with a message that starts "book_client: no recorded response", never an invented answer |
-| live | `LIVE = True` in Setup | The real API with the reader's key from Colab's secrets panel (`ANTHROPIC_API_KEY`), or that environment variable elsewhere. Nothing is written |
-| record | `BOOK_MODE=record` in a session | The real API, and each exchange is written to the recording |
+| live | `LIVE = True` in Setup | The real API with the reader's own key from Colab's secrets panel (`ANTHROPIC_API_KEY`), or that environment variable elsewhere. It never reads `AIWAI_RECORDING_KEY`. Nothing is written |
+| record | `BOOK_MODE=record` in a session | The real API with the author's key from `AIWAI_RECORDING_KEY`, and each exchange is written to the recording |
 
 - **Models, by chapter.** The author decided on November 10, 2026 to mix models by chapter. A notebook
   uses `claude-sonnet-5-5` by default, `claude-opus-5-5` where the chapter needs harder reasoning, and
@@ -179,7 +180,8 @@ client is built by `chapters/notebooks/book_client.py`, which changes only the t
 - **Record, then replay twice.** Record with `BOOK_MODE=record`, then replay the notebook twice on the
   Colab replica, and commit only replayed output. Never commit a live run's output.
 - **Tests.** `tests/test_book_client.py` covers replay, recording, streaming, errors, repeated requests,
-  the missing-request message and the recording check, against a fake API whose responses are fixtures
+  the missing-request message, the recording check, and that live mode sends only the reader's key and
+  record mode only the book's, against a fake API whose responses are fixtures
   written for the tests and say so. `.github/workflows/tests.yml` runs them and the recording check on
   every push.
 
