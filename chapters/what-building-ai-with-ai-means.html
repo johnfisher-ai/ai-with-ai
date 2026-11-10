@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 1 · What building AI with AI means · Building AI with AI</title>
+  <meta name="description" content="What it means to build AI with AI: a language model as one part of an ordinary program, and an AI assistant that writes code you check, both run on eight support tickets written for the book.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/what-building-ai-with-ai-means.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="What building AI with AI means · Chapter 1">
+  <meta property="og:description" content="What it means to build AI with AI: a language model as one part of an ordinary program, and an AI assistant that writes code you check, both run on eight support tickets written for the book.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/what-building-ai-with-ai-means.html">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What building AI with AI means · Chapter 1">
+  <meta name="twitter:description" content="What it means to build AI with AI: a language model as one part of an ordinary program, and an AI assistant that writes code you check, both run on eight support tickets written for the book.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/book.css">
+  <link rel="stylesheet" href="../assets/css/chapter.css">
+  <link rel="stylesheet" href="../assets/css/challenges.css">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <script src="../assets/js/theme.js"></script>
+  <style>
+    .disp-table { width:100%; border-collapse:collapse; margin:0; font-size:0.84rem;
+                  border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .disp-table th,.disp-table td { padding:0.55rem 0.75rem; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+    .disp-table th { background:var(--panel-2); color:var(--ink); font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; }
+    .disp-table td { color:var(--ink-soft); } .disp-table tr:last-child td { border-bottom:none; }
+    .part-map { display:grid; grid-template-columns:repeat(auto-fill, minmax(190px, 1fr)); gap:0.6rem; }
+    .map-legend { display:flex; flex-wrap:wrap; gap:0.4rem 1.2rem; margin-top:0.9rem; font-size:0.75rem; color:var(--p-fg-4a5578, #4a5578); }
+    .codebox { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--panel-2); margin:1rem 0; }
+    .codebox .cbh { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:0.4rem 0.85rem; color:#fff; background:#6d28d9; }
+    .codebox pre { margin:0; padding:0.85rem; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; line-height:1.55; overflow-x:auto; color:var(--ink); white-space:pre; }
+  </style>
+</head>
+<body class="chapter">
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../toc.html">Contents</a>
+    <a href="notebooks/html/what-building-ai-with-ai-means.html" class="btn btn-primary" style="padding:0.4rem 1rem;font-size:0.8rem">🐍 Notebook</a>
+  </div>
+</nav>
+<div class="read-progress" id="readProgress"></div>
+
+<header class="chapter-hero">
+  <div class="chapter-hero-inner">
+    <div class="crumb">
+      <a href="../toc.html">Contents</a><span class="sep">/</span>
+      <span>Part 1 · Working with a model</span><span class="sep">/</span>
+      <span>Chapter 1</span>
+    </div>
+    <h1>What building AI <span class="accent">with AI means</span></h1>
+    <p class="dek">The title has two meanings, and the book needs both. A language model can be one part of a program
+       you build, and an AI assistant can help you write that program. This chapter runs each on eight support tickets,
+       shows what the calls cost, and maps the rest of the book.</p>
+    <div class="hero-meta">
+      <div class="m">⏱️ <b>~12 min</b>&nbsp;read</div>
+      <div class="m">🐍 <b>Notebook</b>&nbsp;included</div>
+      <div class="m">📊 <b>Chapter 1</b></div>
+    </div>
+  </div>
+</header>
+
+<main class="reading">
+
+  <section id="intro">
+    <p class="lead">Most of a program does exactly what its code says. A language model is a different kind of part.
+       You send it text, it sends text back, and the reply to the same request can change from one call to the next.
+       Building with that part takes the habits of any careful engineering, applied to a component you can't read
+       line by line. This book teaches those habits, and it uses the same kind of model as an
+       <span class="hl">assistant</span> while it builds.</p>
+
+    <div class="def-card">
+      <div class="sigma">AI</div>
+      <div class="def-body">
+        <span class="def-kw">Building AI with AI</span> means two things in this book. A
+        <span class="def-kw">model as a component</span> is a language model your program calls, the way it would call
+        any function, and whose answer it checks. An <span class="def-kw">assistant as a collaborator</span> is a model
+        that writes code, tests or documents for you, which you keep only after checking them yourself.
+      </div>
+    </div>
+
+    <div class="callout key">
+      <div class="cico">🤖</div>
+      <div><div class="ctitle">The chapter in one line</div>
+        <p>Whether the model is inside your program or helping you write it, you decide what counts as a good answer,
+           and you check every answer against that.</p></div>
+    </div>
+  </section>
+
+  <section id="two-meanings">
+    <div class="section-eyebrow"><div class="num">1</div><h2>What the title means</h2></div>
+    <p>In the first meaning, the model is a part of the system you build. A support desk might send each incoming
+       ticket to a model and ask which team should handle it, and the rest of the desk's software uses the answer.
+       In the second meaning, the model helps build the system. You describe a function you need, an assistant writes
+       it, and tests you wrote decide whether it stays. Most chapters are about the first meaning. Part 6 is about the
+       second, and Chapter 39, How this book is built, shows the book's own work with an assistant.</p>
+    <figure style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 720 260" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Two panels. On the left, a program sends a ticket to the model, gets one word back, passes it through a guard and keeps a category. On the right, you send a request to an assistant, it writes a function, and tests you wrote first decide whether to keep it or ask again."><defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5578"/></marker></defs><text x="180" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2138">A model as a component</text><text x="540" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2138">An assistant as a collaborator</text><line x1="360" y1="40" x2="360" y2="250" stroke="#e6e9f2" stroke-width="1.5"/><rect x="30" y="60" width="120" height="56" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="90.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#3730a3">Your program</text><text x="90.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">triage(ticket)</text><rect x="210" y="60" width="120" height="56" rx="10" fill="#fff1ec" stroke="#ffc9b8"/><text x="270.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#9a3412">The model</text><text x="270.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">Claude Sonnet 5.5</text><line x1="152" y1="78" x2="207" y2="78" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="72" text-anchor="middle" font-size="9.5" fill="#4a5578">ticket</text><line x1="208" y1="100" x2="153" y2="100" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="115" text-anchor="middle" font-size="9.5" fill="#4a5578">one word</text><rect x="30" y="160" width="120" height="50" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="90.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#047857">A guard</text><text x="90.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">in the list, or not</text><line x1="90" y1="118" x2="90" y2="157" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><rect x="210" y="160" width="120" height="50" rx="10" fill="#f4f6fb" stroke="#cdd3e3"/><text x="270.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#1a2138">The category</text><text x="270.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">billing, login, ...</text><line x1="152" y1="185" x2="207" y2="185" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="240" text-anchor="middle" font-size="10" fill="#4a5578">Your code calls the model like any other function.</text><rect x="390" y="60" width="110" height="56" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="445.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#3730a3">You</text><text x="445.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">a request in words</text><rect x="570" y="60" width="120" height="56" rx="10" fill="#fff1ec" stroke="#ffc9b8"/><text x="630.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#9a3412">The assistant</text><text x="630.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">writes the code</text><line x1="502" y1="88" x2="567" y2="88" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="535" y="82" text-anchor="middle" font-size="9.5" fill="#4a5578">request</text><rect x="570" y="160" width="120" height="50" rx="10" fill="#f4f6fb" stroke="#cdd3e3"/><text x="630.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#1a2138">normalize_label</text><text x="630.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">the code it wrote</text><line x1="630" y1="118" x2="630" y2="157" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><rect x="390" y="160" width="110" height="50" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="445.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#047857">Your tests</text><text x="445.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">written first</text><line x1="567" y1="185" x2="503" y2="185" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="535" y="179" text-anchor="middle" font-size="9.5" fill="#4a5578">checked by</text><text x="445" y="232" text-anchor="middle" font-size="10" font-weight="700" fill="#047857">pass: keep it</text><text x="445" y="246" text-anchor="middle" font-size="10" fill="#4a5578">fail: ask again or fix it</text></svg>
+    </figure>
+    <p>The models behind both are the large language models the first book introduces in
+       <a href="https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/chapters/nlp-and-large-language-models.html">NLP and large language models</a>. This book treats them as
+       something to build with, so it starts from what you send and what comes back.</p>
+  </section>
+
+  <section id="component">
+    <div class="section-eyebrow"><div class="num">2</div><h2>A model inside an ordinary function</h2></div>
+    <p>The chapter's notebook defines <code>triage</code>, a function that takes a ticket and returns one of four
+       categories: billing, login, shipping or other. Inside, it sends the ticket to Claude Sonnet 5.5 with a short
+       instruction, the <span class="term">system prompt</span>, that lists the categories and asks for exactly one
+       word. Its last line is a guard. Any reply that isn't one of the four comes back as
+       <code>unrecognized</code>, so a stray answer can't pass for a category further on. Sending the request is an
+       ordinary call over the web, which <em>Python, Visually</em> explains in
+       <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/apis-and-json.html">APIs and JSON</a>.</p>
+    <p>The eight tickets were written for the book, and no customer wrote them. These are the categories that came back
+       in the calls recorded for the book on November 10, 2026.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="The eight tickets and their categories">
+      <table class="disp-table">
+        <thead><tr><th>Ticket</th><th>Category</th><th>Reading</th></tr></thead>
+        <tbody>
+          <tr><td>I was charged twice for my March order and only got one receipt.</td><td><code>billing</code></td><td>One plain answer</td></tr>
+          <tr><td>The reset link in your email says it has expired, and I still can't sign in.</td><td><code>login</code></td><td>One plain answer</td></tr>
+          <tr><td>Tracking has said 'label created' for six days. Where is my package?</td><td><code>shipping</code></td><td>One plain answer</td></tr>
+          <tr><td>Do you sell gift cards that can be printed at home?</td><td><code>other</code></td><td>One plain answer</td></tr>
+          <tr><td>My card was declined at checkout, but my bank says the payment went through.</td><td><code>billing</code></td><td>One plain answer</td></tr>
+          <tr><td>I changed my email address and now the app won't accept my password.</td><td><code>login</code></td><td>One plain answer</td></tr>
+          <tr><td>The box arrived crushed and two of the mugs inside are broken.</td><td><code>shipping</code></td><td>Also a damaged-goods complaint</td></tr>
+          <tr><td>I can't log in to download the invoice for my last order.</td><td><code>login</code></td><td>The customer wants a billing document</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Every reply was one of the four categories, so the guard never fired. Six tickets have one plain answer. The
+       other two are judgment calls. The crushed box went to shipping, though it could also be read as a damaged-goods
+       complaint, and the invoice ticket went to login, though what the customer wants is a billing document. A program
+       that routes tickets on these labels inherits both judgments, which is why Part 3 measures a function like this
+       one against a test set before anyone relies on it.</p>
+  </section>
+
+  <section id="assistant">
+    <div class="section-eyebrow"><div class="num">3</div><h2>An assistant that writes code you check</h2></div>
+    <p>The second half of the notebook asks the same model for code. It requests <code>normalize_label</code>, a
+       function that turns a messy one-word reply such as <code>" Billing.\n"</code> into a clean category. Before the
+       reply was read, the book wrote six cases the function has to pass, among them a capitalized word, trailing
+       punctuation, a word outside the list and an empty string. This is the function that came back.</p>
+    <div class="codebox"><div class="cbh">written by the model, recorded November 10, 2026</div><pre tabindex="0">import string
+
+VALID_LABELS = {"billing", "login", "shipping", "other"}
+
+
+def normalize_label(raw: str) -&gt; str:
+    if not isinstance(raw, str):
+        return "other"
+
+    cleaned = raw.strip().lower()
+    cleaned = cleaned.strip(string.punctuation + string.whitespace)
+
+    return cleaned if cleaned in VALID_LABELS else "other"</pre></div>
+    <p>All six cases pass, so the function earns its place. It also handles something the request never asked for,
+       returning <code>other</code> when the reply isn't a string at all. The notebook runs the code with
+       <code>exec</code>, which would run whatever the model had written, so it is read before it is run. The cases are
+       the contract, and the habits of writing them are in <em>Python, Visually</em>'s
+       <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/testing-and-packaging.html">Testing and Packaging</a>.</p>
+    <p>The solutions notebook sent the identical request again and got back a slightly different function, with fewer
+       blank lines and with whitespace and punctuation listed in the other order. It did the same job and passed three
+       more cases. Two identical calls returned two versions of the code, and the same cases would have caught one that
+       behaved differently.</p>
+  </section>
+
+  <section id="cost">
+    <div class="section-eyebrow"><div class="num">4</div><h2>What each call costs</h2></div>
+    <p>Every reply reports the tokens it read and wrote, and the API bills by those counts. The notebook's nine calls
+       read 665 tokens and wrote 337, about half a cent at Claude Sonnet 5.5's prices as of November 2026, which
+       were 2 dollars per million input tokens and 10 dollars per million output tokens.</p>
+    <figure style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 720 272" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Bar chart of output tokens per ticket: Charged twice 4, Reset link expired 3, Label created six days ago 5, Printable gift cards 93 with 90 thinking, Declined, but the bank paid 4, New email, password refused 3, Crushed box, broken mugs 48 with 43 thinking, Log in to get an invoice 34 with 31 thinking."><text x="20" y="22" font-size="12.5" font-weight="800" fill="#1a2138">Output tokens for each ticket, and how many were thinking</text><rect x="230" y="31" width="12" height="10" fill="#7c3aed"/><text x="247" y="40" font-size="10" fill="#4a5578">thinking, billed and not shown</text><rect x="420" y="31" width="12" height="10" fill="#e5603f"/><text x="437" y="40" font-size="10" fill="#4a5578">the answer</text><text x="220" y="63" text-anchor="end" font-size="11" fill="#1a2138">Charged twice</text><rect x="230.0" y="53" width="14.8" height="14" fill="#e5603f"/><text x="252.8" y="64" font-size="10.5" fill="#1a2138">4</text><text x="220" y="90" text-anchor="end" font-size="11" fill="#1a2138">Reset link expired</text><rect x="230.0" y="80" width="11.1" height="14" fill="#e5603f"/><text x="249.1" y="91" font-size="10.5" fill="#1a2138">3</text><text x="220" y="117" text-anchor="end" font-size="11" fill="#1a2138">Label created six days ago</text><rect x="230.0" y="107" width="18.5" height="14" fill="#e5603f"/><text x="256.5" y="118" font-size="10.5" fill="#1a2138">5</text><text x="220" y="144" text-anchor="end" font-size="11" fill="#1a2138">Printable gift cards</text><rect x="230" y="134" width="333.0" height="14" fill="#7c3aed"/><rect x="563.0" y="134" width="11.1" height="14" fill="#e5603f"/><text x="582.1" y="145" font-size="10.5" fill="#1a2138">93 (90 thinking)</text><text x="220" y="171" text-anchor="end" font-size="11" fill="#1a2138">Declined, but the bank paid</text><rect x="230.0" y="161" width="14.8" height="14" fill="#e5603f"/><text x="252.8" y="172" font-size="10.5" fill="#1a2138">4</text><text x="220" y="198" text-anchor="end" font-size="11" fill="#1a2138">New email, password refused</text><rect x="230.0" y="188" width="11.1" height="14" fill="#e5603f"/><text x="249.1" y="199" font-size="10.5" fill="#1a2138">3</text><text x="220" y="225" text-anchor="end" font-size="11" fill="#1a2138">Crushed box, broken mugs</text><rect x="230" y="215" width="159.1" height="14" fill="#7c3aed"/><rect x="389.1" y="215" width="18.5" height="14" fill="#e5603f"/><text x="415.6" y="226" font-size="10.5" fill="#1a2138">48 (43 thinking)</text><text x="220" y="252" text-anchor="end" font-size="11" fill="#1a2138">Log in to get an invoice</text><rect x="230" y="242" width="114.7" height="14" fill="#7c3aed"/><rect x="344.7" y="242" width="11.1" height="14" fill="#e5603f"/><text x="363.8" y="253" font-size="10.5" fill="#1a2138">34 (31 thinking)</text><line x1="230" y1="48" x2="230" y2="262" stroke="#94a3b8"/></svg>
+    </figure>
+    <p>Five tickets were answered in 3 to 5 output tokens. The gift cards, the crushed box and the invoice took 93, 48
+       and 34, and most of each was thinking. On those three the model reasoned before it answered, and the reasoning
+       is billed as output although its text isn't returned. It arrives as a <code>thinking</code> block with nothing
+       in it, which is why the notebook reads only the text blocks of a reply. The tickets that needed a judgment call
+       cost the most. Chapter 3, Tokens, context and cost, takes the counting further.</p>
+  </section>
+
+  <section id="map">
+    <div class="section-eyebrow"><div class="num">5</div><h2>How the book is organized</h2></div>
+    <p>The parts follow the order in which a working system comes together. Part 1 makes calls and reads replies, and
+       Part 2 treats a prompt as code. Part 3 comes early on purpose, because every later part needs a way to measure
+       what it builds. Parts 4, 5, 7 and 8 give the model documents, tools and data and choose between models. Part 6
+       turns to the assistant, Parts 9 and 10 cover safety and running a system, and five capstones put the parts
+       together.</p>
+    <figure style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <div class="part-map" role="list" aria-label="The book's twelve parts in reading order"><div role="listitem" style="background:var(--p-bg-fff1ec, #fff1ec);border:1px solid var(--p-bd-ffc9b8, #ffc9b8);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-9a3412, #9a3412)">PART 1</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Working with a model</div></div><div role="listitem" style="background:var(--p-bg-fff1ec, #fff1ec);border:1px solid var(--p-bd-ffc9b8, #ffc9b8);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-9a3412, #9a3412)">PART 2</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Prompts as code</div></div><div role="listitem" style="background:var(--p-bg-ecfdf5, #ecfdf5);border:1px solid var(--p-bd-a7f3d0, #a7f3d0);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-047857, #047857)">PART 3</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Measuring quality</div></div><div role="listitem" style="background:var(--p-bg-fff1ec, #fff1ec);border:1px solid var(--p-bd-ffc9b8, #ffc9b8);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-9a3412, #9a3412)">PART 4</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Giving the model knowledge</div></div><div role="listitem" style="background:var(--p-bg-fff1ec, #fff1ec);border:1px solid var(--p-bd-ffc9b8, #ffc9b8);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-9a3412, #9a3412)">PART 5</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Tools and agents</div></div><div role="listitem" style="background:var(--p-bg-f0e9fe, #f0e9fe);border:1px solid var(--p-bd-d8c7fb, #d8c7fb);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-6d28d9, #6d28d9)">PART 6</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Building with a coding assistant</div></div><div role="listitem" style="background:var(--p-bg-fff1ec, #fff1ec);border:1px solid var(--p-bd-ffc9b8, #ffc9b8);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-9a3412, #9a3412)">PART 7</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Data for and from models</div></div><div role="listitem" style="background:var(--p-bg-fff1ec, #fff1ec);border:1px solid var(--p-bd-ffc9b8, #ffc9b8);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-9a3412, #9a3412)">PART 8</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Adapting and choosing models</div></div><div role="listitem" style="background:var(--p-bg-fef3e2, #fef3e2);border:1px solid var(--p-bd-fcd9a6, #fcd9a6);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-92400e, #92400e)">PART 9</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Safety and security</div></div><div role="listitem" style="background:var(--p-bg-fef3e2, #fef3e2);border:1px solid var(--p-bd-fcd9a6, #fcd9a6);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-92400e, #92400e)">PART 10</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Shipping and running</div></div><div role="listitem" style="background:var(--p-bg-e6effe, #e6effe);border:1px solid var(--p-bd-bfd3fb, #bfd3fb);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-1d4ed8, #1d4ed8)">PART 11</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Capstone projects</div></div><div role="listitem" style="background:var(--p-bg-e6effe, #e6effe);border:1px solid var(--p-bd-bfd3fb, #bfd3fb);border-radius:10px;padding:0.55rem 0.8rem"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.04em;color:var(--p-fg-1d4ed8, #1d4ed8)">PART 12</div><div style="font-size:0.88rem;font-weight:700;color:var(--p-fg-1a2138, #1a2138)">Closing</div></div></div><div class="map-legend"><span style="display:inline-flex;align-items:center;gap:0.4rem"><span aria-hidden="true" style="width:12px;height:12px;border-radius:3px;background:var(--p-bg-fff1ec, #fff1ec);border:1px solid var(--p-bd-ffc9b8, #ffc9b8)"></span>The model as a component</span><span style="display:inline-flex;align-items:center;gap:0.4rem"><span aria-hidden="true" style="width:12px;height:12px;border-radius:3px;background:var(--p-bg-ecfdf5, #ecfdf5);border:1px solid var(--p-bd-a7f3d0, #a7f3d0)"></span>Measuring what it does</span><span style="display:inline-flex;align-items:center;gap:0.4rem"><span aria-hidden="true" style="width:12px;height:12px;border-radius:3px;background:var(--p-bg-f0e9fe, #f0e9fe);border:1px solid var(--p-bd-d8c7fb, #d8c7fb)"></span>The assistant as a collaborator</span><span style="display:inline-flex;align-items:center;gap:0.4rem"><span aria-hidden="true" style="width:12px;height:12px;border-radius:3px;background:var(--p-bg-fef3e2, #fef3e2);border:1px solid var(--p-bd-fcd9a6, #fcd9a6)"></span>Running it safely</span><span style="display:inline-flex;align-items:center;gap:0.4rem"><span aria-hidden="true" style="width:12px;height:12px;border-radius:3px;background:var(--p-bg-e6effe, #e6effe);border:1px solid var(--p-bd-bfd3fb, #bfd3fb)"></span>Putting it together</span></div>
+    </figure>
+    <p>Where a chapter needs statistics, such as a confidence interval around a pass rate, it links to the first book.
+       Where it needs Python or a library, it links to a guide in <em>Python, Visually</em>, starting with
+       <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/python-from-the-start.html">Python from the Start</a>.</p>
+  </section>
+
+  <section id="goes-wrong">
+    <div class="section-eyebrow"><div class="num">6</div><h2>Where building AI with AI goes wrong</h2></div>
+    <p>A model's reply is text, and nothing forces it into your categories. The notebook passes four made-up replies
+       through the strict check in <code>triage</code> and through the model's <code>normalize_label</code>.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Four replies through two checks">
+      <table class="disp-table">
+        <thead><tr><th>Reply</th><th>Strict check</th><th>normalize_label</th></tr></thead>
+        <tbody>
+          <tr><td><code>'billing'</code></td><td><code>billing</code></td><td><code>billing</code></td></tr>
+          <tr><td><code>'Billing.'</code></td><td><code>unrecognized</code></td><td><code>billing</code></td></tr>
+          <tr><td><code>'refund'</code></td><td><code>unrecognized</code></td><td><code>other</code></td></tr>
+          <tr><td><code>'I think this is a login problem.'</code></td><td><code>unrecognized</code></td><td><code>other</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The strict check stops <code>Billing.</code> because of a capital and a period, so a person or a retry has to
+       deal with work that a little cleanup would have saved. The normalizer accepts it, and also files the word
+       refund and a whole sentence under <code>other</code> without saying the model failed to answer. Each design
+       fails in its own way, and a system built on a model has to choose which failure it can live with and count how
+       often it happens.</p>
+    <p>The chapter met other failures too. Two labels were judgment calls, and only a test set can say how often such
+       calls go the right way. The same request for code returned two versions, so a result seen once can't be assumed
+       next time. The hardest tickets cost the most, through thinking that a reply doesn't show. And code from a model
+       runs whatever it says, so it is read and tested before it is used. None of this showed as an error in the eight
+       tickets, where every reply was clean, and one good run says little about the next thousand.</p>
+  </section>
+
+  <section id="notebook">
+    <div class="nb-cta" style="display:block">
+      <div style="display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.3rem">
+        <div class="nb-ic">🐍</div>
+        <div class="nb-body">
+          <h3>Run the notebook</h3>
+          <p>The notebook runs every example above: the eight tickets, the code the model wrote and the cases that
+             check it, and the token count of each call. It replays the answers recorded for the book with Claude
+             Sonnet 5.5 on November 10, 2026, so it needs no key. Set <code>LIVE = True</code> in its Setup cell to call
+             the API with your own key instead, which bills your account.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+        <a class="btn btn-primary" href="notebooks/html/what-building-ai-with-ai-means.html">📓 View notebook (code and outputs)</a>
+        <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+           href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/what-building-ai-with-ai-means.ipynb"
+           target="_blank" rel="noopener">▶ Open in Colab</a>
+        <a class="btn btn-ghost" style="background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)"
+           href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/what-building-ai-with-ai-means.ipynb"
+           target="_blank" rel="noopener">⬇ View or download on GitHub</a>
+      </div>
+    </div>
+    <p style="font-size:0.85rem;color:var(--ink-faint)">To run it on your own computer, install <code>anthropic</code>
+       2.7.0, the version the answers were recorded with.</p>
+  </section>
+
+  <section id="takeaways">
+    <div class="takeaways">
+      <h3>🎓 In brief</h3>
+      <ul>
+        <li><span class="ck">✓</span><span>A language model can be one part of an ordinary program, called like a function, with a guard on what it returns.</span></li>
+        <li><span class="ck">✓</span><span>An assistant can write the code, and checks you wrote first decide whether it stays.</span></li>
+        <li><span class="ck">✓</span><span>Every call reports its tokens, and the bill follows them, the thinking a reply doesn't show included.</span></li>
+        <li><span class="ck">✓</span><span>The same request can return a different answer, so the book records its answers and tests what matters.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="challenges">
+    <div class="section-eyebrow"><div class="num">7</div><h2>Practice challenges</h2></div>
+    <p>Three short changes to the chapter's notebook, each answered in the solutions notebook from its own recorded
+       calls.</p>
+    <div class="challenges">
+      <div class="challenge"><div class="cnum">1</div><div class="cbody">
+        <h3>Add a returns category</h3>
+        <p>Add <code>returns</code> to the categories, then sort two tickets about sending items back, and the crushed box again.</p>
+        <div class="chint">Hint: the system prompt is built from <code>CATEGORIES</code>, so changing the list changes the prompt.</div></div></div>
+      <div class="challenge"><div class="cnum">2</div><div class="cbody">
+        <h3>Ask for a reason</h3>
+        <p>Change the system prompt so each reply is a category and a one-sentence reason, then split the two apart for the two judgment calls.</p>
+        <div class="chint">Hint: ask for <code>category: reason</code> on one line, and split on the first colon.</div></div></div>
+      <div class="challenge"><div class="cnum">3</div><div class="cbody">
+        <h3>Write three more cases</h3>
+        <p>Ask for <code>normalize_label</code> again and test what comes back with cases of your own, such as shouting with extra punctuation.</p>
+        <div class="chint">Hint: write the cases before you read the new code.</div></div></div>
+    </div>
+    <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:0.4rem">
+      <a class="btn btn-primary" href="notebooks/html/what-building-ai-with-ai-means--solutions.html">📓 View solutions</a>
+      <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+         href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/what-building-ai-with-ai-means--solutions.ipynb"
+         target="_blank" rel="noopener">▶ Open solutions in Colab</a>
+    </div>
+  </section>
+
+  <div class="callout key" style="margin-top:2rem">
+    <div class="cico">➡️</div>
+    <div><div class="ctitle">Up next</div>
+      <p><strong>Chapter 2 · How a language model produces text</strong> looks inside the model behind these replies, at
+         tokens, the probabilities of the next one, and how a reply is sampled from them.</p></div>
+  </div>
+
+  <nav class="chapter-nav" aria-label="Previous and next chapter">
+    <a class="cn-btn prev" href="../introduction.html">
+      <span style="font-size:1.3rem">←</span>
+      <span><span class="cn-dir">Back to</span><br><span class="cn-title">Introduction</span></span>
+    </a>
+    <a class="cn-btn next" href="../toc.html">
+      <span><span class="cn-dir">Chapter 2 · Coming soon</span><br><span class="cn-title">How a language model produces text</span></span>
+      <span style="font-size:1.3rem">→</span>
+    </a>
+  </nav>
+
+</main>
+
+<footer class="book-footer" style="background:#0a1230;color:#8892b0;border-top:none">
+  <strong style="color:#cbd5e1">Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  Chapter 1 &nbsp;·&nbsp; © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+const bar = document.getElementById('readProgress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = ((h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100) + '%';
+});
+</script>
+</body>
+</html>

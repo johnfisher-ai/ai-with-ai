@@ -1,0 +1,385 @@
+{
+ "notebook": "what-building-ai-with-ai-means--solutions",
+ "format": 1,
+ "exchanges": [
+  {
+   "key": "0e43dbb9c02dcfe6",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "I'd like to send back a sweater that doesn't fit."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You sort customer support tickets for an online store. Reply with exactly one word from this list: billing, login, shipping, returns, other."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CguKs7wjjCS6AYy6KZ34c",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "returns"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 69,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 4,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-10",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "fccaf64d2576de8a",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "How long does a refund take once you receive my return?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You sort customer support tickets for an online store. Reply with exactly one word from this list: billing, login, shipping, returns, other."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CguKsBZH18bME6DiWZPNp",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQS1AUKEAgTGAI4AUIIdGhpbmtpbmcSDE5ciNSptWrVH6GlSRoM+bBJ8DGFMhGtI6vHIjDfha4R+GWBBBicDZM9zowJiCBpvKjZHXkfsPmtHiOh1hQdhHDDYDbD9B1g3Ew5vKQq8QQOb219jlwppjVFM4U2YvSPPCqR3PS4PDXoik0NiQ8QxIjkR2gVZIpG5rsPYoIr8wJWA937PoIPIoMlTQx+abxkorjqTfD8R/1Ec3zqewrgLisDXzvQguunBpocN2vxK/jByPqtYcFgzHUTi1kpVikvWXBZ5qv5BaWinbGf2hOuejLmBoGd40uZWlKgEB4W7Afjci5jistL5bAATvrT2T+BzB+PVHANPkpSJz7TyOZXcKq8WKC7TKEtayAcJYq1rSdUgwGp4RAv87QCc1iz3vuL1qhOVDRLuMSKkRZQkhz2zxrcGWGVmEHziazDv4Bu+hU6MhKqxChm6zJkkedyQSmpZkqXzxwEGQPpX7GFsEB8uoUFexJrIfEyDzoogSEvvR3Pv6Wqz5Cq6r011w/sw1kvHJF1HxgIJmJrxRe2TEyJACqTT9FtbkH4OmwknSYlGUAcH/41L3IDkNZ5Ah5rRjgt5Yx7GC2tqEQyHAwTJ8oqCNzMDzfMz2iYf8dcyBd7EBV6wLSUTXCWzGXUol8LWwUlnFkLaYa8+Ul5IC1PSps/Yxo3j3aR12GaHrOkBPf5BhcYydx1cKRH2mMlTl/CHcTYxLuDZZGzOCVuIF1ls3tcrjXDJ5woYBQP/0eXNzDJj3u4WldmfGy8E7f5nqrCABnEhBBf8UrdyxxwxmvOrHB6ge1viHSoAih7qHdzgHqv0LjOl7ARUEHs0VSxvG719V3P8gTqpSfBE8VFfqS6C/UEWPxS++9ytqO8CQH/WYlRDJdDYQXbZ2T1aUJyHJnBOg6TJCtECrPOvFpgBrRuN22BCaKPxLEe4YZ2LP6ZYm8aqw1XGAE="
+      },
+      {
+       "type": "text",
+       "text": "returns"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 64,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 42,
+      "output_tokens_details": {
+       "thinking_tokens": 38
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-10",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "21732d59beb21d67",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "The box arrived crushed and two of the mugs inside are broken."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You sort customer support tickets for an online store. Reply with exactly one word from this list: billing, login, shipping, returns, other."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CguKsFDJiNGQ4kVJtU9UF",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQS5gcKEAgTGAI4AUIIdGhpbmtpbmcSDEv977RdPtJBWb1nPBoMFIRWlHr+L5/Q2a3xIjC/5pj0ITkzBbjjDfNkQTU5KscJbB79pl0CDOiJvpVA0jM2Hl90i037dCMwGuU8v50qgwelLv8anPwiP7pflWGJ6YouWMWomq2+zJJThoXw9OjBygpOChLcYsV8NpgzGfZMMAt8yS8J6N7YEhfA7yuuQ1AOqNjTGOA/El1xfIqcHHHw+cleYVjbocnXwnKn+VTAoFw2ptLeBZspnBW5ndh0irjDe61V2EymXv9QYfUIw+77IHmQhAgJZMkquHHfp9ft+gGxxLTWBECVI/l5GgLmZT+cf3na/RG2bKTAMOiuU4Vw217PJh+ACTzBzGm+m2OYIeJDsSZaAMUsRuGLSHGrrmLTN4bzh6kEnvQxZJKELPHoPKSn9Lenutdo6FElrG+PYPMD/V/hTfPCXZ9LytOTcBa+CQGO2FMGcZ+4gdluLcw5mxWmOYuK9VSlzZxCkrRMuTQ5P76zYqJvvJQN886XRevqJ5MkoLvyQYUqnn8NBj+ycQTt2P6JS+rhjZh8AtX25RjhC2lRCX5OLwShQN++wQmiCy2jWWx8h26iMl2McUUtfuoZhiKvzeJiiX3msesKCc7h4giFUAzA2bne2Sn4WfoiyIJQbP2VJukt542JYbZ9dw/VjmRyNe6HUn9qbT0X5aQVk+erRjVX5/G2TP5XAsJrjaJJVmWXnf3RlYzH6lHE8esdlb6aXBS6eJKQ5wJcSYfvykgjGM2KM8DAHvrVmNcutLARDBtpsBOsuh94iNXOTMmLv7vDFiiKg5thsG59F7VX3Ac9giQbk+W3lSyOhsD7JSa659L3o030VsIwm0dVpioB1zEHtzYRpsrS+/kRdEGJzOgc9MzYoqAJXYz2fgc5TL0+/7xheqM8o9O7qqA7KFLtpJdoL3Qd2++ctle3MOULxEzwFGvTv2PlAgjD6bTxLh5RNrx6gZN2XCmxoUuPhdkUk3BvJnT6etBnPeB6QyV8fNX9wfPuUpvyRMV1MIumwg0c6P+t57rycJkteufPxon8pjY0kwXOtGSPdyhaZPFBfNITBEkML3KoPJuVRoEuBPxuMD+pe0d5pX2fAAUE70prX6Uer2OpPBc08uA7YWwvDtHdYwV6A+ETmwo6ny09z/PkQ2M9Abxa5DVzuym9aO3p123L+lQ2VxrzkGacOEm2ch8ZKPIRn1A/1k2QFWD09hdEkZApEf2X5DV6Ng/tMf9uX5ekfqO34fn6ADwcu3uVF9uYavJqRmruQCKUMmS6kEf/5PmI66o8/wHyU6o+WetpMhgB"
+      },
+      {
+       "type": "text",
+       "text": "shipping"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 71,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 143,
+      "output_tokens_details": {
+       "thinking_tokens": 138
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-10",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "323f499ae56eab26",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "The box arrived crushed and two of the mugs inside are broken."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You sort customer support tickets for an online store. Reply on one line as category: reason, where category is exactly one word from this list: billing, login, shipping, other, and the reason is one short sentence."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CguKsPSeazHS6yB8KGsfG",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSngUKEAgTGAI4AUIIdGhpbmtpbmcSDFIUDORORSqtxMByaRoMuytajHPoyTblvKFyIjCDfUPmWiJigPhr6Q/7HOHOnKZj8vFaaSuyD5Jg7/YPt/Ln3YFPt4484eSm+sFNfpcquwSNSAjM8i1dV8lG/w8MBJX9/e316A7iJezjXOqjJT/FYBVXWd0PajzcjKB/pXeeOqam74BIzLbFye9TihJn7GGD+gseA2BfJC/pbmxeLIWEoQClw/8XNhDCaQzRYhUB3NoR7aGdoTdFyH2HNfy8JsMAxhNJtZ5Dbr52kLN85W1Fj+ap7DVJVv/5OUx9maKrNubkw9+XAgejFMnR6fhTWJ7X38fx8K8fwt8rpxcr+iIrnWFHnOexQjczBMZqpoIz8Yo7Sbj+gt7B6qV2O8uEbrtsmpjPIgRf3zHBibUGcV1u72iNhNHE3LoJV7UYryt8NwI8kpbvy/YGbzoOEOS7bzZEAkdXEZtUdImXIsAgTgTShDNvMhen98pX3J+wQWaQHRjaP7h0JSXu+drHXgvnZecTaCTZqqZOFFUIkQqRG8FWym56wo9m9zHEJbOBzolA8RXRlpmjb77RTOxnrNUMfduItYMxe8P0yNzyszvUfldrr5tIVmGwRGBUNiouN5oMXvhTmA4RvnpOl2BkgOWpnrj1YGbhtNay3Jnhp+UzpaytlSJGV821SqhembTDszSl6CaKqC7WD9A2j6LAZWFqMsjyMQTtGql59dBPWiu4gYppAHc4siH9dn+zhsDU40BtFNHI8EeI8nIG/JfA8NO41CfVs2+C0SeKRxNmsQ5chcTLpQ3QotbPxByzqo7K9CKZ8RXz73aTp8sO36rSXcEL0jAHg7ZgntMBhSLjJy9DQEahAu07lqrtDFryqao4GAE="
+      },
+      {
+       "type": "text",
+       "text": "shipping: The order was damaged in transit, so the package arrived crushed with broken items."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 90,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 57,
+      "output_tokens_details": {
+       "thinking_tokens": 27
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-10",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "0cadc4338c9d36ac",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "I can't log in to download the invoice for my last order."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You sort customer support tickets for an online store. Reply on one line as category: reason, where category is exactly one word from this list: billing, login, shipping, other, and the reason is one short sentence."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CguKsW7jwd3SNQTces9RU",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSxwUKEAgTGAI4AUIIdGhpbmtpbmcSDJp3l4LVAplnpDLeyRoMsuOIHIuy6+K2Xhn0IjBOrDL4nZdMzz3K9ysP2eYjJllgwqvdHumwF9NQPtkPOlNn3JC6vw0dWGwuL+fgPfYq5ARG00gf3Kx8LyjCzLW318djT8ZX9JhSs5I+eO5TOjQxDm0RdUgTpOoaryXwXsdS+mx4xosTv7gVHcimh7X3+ZX5zD8EwV7oJval1EYssw2ll18V8+p32q3j+BYg8bJAH3DWNkfEz03HEJyBLIffKh1G3fjUD4FOS48KyopZ7/1/IaMrVqYYK4LJVGnwodhJia9FdwEfKHL5d7SZ51QgyDlohUSfPQn1wtfsm+CPIh7URbZWrwBed55tIii2fNWOhXtjSDO0fjjlBDWAP8bDVvEtZCC27uc0PKPyY1YKHu9OhbT/6/ZDGt75QK1w7NRO6F6+alg07kJQvtfB4mJpP47SQtdn/zROESpoF4V4NDpEYNzarB8lp85op0ISthvx7ryKW++BcYQc56kX+goygrwrDThWUUg61TZ0AZFZTG8z+qPdkSAV6A3Ez9B8LxEbSTkHB3h5ybAKwD6hge5b+/LEwjXUFUWpnty8BDjfeE0MXs70JQUf6S1VEltrH+kruqDwOhM8KC0kP5ViAiPNceXI4GDL455UBuCHN7j4BMMJCjCNIITy19Z93A3Zz12XDBPpFE9C+zwPQw7u9QJFdEf+a7gTYg99j/d8DV7JQdd8jbLXizrKJItjtyw6AUHWysf0CIegqJP0F2PDKgKcAfYCP8lpoH66tNJmxB7dx2jYf74rZFWy/VpubMjHlrS9n5wgb4qXhalj22MaHM9k9TG/aPW9l10Ej9CA58C61zVgFFrCozd+bVKHqvtptppXZIufp86NBSvSVfhWvzFa6fOItaJnZa4hL1pa5vfJvXG/ukzUDlwYAQ=="
+      },
+      {
+       "type": "text",
+       "text": "login: The customer cannot access their account, which blocks them from downloading the invoice."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 85,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 67,
+      "output_tokens_details": {
+       "thinking_tokens": 39
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-10",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "30e71102f0ec437d",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 2048,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Write a Python function normalize_label(raw: str) -> str.\nIt takes a model's one-word reply, such as \" Billing.\n\", and returns a clean category.\nLowercase it, strip whitespace and any trailing punctuation, and return the result if it is one of\nbilling, login, shipping or other. Return \"other\" for anything else.\nReply with only the code, in one Python code block, with no explanation."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CguKsbN13XdfaZaKJsSDd",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "```python\nimport string\n\nVALID_LABELS = {\"billing\", \"login\", \"shipping\", \"other\"}\n\n\ndef normalize_label(raw: str) -> str:\n    if not isinstance(raw, str):\n        return \"other\"\n    cleaned = raw.strip().lower()\n    cleaned = cleaned.strip(string.whitespace + string.punctuation)\n    return cleaned if cleaned in VALID_LABELS else \"other\"\n```"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 136,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 143,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-10",
+   "sdk": "2.7.0"
+  }
+ ]
+}

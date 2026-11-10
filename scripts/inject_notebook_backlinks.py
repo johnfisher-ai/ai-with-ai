@@ -36,6 +36,10 @@ MAP = {
     # '<notebook>.html':
     #     ('../../<chapter-slug>.html#notebook', 'Back to the book', 'Chapter N · <chapter title>'),
     # (written with double quotes in a real entry, which check_links.py then validates)
+    "what-building-ai-with-ai-means.html":
+        ("../../what-building-ai-with-ai-means.html#notebook", "Back to the book", "Chapter 1 · What building AI with AI means"),
+    "what-building-ai-with-ai-means--solutions.html":
+        ("../../what-building-ai-with-ai-means.html#challenges", "Back to the book", "Chapter 1 · Practice challenges"),
 }
 
 BOOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
