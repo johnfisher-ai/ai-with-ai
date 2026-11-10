@@ -6,8 +6,8 @@ This repository holds four kinds of material, and they are licensed differently.
 |---|---|---|
 | **The book** | [CC BY 4.0](LICENSE) | `chapters/*.html`, `index.html`, `toc.html`, `introduction.html`, `404.html`, `templates/`, `assets/` |
 | **The datasets** | [CC BY 4.0](LICENSE) | `data/` |
-| **The recorded model responses** | [CC BY 4.0](LICENSE), as far as any rights in them are mine | the recordings the notebooks replay, kept beside the notebooks in `chapters/notebooks/` |
-| **The code** | [MIT](LICENSE-CODE) | `chapters/notebooks/*.ipynb` and the helper code beside them, `scripts/`, `.github/workflows/`, and code shown inside a chapter page |
+| **The recorded model responses** | [CC BY 4.0](LICENSE), as far as any rights in them are mine | the recordings the notebooks replay, in `chapters/notebooks/recordings/` |
+| **The code** | [MIT](LICENSE-CODE) | `chapters/notebooks/*.ipynb` and `chapters/notebooks/book_client.py`, `scripts/`, `tests/`, `.github/workflows/`, and code shown inside a chapter page |
 
 ## What that means in practice
 

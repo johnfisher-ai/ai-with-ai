@@ -41,13 +41,15 @@ These cost the first book real time when broken. They are not preferences.
 | `chapters/*.html` | The chapter pages, one file per chapter, named by slug. |
 | `chapters/notebooks/*.ipynb` | Companion notebooks, saved with their outputs. Source of truth. |
 | `chapters/notebooks/html/*.html` | **Generated.** Never hand-edit; rebuilt on deploy. |
-| `chapters/notebooks/` (recordings and helper) | The recorded model responses the notebooks replay, and the helper module that builds the replaying client. Planned for the first notebook round. |
+| `chapters/notebooks/book_client.py` | The client every notebook replays, calls or records its model responses through. |
+| `chapters/notebooks/recordings/<notebook>.json` | The recorded model responses each notebook replays. Checked by `scripts/check_recordings.py`. |
+| `tests/` | The helper's tests and `requirements.txt`, which pins the SDK. |
 | `templates/chapter.html` | The chapter skeleton. Every new chapter starts as a copy. Not linked, marked noindex, and skipped by the link check. |
 | `data/` | Datasets, all written for the book. Workbooks have `Data`, `Codebook` and `Notes` sheets. |
 | `assets/css/`, `assets/js/` | `book.css`, `chapter.css`, `challenges.css`, `report.css`, and the dark theme: `theme.css` (**generated**) and `theme.js`. |
 | `assets/img/` | The favicon, the iPhone icon, the link-preview card (`social-card.png`, 2400 × 1260) and chapter figures. |
 | `toc.html` | **The manifest.** Single source of truth for structure. |
-| `scripts/` | `apply_chapter_nav.py`, `inject_notebook_backlinks.py`, `check_links.py`, `build_notebook_html.sh` and `build_sitemap.py`, copied from the first book with this book's names. |
+| `scripts/` | `apply_chapter_nav.py`, `inject_notebook_backlinks.py`, `check_links.py`, `build_notebook_html.sh` and `build_sitemap.py`, copied from the first book with this book's names, and `check_recordings.py`. |
 
 The repository root is the site root, so a `book/` segment inside any URL is a dead link.
 
@@ -142,33 +144,69 @@ later chapter against the part outline.
 
 ## Notebooks that call a model
 
-Decided by the author on November 10, 2026. The first notebook round builds this and records the details
-here.
+Decided by the author on November 10, 2026, and built in round 1 the same day. Every model call goes
+through Anthropic's Python SDK, so the code a reader sees is the code they would write, and the SDK's
+client is built by `chapters/notebooks/book_client.py`, which changes only the transport under it.
 
-- Every model call goes through Anthropic's Python SDK, so the code a reader sees is the code they would
-  write. Colab doesn't ship the SDK, so each notebook's Setup installs a pinned version.
-- **Replay is the default.** The notebook builds its SDK client on an `httpx` transport that answers each
-  request from a recording, keyed by the request's model, messages and parameters. It needs no key and no
-  network, and prints the same on every run. A request with no recording fails with a message that names
-  it, never with an invented answer.
-- **A live switch** at the top of Setup builds the client on the real transport with the reader's own key
-  from Colab's secrets panel. The prose says the live answer will differ.
-- **Every recording names its model ID, the date and the SDK version.** The notebook prints the model and
-  date beside the first recorded answer. Recordings keep the response body and the content type and drop
-  every other header, so no request ID or organization ID is committed.
-- **Record, then replay twice.** A session records with the author's key, which the environment injects as
-  a network secret. Then it replays the notebook twice and compares, and commits only replayed output.
-- Re-record a notebook only on purpose (a new model, a changed request), and check every quoted answer
-  against the new recording before committing.
+| Mode | How it is chosen | What happens |
+|---|---|---|
+| replay | The default | Each request is answered from `chapters/notebooks/recordings/<notebook>.json`. No key, no network, and every run prints the same. A request with no recording raises the SDK's `NotFoundError` with a message that starts "book_client: no recorded response", never an invented answer |
+| live | `LIVE = True` in Setup | The real API with the reader's key from Colab's secrets panel (`ANTHROPIC_API_KEY`), or that environment variable elsewhere. Nothing is written |
+| record | `BOOK_MODE=record` in a session | The real API, and each exchange is written to the recording |
 
----
+- **The pin.** SDK 2.7.0, in `tests/requirements.txt`, `requirements.txt` and every Setup cell. Colab
+  doesn't ship the SDK, and installing it there keeps Colab's own `httpx2` (2.16.0) and `pydantic`
+  (checked on the replica, November 10). Change the pin in all three places together, and record the
+  notebooks again.
+- **A recording** names the notebook and holds each exchange's request (method, path, query, body), its
+  response (status, content type, and the JSON body or the event-stream text), the model, the date and
+  the SDK version. Every response header but the content type is dropped, so no request ID or
+  organization ID is stored, and the key never is. `scripts/check_recordings.py` checks all of this.
+- **Matching.** A request is found by a hash of its method, path, query and body, so a notebook's call
+  must be the same as when it was recorded. The same request made twice gets its recorded answers in
+  order, starting again from the first when a cell is re-run.
+- **The notebook names its source.** `make_client` prints "Replaying N recorded responses from <model>,
+  recorded <date>. Set LIVE = True in Setup to call the API yourself.", and a note when the runtime's
+  SDK differs from the recording's.
+- **Record, then replay twice.** Record with `BOOK_MODE=record`, then replay the notebook twice on the
+  Colab replica, and commit only replayed output. Never commit a live run's output.
+- **Tests.** `tests/test_book_client.py` covers replay, recording, streaming, errors, repeated requests,
+  the missing-request message and the recording check, against a fake API whose responses are fixtures
+  written for the tests and say so. `.github/workflows/tests.yml` runs them and the recording check on
+  every push.
+
+Every notebook that calls a model starts its Setup with this cell, with `NOTEBOOK` replaced by the
+notebook's file name without `.ipynb`. In Colab the notebook arrives alone, so the cell fetches the
+helper and the recording from `main` on every run, and reloads the helper so a runtime that outlives a
+push uses the current copy. GitHub caches raw files for five minutes after a push.
+
+```python
+# Set LIVE = True to send these requests to the Anthropic API with your own key, saved in
+# Colab's secrets panel as ANTHROPIC_API_KEY. Left False, the notebook replays the answers
+# recorded for the book, with no key and no cost.
+LIVE = False
+%pip install -q --disable-pip-version-check anthropic==2.7.0
+import importlib, pathlib, sys, urllib.request
+if "google.colab" in sys.modules:
+    BASE = "https://raw.githubusercontent.com/johnfisher-ai/ai-with-ai/main/chapters/notebooks/"
+    pathlib.Path("recordings").mkdir(exist_ok=True)
+    for name in ["book_client.py", "recordings/NOTEBOOK.json"]:
+        urllib.request.urlretrieve(BASE + name, name)
+import book_client
+importlib.reload(book_client)
+client = book_client.make_client("NOTEBOOK", mode="live" if LIVE else None)
+```
+
+`--disable-pip-version-check` keeps pip's upgrade notice, with its terminal color codes, out of the
+saved output. `%pip` still prints "Note: you may need to restart the kernel to use updated packages.",
+as it does in Colab.
 
 ## Notebook pipeline
 
 Build → record → replay → verify → render → wire.
 
 1. **Build** the `.ipynb`.
-2. **Record** the model responses it needs, live, into its recording file.
+2. **Record** the model responses it needs with `BOOK_MODE=record`, into its recording file.
 3. **Replay** with `nbclient` on the Colab replica kernel (`aiwai-colab`, which the companion repository's
    file 3 builds), cwd `chapters/notebooks`, twice, so the saved outputs are what a Colab reader gets and
    nothing moves between runs.
@@ -230,6 +268,7 @@ theme.css up to date                     · tokenize.py and build_theme.py --che
 validator 0 errors, axe 0 violations     · 1280 px light and 375 px dark, no sideways scroll
 no em dashes, entities, British spelling · prose_check.py
 no key, token or machine path            · secret_check.py and path_check.py
+recordings name model, date and SDK      · check_recordings.py, and the helper's tests pass
 ```
 
 The companion repository's `tools/checks/run-ai-with-ai.sh` runs these checks on the changed pages,

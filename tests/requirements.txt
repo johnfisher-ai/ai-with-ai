@@ -1,0 +1,4 @@
+# The helper's tests, with the SDK version every notebook's Setup installs. Change the pin here, in the
+# notebooks' Setup cells and in requirements.txt together, and record the notebooks again.
+anthropic==2.7.0
+pytest

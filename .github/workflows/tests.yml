@@ -1,0 +1,39 @@
+name: Test the replay helper
+
+# Runs the tests of chapters/notebooks/book_client.py, the client every notebook replays its recorded
+# model responses through, and checks every recording: that each names its model, date and SDK
+# version, keeps no response header, and is keyed to the request it stores.
+#
+# No step reaches the Anthropic API. The tests use a fake API with responses written for them.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install the SDK version the notebooks pin
+        run: pip install --quiet -r tests/requirements.txt
+
+      - name: Run the helper's tests
+        run: python -m pytest -q tests/
+
+      - name: Check the recordings
+        run: python3 scripts/check_recordings.py

@@ -30,6 +30,11 @@ model and prints the same thing every time. Each recording names the model and t
 switch at the top of the notebook sends the same requests to the live API with your own key, stored in
 Colab's secrets panel, and its answers will differ from the recorded ones.
 
+The client every notebook uses is built by `chapters/notebooks/book_client.py`, and the recordings are in
+`chapters/notebooks/recordings/`. `python3 -m pytest tests/` runs the helper's tests (after
+`pip install -r tests/requirements.txt`), and `python3 scripts/check_recordings.py` checks that every
+recording names its model, date and SDK version and keeps no response header.
+
 ## Project structure
 
 ```
@@ -47,9 +52,10 @@ Colab's secrets panel, and its answers will differ from the recorded ones.
 ├── templates/chapter.html      # The chapter skeleton every new chapter starts from (not linked)
 ├── data/                       # The datasets, all written for the book
 ├── assets/                     # css/, js/ and img/
-├── scripts/                    # Chapter numbering, notebook cards, link checks, rendering, the sitemap
+├── scripts/                    # Chapter numbering, notebook cards, link checks, rendering, the sitemap, recordings
+├── tests/                      # Tests of the replay helper, and the SDK version the notebooks pin
 ├── requirements.txt            # The libraries the notebooks import, for running them outside Colab
-└── .github/workflows/          # deploy.yml publishes to Pages; check-links.yml checks every link
+└── .github/workflows/          # deploy.yml publishes, check-links.yml checks links, tests.yml tests the helper
 ```
 
 Chapter numbers are computed from the order of `PARTS` in `toc.html`, so inserting a chapter renumbers

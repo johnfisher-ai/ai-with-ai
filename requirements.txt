@@ -1,7 +1,7 @@
 # The libraries the chapter notebooks import, for running them outside Colab.
 # In Colab each notebook's Setup installs what Colab lacks, at the version its outputs were recorded with.
-anthropic         # every notebook that calls a model, in replay or live mode
-httpx             # the replay transport the notebooks build their client on
+anthropic==2.7.0  # every notebook that calls a model; the version the recordings were made with
+httpx2            # the SDK's HTTP library, which the replay helper builds its transport on
 numpy
 pandas
 matplotlib
