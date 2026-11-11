@@ -29,8 +29,11 @@ These cost the first book real time when broken. They are not preferences.
   ID, or a path under `/home` or `/Users`, in a file or in a notebook's saved output. The author's key
   for building the book reaches a session only as the `AIWAI_RECORDING_KEY` environment variable, which
   the author sets in the book's cloud environment (the punch list's Q7), never through a file in this
-  repository, a command line or the chat. Only record mode reads it. Never copy it into
-  `ANTHROPIC_API_KEY`, the name other programs, Claude Code among them, read for their own key.
+  repository, a command line or the chat. Only record mode and the Claude Code builds read it. A build
+  hands it to the one headless `claude -p` process it starts, in that process's environment only, as the author
+  decided on November 11, 2026 (Q15). Never export it, write it to a file, print it or copy it into
+  `ANTHROPIC_API_KEY` anywhere else, because other programs, this session's Claude Code among them, read that name
+  for their own key.
 - **Never edit the first book or Python, Visually from a session on this one.** Both are references.
   Clone either read-only to compare or to read a guide, with pushing disabled in the clone, as the
   companion repository's file 3 explains.
@@ -48,6 +51,7 @@ These cost the first book real time when broken. They are not preferences.
 | `chapters/notebooks/html/*.html` | **Generated.** Never hand-edit; rebuilt on deploy. |
 | `chapters/notebooks/book_client.py` | The client every notebook replays, calls or records its model responses through. |
 | `chapters/notebooks/recordings/<notebook>.json` | The recorded model responses each notebook replays. Checked by `scripts/check_recordings.py`. |
+| `builds/<slug>/` | A chapter's Claude Code build: its spec, its tests, the generated files, the transcript and the test run. Planned with Chapter 2 (the punch list's Q15). |
 | `tests/` | The helper's tests and `requirements.txt`, which pins the SDK. |
 | `templates/chapter.html` | The chapter skeleton. Every new chapter starts as a copy. Not linked, marked noindex, and skipped by the link check. |
 | `data/` | Datasets, all written for the book. Workbooks have `Data`, `Codebook` and `Notes` sheets. |
@@ -114,6 +118,7 @@ pages use the same middle dot. `apply_chapter_nav.py` relies on the `Ch N ·` fo
   its first commit, and read the opening and closing paragraphs aloud.
 - **Fixed book-wide headings,** word for word, approved by the author on November 10, 2026: "In brief"
   (the takeaways box), "Practice challenges", "Run the notebook" (the notebook block's heading),
+  "Build it with Claude Code" (added November 11, the section before the notebook block, below),
   "Where <topic> goes wrong" (a concept chapter's last numbered section, naming its own topic), and for a
   case study or capstone "What this does not settle" followed by "What to watch". Every other
   heading is the chapter's own, in sentence case with no colon or comma device.
@@ -237,6 +242,25 @@ client = book_client.make_client("NOTEBOOK", mode="live" if LIVE else None)
 `--disable-pip-version-check` keeps pip's upgrade notice, with its terminal color codes, out of the
 saved output. `%pip` still prints "Note: you may need to restart the kernel to use updated packages.",
 as it does in Colab.
+
+## Claude Code builds
+
+Decided by the author on November 11, 2026 (the punch list's Q14 and Q15). From Chapter 2 on, every chapter and
+capstone shows Claude Code generating the code it needs, from a spec and tests the chapter gives, and a chapter's
+claims about what Claude Code produced quote a kept record, as its claims about a model's answers quote a recording.
+
+- **How a build runs.** Headless, `claude -p`, in a clean folder holding only the chapter's spec and tests, with its
+  output saved as JSON. The book's key reaches that one process (the hard rule above), so the cost lands on the
+  book's key and is logged in the punch list's cost log.
+- **What is kept,** under `builds/<slug>/`: the spec, the tests, the exact command, the transcript with keys and
+  machine paths removed, the generated files, the test run that accepted them, and the Claude Code version, model,
+  date and cost. A check script, written with Chapter 2, keeps keys, tokens and machine paths out, as
+  `check_recordings.py` does for recordings.
+- **What the page shows,** under the fixed heading "Build it with Claude Code", placed before "Run the notebook":
+  the spec, the command, what Claude Code generated, the tests that accepted it and what review changed.
+- **What the reader does.** Runs the same spec with Claude Code on their own machine or at claude.ai/code, with
+  their own account. The notebook imports the committed, generated code, so Colab still needs no key.
+- **Chapter 1** predates this. It gets the section in its own round, with the triage module its outline row names.
 
 ## Notebook pipeline
 
