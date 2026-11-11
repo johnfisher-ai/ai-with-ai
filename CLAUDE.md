@@ -279,7 +279,9 @@ claims about what Claude Code produced quote a kept record, as its claims about 
   written in its own words and order (writing rule 10).
 - **What the reader does.** Runs the same spec with Claude Code on their own machine or at claude.ai/code, with
   their own account, or runs `python3 scripts/claude_build.py <slug> --out my-build`, which uses their own login or
-  `ANTHROPIC_API_KEY` and never reads the book's key. The notebook imports the committed, generated code, so Colab still needs no key.
+  `ANTHROPIC_API_KEY` and never reads the book's key. The notebook imports the committed, generated code, so Colab still needs no key, and prints its source with
+  `inspect.getsource` in the cell that loads it, so a reader sees every generated function before it is called (the
+  author asked where `softmax` was on November 11, 2026).
 - **Chapter 1** was written before builds existed and got its build on November 11, the triage module its outline row
   names, which its notebook runs on the same eight tickets.
 
