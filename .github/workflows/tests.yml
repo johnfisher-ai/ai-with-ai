@@ -37,7 +37,7 @@ jobs:
       - name: Run the helper's tests
         run: python -m pytest -q tests/
 
-            - name: Check the recordings
+      - name: Check the recordings
         run: python3 scripts/check_recordings.py
 
       - name: Check the Claude Code builds
