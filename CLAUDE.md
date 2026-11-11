@@ -5,8 +5,9 @@ and on using an AI assistant to build it. Public repository, published to GitHub
 `main`. The second book in the Visual Handbook family, after johnfisher-ai/Statistics-Data-Science-AI-Visual-Book.
 
 **Author: John Fisher.** Started November 10, 2026. The part outline was approved on November 10 with 12 parts and 66 chapters,
-and revised the same day to 17 parts and 101 chapters to cover AI engineering principles, MCP servers, orchestration,
-agent frameworks and clients (the punch list's Q13). It is in the companion repository's punch list with every slug.
+revised the same day to 17 parts and 101 chapters (the punch list's Q13), and revised on November 11
+to 21 parts and 138 chapters to add memory and state, the agent harness, skills, A2A, agent evals and a Claude Code
+build in every chapter (Q14). It is in the companion repository's punch list with every slug.
 Chapter 1 is published.
 
 ---
@@ -103,7 +104,7 @@ pages use the same middle dot. `apply_chapter_nav.py` relies on the `Ch N ·` fo
   Use engineering vocabulary where it is the accurate word: engineering, discipline, practices, process, component,
   building block, system, deterministic and non-deterministic, validate, verify, mindset. Avoid these:
   - "part" for a piece of a system. Say component, building block, element or system, and keep "Part" for the
-    book's seventeen parts.
+    book's twenty-one parts.
   - "habits" for engineering practice. Say engineering discipline, practices or rigorous craft.
   - "while it builds" and "while you build it". Say "while building" or "throughout the process".
   - Soft or folksy phrasing ("earns its place", "a different kind of part"). Say what happens: the function is

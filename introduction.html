@@ -87,12 +87,14 @@
   <section id="covers">
     <div class="section-eyebrow"><div class="num">1</div><h2>What the book will cover</h2></div>
     <p>The chapters follow the order in which a working system comes together. They start with a single call to a
-       model and what comes back from it. Later chapters treat a prompt as code that can be versioned and tested, measure whether answers are good enough
-       before trusting them, and ground a model in documents. The middle of the book designs agent systems: the
-       engineering principles behind them, MCP servers, the orchestration of several agents through brokers and
-       gateways, open-source frameworks such as LangChain and LangGraph, and the clients users reach them from, such as
-       Claude, Gemini, Slack and Microsoft Teams. The last parts cover working alongside an AI coding assistant, keeping
-       a system secure and running it in production.</p>
+       model and what comes back from it, then set up Claude Code, which generates the Python, the back ends, the front
+       ends and the agentic assets in every chapter after that. Later chapters treat a prompt as code, score outputs with
+       evals against expected outcomes, and ground a model in documents with retrieval-augmented generation (RAG). The
+       middle of the book designs agent systems: memory and state, the harness that lets a model act, skills, MCP
+       servers and clients, multi-agent systems directed by a manager agent, agent-to-agent communication over A2A,
+       open-source frameworks such as LangChain and LangGraph, and the clients users reach agents from, such as Claude,
+       Gemini, Slack and Microsoft Teams. The last parts cover data, model choice, security and running a system in
+       production, and six capstones build complete systems with Claude Code.</p>
     <p>Where a chapter needs statistics, such as a confidence interval around an evaluation score, it links to the
        chapter of the first book that explains it. Where it leans on Python or a library, such as calling a web
        API, writing tests or shaping a table with pandas, it links to the guide in <em>Python, Visually</em> that
