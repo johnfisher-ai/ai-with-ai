@@ -8,7 +8,7 @@ and on using an AI assistant to build it. Public repository, published to GitHub
 revised the same day to 17 parts and 101 chapters (the punch list's Q13), and revised on November 11
 to 21 parts and 138 chapters to add memory and state, the agent harness, skills, A2A, agent evals and a Claude Code
 build in every chapter (Q14). It is in the companion repository's punch list with every slug.
-Chapter 1 is published.
+Chapters are published in order, and `toc.html`'s `AVAILABLE` lists the ones that are out.
 
 ---
 
@@ -275,7 +275,8 @@ claims about what Claude Code produced quote a kept record, as its claims about 
 - **What the reader does.** Runs the same spec with Claude Code on their own machine or at claude.ai/code, with
   their own account, or runs `python3 scripts/claude_build.py <slug> --out my-build`, which uses their own login or
   `ANTHROPIC_API_KEY` and never reads the book's key. The notebook imports the committed, generated code, so Colab still needs no key.
-- **Chapter 1** predates this. It gets the section in its own round, with the triage module its outline row names.
+- **Chapter 1** was written before builds existed and got its build on November 11, the triage module its outline row
+  names, which its notebook runs on the same eight tickets.
 
 ## Notebook pipeline
 

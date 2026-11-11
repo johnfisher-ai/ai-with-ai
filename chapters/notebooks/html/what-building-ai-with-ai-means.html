@@ -8261,6 +8261,87 @@ about 0.0047 dollars at those prices
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=what-building-ai-wit-b0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="The-triage-module-from-the-chapter's-Claude-Code-build">The triage module from the chapter's Claude Code build<a class="anchor-link" href="#The-triage-module-from-the-chapter's-Claude-Code-build">¶</a></h2><p>The chapter's build gave Claude Code a spec for <code>triage.py</code> and seventeen tests, and it generated the module these cells load. Its <code>triage</code> takes the client as an argument, and the spec fixes its request to match the one the <code>triage</code> above sends, with the same model, <code>max_tokens</code>, system prompt and message.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=what-building-ai-wit-b1">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># triage.py is the module Claude Code generated in this chapter's build, from the spec and tests in</span>
+<span class="c1"># builds/what-building-ai-with-ai-means/. Colab fetches it from the book's repository.</span>
+<span class="n">BUILD</span> <span class="o">=</span> <span class="s2">"what-building-ai-with-ai-means"</span>
+<span class="k">if</span> <span class="s2">"google.colab"</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/johnfisher-ai/ai-with-ai/main/builds/"</span>
+                               <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BUILD</span><span class="si">}</span><span class="s2">/generated/triage.py"</span><span class="p">,</span> <span class="s2">"triage.py"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">"../../builds"</span><span class="p">,</span> <span class="n">BUILD</span><span class="p">,</span> <span class="s2">"generated"</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()))</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">triage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">built</span>
+<span class="n">built</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">built</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=what-building-ai-wit-b2">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># The generated function, on the same eight tickets</span>
+<span class="k">for</span> <span class="n">ticket</span> <span class="ow">in</span> <span class="n">TICKETS</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">built</span><span class="o">.</span><span class="n">triage</span><span class="p">(</span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="n">ticket</span><span class="p">)</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ticket</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>billing    I was charged twice for my March order and only got one receipt.
+login      The reset link in your email says it has expired, and I still can't sign in.
+shipping   Tracking has said 'label created' for six days. Where is my package?
+other      Do you sell gift cards that can be printed at home?
+billing    My card was declined at checkout, but my bank says the payment went through.
+login      I changed my email address and now the app won't accept my password.
+shipping   The box arrived crushed and two of the mugs inside are broken.
+login      I can't log in to download the invoice for my last order.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=what-building-ai-wit-b3">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>The generated <code>triage</code> returned the same category as the function above for all eight tickets. Its requests are identical down to the system prompt and <code>max_tokens</code>, so the notebook answers them from the same recording, and a request that differed in any field would have found no recorded response and raised an error. The recording works as a second check on the generated code, alongside the seventeen tests it was built against.</p>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=what-building-ai-wit-19">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8272,6 +8353,7 @@ about 0.0047 dollars at those prices
 <li>Two of the eight labels were judgment calls, and only a test set can say how often such calls go the right way.</li>
 <li>A model can also write code. The book's six cases checked <code>normalize_label</code> before it was used, and all six passed.</li>
 <li>Replies report their token counts. The nine calls cost about half a cent at November 2026 prices, and the three hardest tickets cost the most because the model thought before answering.</li>
+<li>Claude Code generated <code>triage.py</code> from a spec and seventeen tests, and it sends the same requests and returns the same categories as the function written by hand.</li>
 <li>The next chapter, How a language model produces text, opens up the model behind these replies.</li>
 </ul>
 </div>

@@ -1,0 +1,1 @@
+Read spec.md and write triage.py so that every test in tests/ passes. Create and change files with the Edit tool. The only shell command you may run is python3 -m pytest -q tests, which runs the tests. Do not change the tests.
