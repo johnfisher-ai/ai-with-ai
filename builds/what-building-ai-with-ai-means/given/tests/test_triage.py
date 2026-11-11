@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import pytest
 
 import triage as module
-from triage import CATEGORIES, MODEL, SYSTEM_PROMPT, answer_text, parse_category, triage
+from triage import CATEGORIES, MODEL, SYSTEM_PROMPT, answer_text, normalize_label, parse_category, triage
 
 
 class FakeClient:
@@ -71,3 +71,15 @@ def test_an_empty_ticket_is_refused_before_any_call(ticket):
 
 def test_the_module_does_not_import_the_sdk():
     assert "anthropic" not in inspect.getsource(module)
+
+
+# The six cases the chapter wrote before any code existed, and one for a space before the final period
+@pytest.mark.parametrize("raw, expected", [(" Billing.\n", "billing"), ("LOGIN", "login"), ("shipping!", "shipping"),
+                                           ("other", "other"), ("refund", "other"), ("", "other"),
+                                           ("billing .", "billing")])
+def test_normalize_label(raw, expected):
+    assert normalize_label(raw) == expected
+
+
+def test_normalize_label_files_a_sentence_under_other():
+    assert normalize_label("I think this is a login problem.") == "other"

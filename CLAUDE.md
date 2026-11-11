@@ -270,8 +270,13 @@ claims about what Claude Code produced quote a kept record, as its claims about 
   and `tests/test_claude_build.py` tests both scripts against a fake `claude` command.
 - **Quote the build.** A sentence about what Claude Code did quotes `transcript.json` and `generated/`, as a
   sentence about a model's answer quotes its recording. Never describe a build that isn't kept.
-- **What the page shows,** under the fixed heading "Build it with Claude Code", placed before "Run the notebook":
-  the spec, the command, what Claude Code generated, the tests that accepted it and what review changed.
+- **What the page shows,** under the fixed heading "Build it with Claude Code", placed before "Run the notebook".
+  The author asked on November 11, 2026 that every chapter walk the reader through its build, so the section shows
+  the full `spec.md` and says what each section of it decides, shows the key tests and what they check, shows the
+  prompt and what each sentence does, then the command, what Claude Code did according to the transcript, the
+  generated code, and what review found or changed. The introduction's "How the book uses Claude Code" explains a
+  session and its files once, and chapters link to it. These sections are parallel across chapters, so each is
+  written in its own words and order (writing rule 10).
 - **What the reader does.** Runs the same spec with Claude Code on their own machine or at claude.ai/code, with
   their own account, or runs `python3 scripts/claude_build.py <slug> --out my-build`, which uses their own login or
   `ANTHROPIC_API_KEY` and never reads the book's key. The notebook imports the committed, generated code, so Colab still needs no key.

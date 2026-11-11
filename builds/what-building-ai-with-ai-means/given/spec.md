@@ -22,6 +22,13 @@ blocks, whose text is empty.
 Strip surrounding whitespace and lowercase the result. Return it if it is one of `CATEGORIES`, and otherwise
 return the string `"unrecognized"`. Do no other cleanup, so `"Billing."` is `"unrecognized"`.
 
+## normalize_label(raw)
+
+A tolerant alternative to `parse_category`, for a caller that wants every reply forced into a category.
+Lowercase `raw`, then remove every whitespace and punctuation character (Python's `string.whitespace` and
+`string.punctuation`) from both ends. Return the result if it is one of `CATEGORIES`, and otherwise return
+`"other"`.
+
 ## triage(client, ticket, model=MODEL)
 
 Raise `ValueError` if `ticket` is empty or only whitespace, without calling the client. Otherwise call

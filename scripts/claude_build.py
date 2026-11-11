@@ -200,7 +200,7 @@ def build(slug, mode, out):
     secrets = [os.environ.get("AIWAI_RECORDING_KEY", ""), os.environ.get("ANTHROPIC_API_KEY", "")]
     with tempfile.TemporaryDirectory(prefix="claude-build-") as tmp:
         work, home = pathlib.Path(tmp) / "build", pathlib.Path(tmp) / "home"
-        shutil.copytree(given, work)
+        shutil.copytree(given, work, ignore=shutil.ignore_patterns("__pycache__", "*.pyc", ".pytest_cache"))
         home.mkdir()
         before = file_hashes(work)
         env = child_env(mode, home, os.path.dirname(sys.executable))

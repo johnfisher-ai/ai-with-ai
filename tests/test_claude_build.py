@@ -28,7 +28,9 @@ FAKE = r'''#!{python}
 import json, os, pathlib, sys, uuid
 DUMP = {dump!r}
 prompt = sys.stdin.read()
-pathlib.Path(DUMP).write_text(json.dumps({{"argv": sys.argv[1:], "env": dict(os.environ), "prompt": prompt}}))
+files = sorted(str(p) for p in pathlib.Path(".").rglob("*"))
+pathlib.Path(DUMP).write_text(json.dumps({{"argv": sys.argv[1:], "env": dict(os.environ), "prompt": prompt,
+                                          "files": files}}))
 cwd = os.getcwd()
 pathlib.Path("triage.py").write_text("def normalize_label(s):\n    return s.strip().lower()\n")
 if {tamper}:
@@ -198,3 +200,12 @@ def test_the_check_ignores_bytecode_left_by_importing_a_generated_module(book, m
     cache.mkdir()
     (cache / "triage.cpython-313.pyc").write_bytes(b"compiled bytecode, not part of the build")
     assert check_builds.check(book["folder"]) == []
+
+
+def test_bytecode_caches_in_given_are_not_copied_into_the_build(book, monkeypatch):
+    monkeypatch.setenv("BOOK_MODE", "record")
+    cache = book["folder"] / "given" / "tests" / "__pycache__"
+    cache.mkdir()
+    (cache / "test_triage.cpython-313.pyc").write_bytes(b"compiled bytecode, not part of the build")
+    claude_build.main(["a-test-build"])
+    assert book["seen"]()["files"] == ["spec.md", "tests", "tests/test_triage.py"]

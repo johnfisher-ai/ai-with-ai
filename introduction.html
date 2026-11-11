@@ -27,6 +27,18 @@
   <link rel="stylesheet" href="assets/css/chapter.css">
   <link rel="stylesheet" href="assets/css/theme.css">
   <script src="assets/js/theme.js"></script>
+  <style>
+    .disp-table { width:100%; border-collapse:collapse; margin:0; font-size:0.84rem;
+                  border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .disp-table th,.disp-table td { padding:0.55rem 0.75rem; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+    .disp-table th { background:var(--panel-2); color:var(--ink); font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; }
+    .disp-table td { color:var(--ink-soft); } .disp-table tr:last-child td { border-bottom:none; }
+    .codebox { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--panel-2); margin:1rem 0; }
+    .codebox .cbh { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:0.4rem 0.85rem; color:#fff; background:#6d28d9; }
+    .codebox pre { margin:0; padding:0.85rem; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; line-height:1.55; color:var(--ink); white-space:pre-wrap; overflow-wrap:anywhere; }
+    .fig-narrow { max-width:520px; margin-left:auto !important; margin-right:auto !important; }
+    @media (max-width: 480px) { .fig-narrow { padding:0.8rem 0.5rem !important; } }
+  </style>
 </head>
 <body class="chapter">
 
@@ -139,8 +151,53 @@
     </div>
   </section>
 
+  <section id="claude-code">
+    <div class="section-eyebrow"><div class="num">3</div><h2>How the book uses Claude Code</h2></div>
+    <p>From Chapter 2 on, the code a chapter needs is written by Claude Code, Anthropic's coding assistant, and every
+       chapter ends its explanation with a section headed <em>Build it with Claude Code</em> that shows how. Claude Code
+       works inside a project's folder. You start it in a terminal with the <code>claude</code> command, or in an IDE,
+       the desktop app or at claude.ai/code, and give it a <span class="term">prompt</span>. It reads the project's
+       files, runs commands such as the test suite, and creates or edits files, asking for permission according to its
+       settings. You review what it changed and decide what to keep. The command <code>claude -p</code> runs the same
+       kind of session without an interactive screen. It takes the prompt, works until it is done and prints what it
+       did, which is how the book runs its builds (Claude Code 2.1.322, as of November 2026).</p>
+    <p>A session is steered by files written in Markdown, the plain-text format that the <code>.md</code> ending
+       names. Claude Code treats one of them specially, and the others are files the book writes for each build.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="The files a Claude Code build uses">
+      <table class="disp-table">
+        <thead><tr><th>File</th><th>What it holds</th></tr></thead>
+        <tbody>
+          <tr><td style="white-space:nowrap"><code>CLAUDE.md</code></td><td>Written by the project's developers. Standing instructions Claude Code reads at the start of every session in the project: how to build and test, conventions, rules that always apply. This book's repository has one.</td></tr>
+          <tr><td style="white-space:nowrap"><code>spec.md</code></td><td>Written by the developer before any code. What to build, in plain words: each function, its inputs and outputs, the edge cases and what the code must not do. The name is the book's convention, and Claude Code reads it like any other file.</td></tr>
+          <tr><td style="white-space:nowrap"><code>tests/</code></td><td>Written by the developer before any code. The same requirements as executable pytest tests. They decide when the work is done, and Claude Code runs them itself.</td></tr>
+          <tr><td style="white-space:nowrap"><code>prompt.md</code></td><td>The exact prompt the session starts from. In an interactive session you would type it, and the book keeps it in a file so every build has a record of it.</td></tr>
+          <tr><td style="white-space:nowrap"><code>transcript.json</code></td><td>Written by the book's build script. Every step Claude Code took, its tool calls and their results, with the version, model, date, cost and test result.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 560" width="100%" font-family="Inter, sans-serif" role="img" aria-label="A Claude Code build from start to finish. You write three files: the prompt, spec.md and the tests. Claude Code reads the spec, runs the tests, edits the code and runs the tests again until they pass. It leaves the generated code and a transcript, which you review before committing."><defs><marker id="ia" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5578"/></marker></defs><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">One chapter&#8217;s Claude Code build</text><text x="10" y="56" font-size="14" font-weight="700" fill="#4a5578">YOU WRITE</text><rect x="10" y="66" width="146" height="92" rx="12" fill="#eef2ff" stroke="#c7d2fe"/><text x="83.0" y="94" text-anchor="middle" font-size="17" font-weight="800" fill="#3730a3">prompt.md</text><text x="83.0" y="116" text-anchor="middle" font-size="14.5" fill="#4a5578">what to do,</text><text x="83.0" y="136" text-anchor="middle" font-size="14.5" fill="#4a5578">what done means</text><rect x="167" y="66" width="146" height="92" rx="12" fill="#eef2ff" stroke="#c7d2fe"/><text x="240.0" y="94" text-anchor="middle" font-size="17" font-weight="800" fill="#3730a3">spec.md</text><text x="240.0" y="116" text-anchor="middle" font-size="14.5" fill="#4a5578">what to build,</text><text x="240.0" y="136" text-anchor="middle" font-size="14.5" fill="#4a5578">in plain words</text><rect x="324" y="66" width="146" height="92" rx="12" fill="#ecfdf5" stroke="#a7f3d0"/><text x="397.0" y="94" text-anchor="middle" font-size="17" font-weight="800" fill="#047857">tests/</text><text x="397.0" y="116" text-anchor="middle" font-size="14.5" fill="#4a5578">the contract,</text><text x="397.0" y="136" text-anchor="middle" font-size="14.5" fill="#4a5578">as code</text><line x1="240" y1="162" x2="240" y2="196" stroke="#4a5578" stroke-width="2.4" marker-end="url(#ia)"/><rect x="40" y="200" width="400" height="190" rx="14" fill="#fff1ec" stroke="#ffc9b8"/><text x="240" y="230" text-anchor="middle" font-size="18" font-weight="800" fill="#9a3412">The Claude Code session</text><text x="70" y="262" font-size="15.5" fill="#1a2138">1. reads spec.md and the tests</text><text x="70" y="288" font-size="15.5" fill="#1a2138">2. runs the tests, which fail</text><text x="70" y="314" font-size="15.5" fill="#1a2138">3. writes or edits the code</text><text x="70" y="340" font-size="15.5" fill="#1a2138">4. runs the tests again</text><text x="70" y="370" font-size="14.5" fill="#4a5578">repeats 3 and 4 until every test passes</text><line x1="240" y1="394" x2="240" y2="428" stroke="#4a5578" stroke-width="2.4" marker-end="url(#ia)"/><rect x="40" y="432" width="190" height="80" rx="12" fill="#f0e9fe" stroke="#d8c7fb"/><text x="135.0" y="460" text-anchor="middle" font-size="17" font-weight="800" fill="#6d28d9">The code</text><text x="135.0" y="482" text-anchor="middle" font-size="14.5" fill="#4a5578">generated/</text><rect x="250" y="432" width="190" height="80" rx="12" fill="#f4f6fb" stroke="#cdd3e3"/><text x="345.0" y="460" text-anchor="middle" font-size="17" font-weight="800" fill="#1a2138">The record</text><text x="345.0" y="482" text-anchor="middle" font-size="14.5" fill="#4a5578">transcript.json</text><text x="240" y="545" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a2138">You review both, then commit the code.</text></svg>
+    </figure>
+    <p>Prompting a coding assistant works best when the prompt is short and the files carry the detail. This is the
+       prompt Chapter 1's build used.</p>
+    <div class="codebox"><div class="cbh">prompt.md</div><pre tabindex="0">Read spec.md and write triage.py so that every test in tests/ passes. Create and change files with the Edit tool. The only shell command you may run is python3 -m pytest -q tests, which runs the tests. Do not change the tests.</pre></div>
+    <p>It points to the spec in place of restating it, defines done as the tests passing, names the tools and the one
+       command allowed, and puts the tests out of reach, because a test the assistant could edit would decide nothing.
+       What the code should do lives in <code>spec.md</code>, written the way a developer would brief a colleague, and
+       the tests turn each sentence of it into a check. A gap in the spec shows up as a case the tests don't cover, and
+       Claude Code reported one in Chapter 2's build on its own. Each chapter's build section shows its prompt, walks
+       through its spec and tests, and reports what Claude Code did and what review changed.</p>
+    <p>The book's builds run with a flag, <code>--bare</code>, under which Claude Code skips <code>CLAUDE.md</code>,
+       hooks and plugins, and the build script gives each session an empty home folder of its own. Everything a build
+       relies on is in its prompt, spec and tests, so anyone can repeat it. Each build's files are in the repository's <code>builds/</code> folder, and
+       <code>python3 scripts/claude_build.py &lt;chapter-slug&gt; --out my-build</code> runs it again with your own
+       Claude Code account. Running Claude Code needs a Claude account or an Anthropic API key, and the notebooks don't, because they import
+       the code each build generated. Later parts return to these files: Part 2 covers working with Claude Code in
+       depth, and Part 10 covers skill files, which package a reusable procedure for an agent.</p>
+  </section>
+
   <section id="recorded">
-    <div class="section-eyebrow"><div class="num">3</div><h2>Notebooks that call a model</h2></div>
+    <div class="section-eyebrow"><div class="num">4</div><h2>Notebooks that call a model</h2></div>
     <p>The tickets, documents and other records the examples work on are written for the book and describe no real
        organization or person. Most notebooks send requests to a language model through Anthropic's Python library. A live call needs an API
        key and returns a slightly different answer each time, which would make the book's numbers impossible to check, so
@@ -160,7 +217,7 @@
   </section>
 
   <section id="before">
-    <div class="section-eyebrow"><div class="num">4</div><h2>What helps before you start</h2></div>
+    <div class="section-eyebrow"><div class="num">5</div><h2>What helps before you start</h2></div>
     <p>The book assumes you write Python and have worked in a notebook. For a refresher, the free library <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/"><em>Python, Visually</em></a>
        covers both from the beginning, starting with its guide
        <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/python-from-the-start.html">Python from the Start</a>. No background in machine learning is assumed, and each chapter explains the model concepts it relies on.</p>

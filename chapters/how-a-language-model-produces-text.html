@@ -212,8 +212,68 @@
   <section id="build">
     <div class="section-eyebrow"><div class="num">6</div><h2>Build it with Claude Code</h2></div>
     <p>The notebook's <code>softmax</code>, <code>empirical_distribution</code> and <code>entropy_bits</code> come
-       from <code>sampling.py</code>, a module Claude Code generated before any notebook cell was written. The book
-       wrote a spec of three functions and fourteen pytest tests first, and gave Claude Code this prompt.</p>
+       from <code>sampling.py</code>, a module Claude Code generated before any notebook cell was written. It started
+       from two files the book wrote first, a spec in plain words and a file of pytest tests, and the spec is the place
+       to begin reading.</p>
+    <div class="codebox wrap"><div class="cbh">spec.md</div><pre tabindex="0"># sampling.py
+
+A small module for studying how a language model chooses its next token. It turns scores into
+probabilities, turns a list of sampled answers into a distribution, and measures how spread out a
+distribution is. Use only the Python standard library.
+
+## softmax(scores, temperature=1.0)
+
+`scores` is a non-empty sequence of numbers, one per candidate token. Return a list of probabilities,
+in the same order, that sum to 1. Divide every score by `temperature` before exponentiating. A lower
+temperature makes the highest score&#x27;s share larger, and a higher one spreads the probability out.
+Subtract the largest scaled score before exponentiating, so large scores don&#x27;t overflow.
+
+Raise `ValueError` if `scores` is empty or `temperature` is not greater than 0.
+
+## empirical_distribution(answers)
+
+`answers` is an iterable of strings, the replies a model gave to the same request. Normalize each one by
+stripping surrounding whitespace, removing trailing `.`, `!` and `?`, and lowercasing it. Return a dict
+from each distinct normalized answer to its share of all the answers. The shares sum to 1. Order the
+dict by share, largest first, and alphabetically among equal shares.
+
+Raise `ValueError` if there are no answers.
+
+## entropy_bits(probabilities)
+
+`probabilities` is either a sequence of probabilities or a mapping whose values are probabilities.
+Return the Shannon entropy in bits: the sum of `-p * log2(p)` over every `p` greater than 0. A
+distribution with one certain outcome has entropy 0.0, and two equally likely outcomes have 1.0.
+
+Raise `ValueError` if a probability is negative or the probabilities don&#x27;t sum to 1 within 1e-6.</pre></div>
+    <p>Each of its three sections names a function, says what it returns and lists the inputs it must refuse.
+       <code>softmax</code> gives the formula in words and adds one instruction about how to compute it, subtracting
+       the largest scaled score first, because the tests include scores of 1,000 and <code>math.exp(1000)</code>
+       overflows. <code>empirical_distribution</code> spells out how an answer is normalized and how the result is
+       ordered, so the chapter's charts list answers the same way on every run. <code>entropy_bits</code> accepts a
+       list or a mapping, which lets the notebook pass it both the list <code>softmax</code> returns and the dict
+       <code>empirical_distribution</code> returns. The spec is also exact about what it leaves out. It says to strip
+       whitespace and then trailing punctuation, and never says whether to strip again after that.</p>
+    <div class="codebox"><div class="cbh">tests/test_sampling.py, three of its tests</div><pre tabindex="0">def test_large_scores_do_not_overflow():
+    probs = softmax([1000.0, 999.0])
+    assert probs == pytest.approx([1 / (1 + math.exp(-1)), math.exp(-1) / (1 + math.exp(-1))])
+
+
+def test_empirical_distribution_normalizes_and_orders():
+    dist = empirical_distribution([&quot; Apple.&quot;, &quot;apple&quot;, &quot;Mango!&quot;, &quot;APPLE&quot;, &quot;kiwi?&quot;])
+    assert list(dist) == [&quot;apple&quot;, &quot;kiwi&quot;, &quot;mango&quot;]
+    assert dist == pytest.approx({&quot;apple&quot;: 0.6, &quot;kiwi&quot;: 0.2, &quot;mango&quot;: 0.2})
+
+
+@pytest.mark.parametrize(&quot;probs&quot;, [[0.5, 0.6], [1.2, -0.2]])
+def test_entropy_rejects_invalid_distributions(probs):
+    with pytest.raises(ValueError):
+        entropy_bits(probs)</pre></div>
+    <p>Counting each parametrized input as its own case, fourteen tests check the spec sentence by sentence: the
+       probabilities sum to 1, a lower temperature sharpens them, large scores don't overflow, answers are normalized
+       and ordered, and invalid input raises <code>ValueError</code>. None of them passes <code>"hello ."</code> to
+       <code>empirical_distribution</code>, so the gap in the spec is a gap in the tests too. With both files in place,
+       the prompt only has to point at them. It is Chapter 1's prompt with this chapter's file name.</p>
     <div class="codebox wrap"><div class="cbh">prompt.md</div><pre tabindex="0">Read spec.md and write sampling.py so that every test in tests/ passes. Create and change files with the Edit tool. The only shell command you may run is python3 -m pytest -q tests, which runs the tests. Do not change the tests.</pre></div>
     <p>The book's run used Claude Code 2.1.322 with Claude Sonnet 5.5, headless, in a clean
        folder holding only the spec and the tests:</p>
