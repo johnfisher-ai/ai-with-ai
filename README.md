@@ -35,6 +35,12 @@ The client every notebook uses is built by `chapters/notebooks/book_client.py`, 
 `pip install -r tests/requirements.txt`), and `python3 scripts/check_recordings.py` checks that every
 recording names its model, date and SDK version and keeps no response header.
 
+From Chapter 2 on, each chapter also shows Claude Code generating the code it needs, from a spec and tests the
+chapter gives. Each build is kept in `builds/<slug>/`: the prompt, the spec and tests Claude Code started from,
+the files it generated, its steps and the test run that accepted them. `python3 scripts/claude_build.py <slug>
+--out my-build` runs the same build with your own Claude Code login or key, and
+`python3 scripts/check_builds.py` checks the kept builds.
+
 ## Project structure
 
 ```
@@ -50,10 +56,11 @@ recording names its model, date and SDK version and keeps no response header.
 │       ├── <slug>.ipynb        # Companion notebooks, saved with their outputs
 │       └── html/               # The rendered notebooks that "View notebook" opens
 ├── templates/chapter.html      # The chapter skeleton every new chapter starts from (not linked)
+├── builds/                     # Each chapter's Claude Code build: prompt, spec, tests, generated code, steps
 ├── data/                       # The datasets, all written for the book
 ├── assets/                     # css/, js/ and img/
-├── scripts/                    # Chapter numbering, notebook cards, link checks, rendering, the sitemap, recordings
-├── tests/                      # Tests of the replay helper, and the SDK version the notebooks pin
+├── scripts/                    # Chapter numbering, notebook cards, links, rendering, sitemap, recordings, builds
+├── tests/                      # Tests of the replay helper and the build tooling, and the pinned SDK version
 ├── requirements.txt            # The libraries the notebooks import, for running them outside Colab
 └── .github/workflows/          # deploy.yml publishes, check-links.yml checks links, tests.yml tests the helper
 ```

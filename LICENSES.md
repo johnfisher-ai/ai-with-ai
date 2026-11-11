@@ -7,6 +7,7 @@ This repository holds four kinds of material, and they are licensed differently.
 | **The book** | [CC BY 4.0](LICENSE) | `chapters/*.html`, `index.html`, `toc.html`, `introduction.html`, `404.html`, `templates/`, `assets/` |
 | **The datasets** | [CC BY 4.0](LICENSE) | `data/` |
 | **The recorded model responses** | [CC BY 4.0](LICENSE), as far as any rights in them are mine | the recordings the notebooks replay, in `chapters/notebooks/recordings/` |
+| **The Claude Code builds** | [CC BY 4.0](LICENSE) for the prompts, specs and transcripts, and [MIT](LICENSE-CODE) for the tests and the generated code | `builds/` |
 | **The code** | [MIT](LICENSE-CODE) | `chapters/notebooks/*.ipynb` and `chapters/notebooks/book_client.py`, `scripts/`, `tests/`, `.github/workflows/`, and code shown inside a chapter page |
 
 ## What that means in practice

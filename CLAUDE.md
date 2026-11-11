@@ -51,14 +51,14 @@ These cost the first book real time when broken. They are not preferences.
 | `chapters/notebooks/html/*.html` | **Generated.** Never hand-edit; rebuilt on deploy. |
 | `chapters/notebooks/book_client.py` | The client every notebook replays, calls or records its model responses through. |
 | `chapters/notebooks/recordings/<notebook>.json` | The recorded model responses each notebook replays. Checked by `scripts/check_recordings.py`. |
-| `builds/<slug>/` | A chapter's Claude Code build: its spec, its tests, the generated files, the transcript and the test run. Planned with Chapter 2 (the punch list's Q15). |
-| `tests/` | The helper's tests and `requirements.txt`, which pins the SDK. |
+| `builds/<slug>/` | A chapter's Claude Code build: `build.json`, `prompt.md` and `given/` (spec and tests), written by hand, and `generated/`, `transcript.json` and `test-run.txt`, written by `scripts/claude_build.py`. Checked by `scripts/check_builds.py`. |
+| `tests/` | The tests of the replay helper and of the build tooling, and `requirements.txt`, which pins the SDK. |
 | `templates/chapter.html` | The chapter skeleton. Every new chapter starts as a copy. Not linked, marked noindex, and skipped by the link check. |
 | `data/` | Datasets, all written for the book. Workbooks have `Data`, `Codebook` and `Notes` sheets. |
 | `assets/css/`, `assets/js/` | `book.css`, `chapter.css`, `challenges.css`, `report.css`, and the dark theme: `theme.css` (**generated**) and `theme.js`. |
 | `assets/img/` | The favicon, the iPhone icon, the link-preview card (`social-card.png`, 2400 × 1260) and chapter figures. |
 | `toc.html` | **The manifest.** Single source of truth for structure. |
-| `scripts/` | `apply_chapter_nav.py`, `inject_notebook_backlinks.py`, `check_links.py`, `build_notebook_html.sh` and `build_sitemap.py`, copied from the first book with this book's names, and `check_recordings.py`. |
+| `scripts/` | `apply_chapter_nav.py`, `inject_notebook_backlinks.py`, `check_links.py`, `build_notebook_html.sh` and `build_sitemap.py`, copied from the first book with this book's names, `check_recordings.py`, and `claude_build.py` and `check_builds.py` for the Claude Code builds. |
 
 The repository root is the site root, so a `book/` segment inside any URL is a dead link.
 
@@ -249,17 +249,32 @@ Decided by the author on November 11, 2026 (the punch list's Q14 and Q15). From 
 capstone shows Claude Code generating the code it needs, from a spec and tests the chapter gives, and a chapter's
 claims about what Claude Code produced quote a kept record, as its claims about a model's answers quote a recording.
 
-- **How a build runs.** Headless, `claude -p`, in a clean folder holding only the chapter's spec and tests, with its
-  output saved as JSON. The book's key reaches that one process (the hard rule above), so the cost lands on the
-  book's key and is logged in the punch list's cost log.
-- **What is kept,** under `builds/<slug>/`: the spec, the tests, the exact command, the transcript with keys and
-  machine paths removed, the generated files, the test run that accepted them, and the Claude Code version, model,
-  date and cost. A check script, written with Chapter 2, keeps keys, tokens and machine paths out, as
-  `check_recordings.py` does for recordings.
+- **What the author writes,** under `builds/<slug>/`: `build.json` (format 1, the model, the shell commands Claude
+  Code may run, the test command and a spending cap in dollars), `prompt.md` (the prompt, word for word) and
+  `given/` (the files Claude Code starts from, usually `spec.md` and `tests/`).
+- **How a build runs.** `BOOK_MODE=record python3 scripts/claude_build.py <slug>`, with the dev venv's Python so the
+  build's `python3` has pytest. It copies `given/` into a new folder under the system's temporary directory and runs
+  `claude -p --bare` there with `prompt.md` on stdin, `--permission-mode dontAsk`, the tools Read, Edit and Bash,
+  and Bash limited to the commands `build.json` names. `--bare` offers only those three tools (Claude Code 2.1.322,
+  November 2026), so a prompt says to create files with Edit and names the one command it may run, or Claude Code
+  assumes it can't run the tests. The process gets a short list of environment variables, its own home folder, the
+  book's key as its `ANTHROPIC_API_KEY` and `https://api.anthropic.com` as its base URL, and no other key. Then
+  the script runs the test command on what Claude Code left. The cost lands on the book's key and goes in the
+  punch list's cost log.
+- **What is kept.** `generated/` holds every file Claude Code created or changed. `transcript.json` holds each step
+  (text, thinking, tool calls and results, refusals), the Claude Code version, model, date, command, cost, tokens
+  and the test result, with every session, message, request, event and tool-use ID dropped and the build folder's
+  path written as ".". `test-run.txt` holds the test output. The script stops without writing anything if the book's
+  or the reader's key appears anywhere in what Claude Code printed or wrote, and fails the build if Claude Code
+  changed the given tests. `scripts/check_builds.py` checks all of it, as `check_recordings.py` does for recordings,
+  and `tests/test_claude_build.py` tests both scripts against a fake `claude` command.
+- **Quote the build.** A sentence about what Claude Code did quotes `transcript.json` and `generated/`, as a
+  sentence about a model's answer quotes its recording. Never describe a build that isn't kept.
 - **What the page shows,** under the fixed heading "Build it with Claude Code", placed before "Run the notebook":
   the spec, the command, what Claude Code generated, the tests that accepted it and what review changed.
 - **What the reader does.** Runs the same spec with Claude Code on their own machine or at claude.ai/code, with
-  their own account. The notebook imports the committed, generated code, so Colab still needs no key.
+  their own account, or runs `python3 scripts/claude_build.py <slug> --out my-build`, which uses their own login or
+  `ANTHROPIC_API_KEY` and never reads the book's key. The notebook imports the committed, generated code, so Colab still needs no key.
 - **Chapter 1** predates this. It gets the section in its own round, with the triage module its outline row names.
 
 ## Notebook pipeline
