@@ -40,6 +40,10 @@ MAP = {
         ("../../what-building-ai-with-ai-means.html#notebook", "Back to the book", "Chapter 1 · What building AI with AI means"),
     "what-building-ai-with-ai-means--solutions.html":
         ("../../what-building-ai-with-ai-means.html#challenges", "Back to the book", "Chapter 1 · Practice challenges"),
+    "how-a-language-model-produces-text.html":
+        ("../../how-a-language-model-produces-text.html#notebook", "Back to the book", "Chapter 2 · How a language model produces text"),
+    "how-a-language-model-produces-text--solutions.html":
+        ("../../how-a-language-model-produces-text.html#challenges", "Back to the book", "Chapter 2 · Practice challenges"),
 }
 
 BOOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -39,6 +39,11 @@ FORBIDDEN = {
 }
 
 
+def _cache(path):
+    """Python's bytecode caches, which importing a generated module leaves behind. Git ignores them."""
+    return "__pycache__" in path.parts or path.suffix == ".pyc" or ".pytest_cache" in path.parts
+
+
 def check(folder):
     problems = []
     try:
@@ -84,14 +89,15 @@ def check(folder):
         problems.append("no test-run.txt")
     generated = folder / "generated"
     listed = record.get("generated") or {}
-    present = {str(p.relative_to(generated)) for p in generated.rglob("*") if p.is_file()} if generated.is_dir() else set()
+    present = {str(p.relative_to(generated)) for p in generated.rglob("*")
+               if p.is_file() and not _cache(p)} if generated.is_dir() else set()
     for name in sorted(present ^ set(listed)):
         problems.append(f"generated/{name}: {'not listed in the transcript' if name in present else 'missing'}")
     for name in sorted(present & set(listed)):
         if hashlib.sha256((generated / name).read_bytes()).hexdigest() != listed[name]:
             problems.append(f"generated/{name}: differs from the file Claude Code wrote")
     for p in sorted(folder.rglob("*")):
-        if p.is_file() and "__pycache__" not in p.parts:
+        if p.is_file() and not _cache(p):
             text = p.read_text(encoding="utf-8", errors="replace")
             for what, pattern in FORBIDDEN.items():
                 if pattern.search(text):

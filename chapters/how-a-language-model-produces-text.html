@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 2 · How a language model produces text · Building AI with AI</title>
+  <meta name="description" content="How a language model generates text one token at a time: tokens, the probabilities of the next token, temperature, and what repeated calls to the same request reveal, with a module Claude Code generated from a spec and tests.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/how-a-language-model-produces-text.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="How a language model produces text · Chapter 2">
+  <meta property="og:description" content="Tokens, next-token probabilities, temperature, and what twenty identical requests reveal about a model's answers.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/how-a-language-model-produces-text.html">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How a language model produces text · Chapter 2">
+  <meta name="twitter:description" content="Tokens, next-token probabilities, temperature, and what twenty identical requests reveal about a model's answers.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/book.css">
+  <link rel="stylesheet" href="../assets/css/chapter.css">
+  <link rel="stylesheet" href="../assets/css/challenges.css">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <script src="../assets/js/theme.js"></script>
+  <style>
+    .disp-table { width:100%; border-collapse:collapse; margin:0; font-size:0.84rem;
+                  border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .disp-table th,.disp-table td { padding:0.55rem 0.75rem; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+    .disp-table th { background:var(--panel-2); color:var(--ink); font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; }
+    .disp-table td { color:var(--ink-soft); } .disp-table tr:last-child td { border-bottom:none; }
+    .codebox { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--panel-2); margin:1rem 0; }
+    .codebox .cbh { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:0.4rem 0.85rem; color:#fff; background:#6d28d9; }
+    .codebox pre { margin:0; padding:0.85rem; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; line-height:1.55; overflow-x:auto; color:var(--ink); white-space:pre; }
+    .nb-fig { margin:1.4rem 0; border:1px solid var(--line); border-radius:14px; padding:0.8rem; background:var(--p-bg-ffffff, #ffffff); }
+    .nb-fig img { display:block; width:100%; height:auto; }
+    .nb-fig figcaption { font-size:0.8rem; color:var(--p-fg-4a5578, #4a5578); margin-top:0.5rem; }
+    .build-steps { margin:0.6rem 0 1rem 1.2rem; } .build-steps li { margin:0.25rem 0; }
+    .codebox.wrap pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+    .fig-narrow { max-width:520px; margin-left:auto !important; margin-right:auto !important; }
+    @media (max-width: 480px) { .fig-narrow { padding:0.8rem 0.5rem !important; } }
+  </style>
+</head>
+<body class="chapter">
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../toc.html">Contents</a>
+    <a href="notebooks/html/how-a-language-model-produces-text.html" class="btn btn-primary" style="padding:0.4rem 1rem;font-size:0.8rem">🐍 Notebook</a>
+  </div>
+</nav>
+<div class="read-progress" id="readProgress"></div>
+
+<header class="chapter-hero">
+  <div class="chapter-hero-inner">
+    <div class="crumb">
+      <a href="../toc.html">Contents</a><span class="sep">/</span>
+      <span>Part 1 · Working with a model</span><span class="sep">/</span>
+      <span>Chapter 2</span>
+    </div>
+    <h1>How a language model <span class="accent">produces text</span></h1>
+    <p class="dek">A reply is built one token at a time, each one sampled from a probability distribution. This chapter
+       measures what that looks like from outside the model: how text splits into tokens, how temperature reshapes the
+       probabilities, and what one request returns when it is sent twenty times.</p>
+    <div class="hero-meta">
+      <div class="m">⏱️ <b>~15 min</b>&nbsp;read</div>
+      <div class="m">🐍 <b>Notebook</b>&nbsp;included</div>
+      <div class="m">📊 <b>Chapter 2</b></div>
+    </div>
+  </div>
+</header>
+
+<main class="reading">
+
+  <section id="intro">
+    <p class="lead">Given a sequence of tokens, a language model computes a probability for every token that could come
+       next. Generation runs that computation in a loop: score the vocabulary, convert the scores to probabilities,
+       sample one token, append it and repeat. Identical requests diverge at the <span class="term">sampling</span>
+       step, and the Messages API exposes <span class="hl">none of the probabilities</span>, so a request's behavior has
+       to be measured from its outputs.</p>
+
+    <div class="def-card">
+      <div class="sigma">AI</div>
+      <div class="def-body">
+        <span class="def-kw">A token</span> is a unit of text from the model's fixed vocabulary. It is often a whole
+        common word, and otherwise a piece of a word, a group of digits or a single character. The model reads and
+        writes tokens, and the API counts and bills them.
+      </div>
+    </div>
+
+    <div class="callout key">
+      <div class="cico">🤖</div>
+      <div><div class="ctitle">The chapter in one line</div>
+        <p>A reply is one sample from a distribution, so you learn how a request behaves by sending it more than once.</p></div>
+    </div>
+  </section>
+
+  <section id="tokens">
+    <div class="section-eyebrow"><div class="num">1</div><h2>Text arrives as tokens</h2></div>
+    <p>A common word is often a single token, and a rare word, a date or an emoji is split into several. The API doesn't
+       return the pieces, but its <code>count_tokens</code> endpoint reports how many tokens a request holds without
+       running the model, so comparing short strings shows how they split. The notebook counted six one-string
+       requests to Claude Sonnet 5.5.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Input tokens for six strings">
+      <table class="disp-table">
+        <thead><tr><th>String</th><th>Input tokens</th><th>Compared with cat</th></tr></thead>
+        <tbody>
+          <tr><td><code>cat</code></td><td>10</td><td>+0</td></tr>
+          <tr><td><code>billing</code></td><td>10</td><td>+0</td></tr>
+          <tr><td><code>unbelievably</code></td><td>13</td><td>+3</td></tr>
+          <tr><td><code>Kubernetes</code></td><td>14</td><td>+4</td></tr>
+          <tr><td><code>2026-11-11</code></td><td>14</td><td>+4</td></tr>
+          <tr><td><code>🙂</code></td><td>11</td><td>+1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Every count includes the same fixed overhead of the request's format, so the differences carry the
+       information. <em>billing</em> splits into as many tokens as <em>cat</em>. <em>unbelievably</em> needs three more,
+       and <em>Kubernetes</em> and the date four more each. A word count is a poor guide to a token count, and token
+       counts set both the context a request fits in and what it costs, which Chapter 3, Tokens, context and cost,
+       measures. The first book's <a href="https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/chapters/nlp-and-large-language-models.html">NLP &amp; Large Language Models</a>
+       tokenizes text and computes a softmax by hand in its notebook.</p>
+  </section>
+
+  <section id="loop">
+    <div class="section-eyebrow"><div class="num">2</div><h2>Generation runs as a loop</h2></div>
+    <p>Generation is a loop around one computation. The model takes the text so far as tokens, scores every token in
+       its vocabulary, turns the scores into probabilities and samples one. That token is appended and the loop runs
+       again on the longer text. It stops when the model samples its end-of-turn token, which the response reports as
+       the <code>end_turn</code> stop reason, or when the reply reaches the request's <code>max_tokens</code>,
+       reported as <code>max_tokens</code>.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 400" width="100%" font-family="Inter, sans-serif" role="img" aria-label="A cycle of four steps. The text so far, as tokens, goes to the model, which scores every token in its vocabulary. Softmax turns the scores into probabilities. One token is sampled, appended to the text, and the cycle repeats until an end token or max_tokens."><defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5578"/></marker></defs><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">One step of generation,</text><text x="240" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">repeated for every token</text><rect x="10" y="70" width="200" height="115" rx="12" fill="#eef2ff" stroke="#c7d2fe"/><text x="110.0" y="104" text-anchor="middle" font-size="19" font-weight="800" fill="#3730a3">The text so far</text><text x="110.0" y="132" text-anchor="middle" font-size="16" fill="#4a5578">as tokens: The</text><text x="110.0" y="154" text-anchor="middle" font-size="16" fill="#4a5578">· package · arrived</text><rect x="270" y="70" width="200" height="115" rx="12" fill="#fff1ec" stroke="#ffc9b8"/><text x="370.0" y="104" text-anchor="middle" font-size="19" font-weight="800" fill="#9a3412">The model</text><text x="370.0" y="132" text-anchor="middle" font-size="16" fill="#4a5578">scores every token</text><text x="370.0" y="154" text-anchor="middle" font-size="16" fill="#4a5578">in its vocabulary</text><rect x="270" y="240" width="200" height="115" rx="12" fill="#ecfdf5" stroke="#a7f3d0"/><text x="370.0" y="274" text-anchor="middle" font-size="19" font-weight="800" fill="#047857">Softmax</text><text x="370.0" y="302" text-anchor="middle" font-size="16" fill="#4a5578">scores become</text><text x="370.0" y="324" text-anchor="middle" font-size="16" fill="#4a5578">probabilities</text><rect x="10" y="240" width="200" height="115" rx="12" fill="#f0e9fe" stroke="#d8c7fb"/><text x="110.0" y="274" text-anchor="middle" font-size="19" font-weight="800" fill="#6d28d9">Sample a token</text><text x="110.0" y="302" text-anchor="middle" font-size="16" fill="#4a5578">today, p = 0.41</text><text x="110.0" y="324" text-anchor="middle" font-size="16" fill="#4a5578">in the example</text><line x1="212" y1="127" x2="267" y2="127" stroke="#4a5578" stroke-width="2.4" marker-end="url(#a2)"/><line x1="370" y1="187" x2="370" y2="237" stroke="#4a5578" stroke-width="2.4" marker-end="url(#a2)"/><line x1="268" y1="297" x2="213" y2="297" stroke="#4a5578" stroke-width="2.4" marker-end="url(#a2)"/><line x1="110" y1="238" x2="110" y2="188" stroke="#4a5578" stroke-width="2.4" marker-end="url(#a2)"/><text x="122" y="218" font-size="16" fill="#1a2138" font-weight="700">append, repeat</text><text x="240" y="385" text-anchor="middle" font-size="15" fill="#4a5578">Stops at an end token or at max_tokens.</text></svg>
+    </figure>
+    <p>Every later token is conditioned on the ones before it, so one different choice early in a reply can change
+       everything after it. The thinking tokens Chapter 1 measured come from the same loop. The model samples them
+       before the visible answer, and they are billed as output.</p>
+  </section>
+
+  <section id="temperature">
+    <div class="section-eyebrow"><div class="num">3</div><h2>Temperature reshapes the probabilities</h2></div>
+    <p>The step from scores to probabilities is the <span class="term">softmax</span> function. Each score is divided by
+       the temperature, exponentiated and divided by the sum of all the exponentiated scores, so every probability is
+       positive and they add to 1. A temperature below 1 widens the gaps between scores and raises the leading token's
+       share. A temperature above 1 narrows the gaps and spreads the probability out.</p>
+    <p>The Messages API returns none of these scores. As of November 2026, the API version the book's SDK sends,
+       <code>2026-10-21</code>, also rejects the <code>temperature</code>, <code>top_p</code> and <code>top_k</code>
+       fields on every model, so each request samples at the model's default settings. The figure therefore works on
+       five illustrative scores for the word after &#8220;The package arrived&#8221;, put through the notebook's
+       <code>softmax</code>.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 380" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Temperature 0.5: today 0.59, yesterday 0.27, late 0.10, damaged 0.02, safely 0.02, entropy 1.51 bits; Temperature 1.0: today 0.41, yesterday 0.27, late 0.17, damaged 0.08, safely 0.07, entropy 2.03 bits; Temperature 2.0: today 0.30, yesterday 0.25, late 0.19, damaged 0.14, safely 0.12, entropy 2.24 bits"><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">Illustrative scores for the</text><text x="240" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">word after &#8220;The package arrived&#8221;</text><text x="10" y="82" font-size="16" font-weight="700" fill="#1a2138">temperature 0.5</text><text x="470" y="82" text-anchor="end" font-size="16" fill="#4a5578">1.51 bits</text><rect x="10.0" y="92" width="271.4" height="42" fill="#ffd2c2" stroke="#e5603f"/><text x="145.7" y="119" text-anchor="middle" font-size="15" fill="#1a2138">0.59</text><rect x="281.4" y="92" width="124.2" height="42" fill="#e3d5fb" stroke="#7c3aed"/><text x="343.5" y="119" text-anchor="middle" font-size="15" fill="#1a2138">0.27</text><rect x="405.6" y="92" width="46.0" height="42" fill="#c9ecee" stroke="#0f6b74"/><text x="428.6" y="119" text-anchor="middle" font-size="15" fill="#1a2138">0.10</text><rect x="451.6" y="92" width="9.2" height="42" fill="#d6e2fd" stroke="#1d4ed8"/><rect x="460.8" y="92" width="9.2" height="42" fill="#fde5c4" stroke="#b45309"/><text x="10" y="170" font-size="16" font-weight="700" fill="#1a2138">temperature 1.0</text><text x="470" y="170" text-anchor="end" font-size="16" fill="#4a5578">2.03 bits</text><rect x="10.0" y="180" width="188.6" height="42" fill="#ffd2c2" stroke="#e5603f"/><text x="104.3" y="207" text-anchor="middle" font-size="15" fill="#1a2138">0.41</text><rect x="198.6" y="180" width="124.2" height="42" fill="#e3d5fb" stroke="#7c3aed"/><text x="260.7" y="207" text-anchor="middle" font-size="15" fill="#1a2138">0.27</text><rect x="322.8" y="180" width="78.2" height="42" fill="#c9ecee" stroke="#0f6b74"/><text x="361.9" y="207" text-anchor="middle" font-size="15" fill="#1a2138">0.17</text><rect x="401.0" y="180" width="36.8" height="42" fill="#d6e2fd" stroke="#1d4ed8"/><rect x="437.8" y="180" width="32.2" height="42" fill="#fde5c4" stroke="#b45309"/><text x="10" y="258" font-size="16" font-weight="700" fill="#1a2138">temperature 2.0</text><text x="470" y="258" text-anchor="end" font-size="16" fill="#4a5578">2.24 bits</text><rect x="10.0" y="268" width="138.0" height="42" fill="#ffd2c2" stroke="#e5603f"/><text x="79.0" y="295" text-anchor="middle" font-size="15" fill="#1a2138">0.30</text><rect x="148.0" y="268" width="115.0" height="42" fill="#e3d5fb" stroke="#7c3aed"/><text x="205.5" y="295" text-anchor="middle" font-size="15" fill="#1a2138">0.25</text><rect x="263.0" y="268" width="87.4" height="42" fill="#c9ecee" stroke="#0f6b74"/><text x="306.7" y="295" text-anchor="middle" font-size="15" fill="#1a2138">0.19</text><rect x="350.4" y="268" width="64.4" height="42" fill="#d6e2fd" stroke="#1d4ed8"/><text x="382.6" y="295" text-anchor="middle" font-size="15" fill="#1a2138">0.14</text><rect x="414.8" y="268" width="55.2" height="42" fill="#fde5c4" stroke="#b45309"/><text x="442.4" y="295" text-anchor="middle" font-size="15" fill="#1a2138">0.12</text><rect x="10" y="326" width="16" height="16" fill="#ffd2c2" stroke="#e5603f"/><text x="32" y="340" font-size="16" fill="#1a2138">today</text><rect x="170" y="326" width="16" height="16" fill="#e3d5fb" stroke="#7c3aed"/><text x="192" y="340" font-size="16" fill="#1a2138">yesterday</text><rect x="330" y="326" width="16" height="16" fill="#c9ecee" stroke="#0f6b74"/><text x="352" y="340" font-size="16" fill="#1a2138">late</text><rect x="10" y="352" width="16" height="16" fill="#d6e2fd" stroke="#1d4ed8"/><text x="32" y="366" font-size="16" fill="#1a2138">damaged</text><rect x="170" y="352" width="16" height="16" fill="#fde5c4" stroke="#b45309"/><text x="192" y="366" font-size="16" fill="#1a2138">safely</text></svg>
+    </figure>
+    <p>At temperature 0.5, <em>today</em> takes 0.59 of the probability. At 1.0 its share is 0.41 and at 2.0 it is
+       0.30. Entropy measures the spread in bits, from 0 for a certain outcome to about 2.32 for five equally likely
+       words, and it rises from 1.51 to 2.24 bits across the three temperatures.</p>
+  </section>
+
+  <section id="samples">
+    <div class="section-eyebrow"><div class="num">4</div><h2>What twenty identical requests return</h2></div>
+    <p>With the scores out of view, the way to see a request's distribution is to sample it. The notebook sent four
+       requests to Claude Sonnet 5.5 twenty times each and counted the answers: a random whole number from 1 to 10, a
+       fruit, a one-word name for a coffee shop, and the category of the ticket from Chapter 1 about an invoice behind a
+       login.</p>
+    <figure class="nb-fig">
+      <img src="../assets/img/how-a-language-model-produces-text-samples.png" width="1176" height="338" loading="lazy"
+           alt="Four bar charts of twenty answers each. Random number: 7 twenty times, 0.00 bits. Fruit: apple 15, mango 5, 0.81 bits. Coffee shop name: ember twenty times, 0.00 bits. Ticket category: login twenty times, 0.00 bits.">
+      <figcaption>From the notebook. Each request was sent twenty times, and each panel shows its answers and their entropy.</figcaption>
+    </figure>
+    <p>Three of the four requests returned the same answer twenty times out of twenty. The random number was 7 every
+       time, the coffee shop was always <em>Ember</em>, and the ticket was always <code>login</code>. Only the fruit
+       split, apple fifteen times and mango five, an entropy of 0.81 bits. Twenty identical answers still say little
+       about the twenty-first call, because a fixed answer and one with a rare alternative look the same in a small
+       sample, which the first book's <a href="https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/chapters/probability-by-simulation.html">Probability by Simulation</a>
+       explains for any distribution estimated from repeated draws.</p>
+    <p>The cost varied as well. Of the twenty ticket calls, nineteen wrote 3 output tokens and one wrote 34, 31 of them
+       thinking, for the same one-word answer. All 80 calls together read 2,880 input tokens and wrote 351, about
+       0.0093 dollars at Claude Sonnet 5.5's prices as of November 2026.</p>
+  </section>
+
+  <section id="goes-wrong">
+    <div class="section-eyebrow"><div class="num">5</div><h2>Where next-token sampling goes wrong</h2></div>
+    <ul>
+      <li><strong>A single reply</strong> is one draw from the distribution. Where an answer matters, send the request
+          several times and read the spread, as Part 4's evals do at scale.</li>
+      <li><strong>A model asked for randomness</strong> returns the value its distribution favors. Asked for a random
+          number twenty times, the model said 7 twenty times, so draw random values in code, with
+          <code>random.randint</code> or a seeded generator.</li>
+      <li><strong>A unanimous sample</strong> shows the model's preference and nothing more. The ticket came back
+          <code>login</code> twenty times, which doesn't settle whether <code>billing</code> was the right category.</li>
+      <li><strong>Token estimates from word counts</strong> miss how words split. <em>Kubernetes</em> took four more
+          tokens than <em>cat</em>, so budget context and cost with <code>count_tokens</code>.</li>
+      <li><strong>The cost of a call</strong> varies with the path the sampling takes. One ticket call wrote eleven
+          times the output tokens of the others for the same answer, so plan for the spread and log the usage each
+          response reports.</li>
+    </ul>
+  </section>
+
+  <section id="build">
+    <div class="section-eyebrow"><div class="num">6</div><h2>Build it with Claude Code</h2></div>
+    <p>The notebook's <code>softmax</code>, <code>empirical_distribution</code> and <code>entropy_bits</code> come
+       from <code>sampling.py</code>, a module Claude Code generated before any notebook cell was written. The book
+       wrote a spec of three functions and fourteen pytest tests first, and gave Claude Code this prompt.</p>
+    <div class="codebox wrap"><div class="cbh">prompt.md</div><pre tabindex="0">Read spec.md and write sampling.py so that every test in tests/ passes. Create and change files with the Edit tool. The only shell command you may run is python3 -m pytest -q tests, which runs the tests. Do not change the tests.</pre></div>
+    <p>The book's run used Claude Code 2.1.322 with Claude Sonnet 5.5, headless, in a clean
+       folder holding only the spec and the tests:</p>
+    <div class="codebox wrap"><div class="cbh">command</div><pre tabindex="0">BOOK_MODE=record python3 scripts/claude_build.py how-a-language-model-produces-text</pre></div>
+    <p>The transcript the script kept shows what Claude Code did, in order:</p>
+    <ol class="build-steps">
+      <li>Claude Code read <code>spec.md</code>.</li>
+      <li>It ran the tests, which failed because <code>sampling.py</code> didn't exist yet.</li>
+      <li>It wrote <code>sampling.py</code> with the Edit tool.</li>
+      <li>It ran the tests again, and all fourteen passed.</li>
+      <li>It reported that the spec leaves one case open, and that the tests pass either way.</li>
+    </ol>
+    <div class="codebox"><div class="cbh">generated by Claude Code</div><pre tabindex="0">import math
+from collections import Counter
+
+
+def softmax(scores, temperature=1.0):
+    scores = list(scores)
+    if not scores:
+        raise ValueError(&quot;scores must be non-empty&quot;)
+    if not temperature &gt; 0:
+        raise ValueError(&quot;temperature must be greater than 0&quot;)
+    scaled = [s / temperature for s in scores]
+    m = max(scaled)
+    exps = [math.exp(s - m) for s in scaled]
+    total = sum(exps)
+    return [e / total for e in exps]
+
+
+def empirical_distribution(answers):
+    normalized = [a.strip().rstrip(&quot;.!?&quot;).lower() for a in answers]
+    if not normalized:
+        raise ValueError(&quot;no answers&quot;)
+    n = len(normalized)
+    counts = Counter(normalized)
+    items = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
+    return {k: v / n for k, v in items}
+
+
+def entropy_bits(probabilities):
+    if hasattr(probabilities, &quot;values&quot;):
+        probs = list(probabilities.values())
+    else:
+        probs = list(probabilities)
+    if any(p &lt; 0 for p in probs):
+        raise ValueError(&quot;negative probability&quot;)
+    if abs(sum(probs) - 1) &gt; 1e-6:
+        raise ValueError(&quot;probabilities must sum to 1&quot;)
+    h = sum(-p * math.log2(p) for p in probs if p &gt; 0)
+    return h + 0.0</pre></div>
+    <p>The build cost 0.0205 dollars on the book's key. The open case Claude Code reported is real. The spec says to
+       strip whitespace and remove trailing punctuation, but not whether to strip again afterward, so
+       <code>"hello ."</code> becomes <code>"hello "</code> and is counted apart from <code>"hello"</code>. Review
+       accepted the module unchanged, because the chapter's one-word answers never reach that case, and the third
+       practice challenge closes the gap with a test. Review also noted that <code>entropy_bits</code> adds
+       <code>0.0</code> to its result, which turns a negative zero into 0.0, and that no function has a docstring.
+       The prompt, spec, tests, transcript and generated file are in the repository's
+       <a href="https://github.com/johnfisher-ai/ai-with-ai/tree/main/builds/how-a-language-model-produces-text">builds folder</a>, and
+       <code>python3 scripts/claude_build.py how-a-language-model-produces-text --out my-build</code> runs the same build with your own Claude Code
+       account. <em>Python, Visually</em>'s <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/testing-and-packaging.html">Testing and Packaging</a> covers
+       pytest, which the build's tests are written in.</p>
+  </section>
+
+  <section id="notebook">
+    <div class="nb-cta" style="display:block">
+      <div style="display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.3rem">
+        <div class="nb-ic">🐍</div>
+        <div class="nb-body">
+          <h3>Run the notebook</h3>
+          <p>Counts tokens, puts illustrative scores through softmax at three temperatures, and sends four requests
+             twenty times each, all with the module from the chapter's Claude Code build.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+        <a class="btn btn-primary" href="notebooks/html/how-a-language-model-produces-text.html">📓 View notebook (code and outputs)</a>
+        <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+           href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/how-a-language-model-produces-text.ipynb"
+           target="_blank" rel="noopener">▶ Open in Colab</a>
+        <a class="btn btn-ghost" style="background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)"
+           href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/how-a-language-model-produces-text.ipynb"
+           target="_blank" rel="noopener">⬇ View or download on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="takeaways">
+    <div class="takeaways">
+      <h3>🎓 In brief</h3>
+      <ul>
+        <li><span class="ck">✓</span><span>A model generates a reply one token at a time, sampling each token from a probability distribution over its vocabulary.</span></li>
+        <li><span class="ck">✓</span><span>Token counts differ from word counts. <em>billing</em> matched <em>cat</em>, and <em>Kubernetes</em> took four more tokens.</span></li>
+        <li><span class="ck">✓</span><span>Temperature reshapes the distribution before sampling. As of November 2026 the API no longer accepts it, so every request samples at the model's defaults.</span></li>
+        <li><span class="ck">✓</span><span>Sending a request many times shows its distribution. Three of four requests returned one answer twenty times, and the fruit split 15 to 5.</span></li>
+        <li><span class="ck">✓</span><span>The chapter's arithmetic came from a module Claude Code generated against tests written first, and review kept the one gap it reported as a test to add.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="challenges">
+    <div class="section-eyebrow"><div class="num">7</div><h2>Practice challenges</h2></div>
+    <p>The first and third challenges run on <code>sampling.py</code> alone, and the second calls the model.</p>
+    <div class="challenges">
+      <div class="challenge"><div class="cnum">1</div><div class="cbody">
+        <h3>Temperature at the extremes</h3>
+        <p>Put the chapter's illustrative scores through <code>softmax</code> at temperature 0.1 and at 10, and compare
+           the entropy with the chapter's three temperatures.</p>
+        <div class="chint">Hint: entropy_bits accepts the list softmax returns.</div></div></div>
+      <div class="challenge"><div class="cnum">2</div><div class="cbody">
+        <h3>Measure a new request</h3>
+        <p>Send <em>Name a primary color. Reply with one word.</em> ten times, then compute its distribution and
+           entropy.</p>
+        <div class="chint">Hint: collect the answers in a list and pass it to empirical_distribution.</div></div></div>
+      <div class="challenge"><div class="cnum">3</div><div class="cbody">
+        <h3>Close the gap in the spec</h3>
+        <p>Show that <code>"hello ."</code> and <code>"hello"</code> are counted as different answers, then write the
+           pytest test that makes them one.</p>
+        <div class="chint">Hint: the test belongs in the build's given/tests/, so the next build has to pass it.</div></div></div>
+    </div>
+    <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:0.4rem">
+      <a class="btn btn-primary" href="notebooks/html/how-a-language-model-produces-text--solutions.html">📓 View solutions</a>
+      <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+         href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/how-a-language-model-produces-text--solutions.ipynb"
+         target="_blank" rel="noopener">▶ Open solutions in Colab</a>
+    </div>
+  </section>
+
+
+  <div class="callout key" style="margin-top:2rem">
+    <div class="cico">➡️</div>
+    <div><div class="ctitle">Up next</div>
+      <p><strong>Chapter 3 · Tokens, context and cost</strong> counts tokens properly, measures how much text fits in a
+         model's context window, and turns token counts into what a call costs.</p></div>
+  </div>
+
+  <nav class="chapter-nav" aria-label="Previous and next chapter">
+    <a class="cn-btn prev" href="what-building-ai-with-ai-means.html">
+      <span style="font-size:1.3rem">←</span>
+      <span><span class="cn-dir">Chapter 1 · Previous</span><br><span class="cn-title">What building AI with AI means</span></span>
+    </a>
+    <a class="cn-btn next" href="../toc.html">
+      <span><span class="cn-dir">Chapter 3 · Coming soon</span><br><span class="cn-title">Tokens, context and cost</span></span>
+      <span style="font-size:1.3rem">→</span>
+    </a>
+  </nav>
+
+</main>
+
+<footer class="book-footer" style="background:#0a1230;color:#8892b0;border-top:none">
+  <strong style="color:#cbd5e1">Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  Chapter 2 &nbsp;·&nbsp; © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+const bar = document.getElementById('readProgress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = ((h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100) + '%';
+});
+</script>
+
+</body>
+</html>

@@ -189,3 +189,12 @@ def test_generated_hashes_match_the_files(book, monkeypatch):
     record = json.loads((book["folder"] / "transcript.json").read_text())
     data = (book["folder"] / "generated" / "triage.py").read_bytes()
     assert record["generated"]["triage.py"] == hashlib.sha256(data).hexdigest()
+
+
+def test_the_check_ignores_bytecode_left_by_importing_a_generated_module(book, monkeypatch):
+    monkeypatch.setenv("BOOK_MODE", "record")
+    claude_build.main(["a-test-build"])
+    cache = book["folder"] / "generated" / "__pycache__"
+    cache.mkdir()
+    (cache / "triage.cpython-313.pyc").write_bytes(b"compiled bytecode, not part of the build")
+    assert check_builds.check(book["folder"]) == []

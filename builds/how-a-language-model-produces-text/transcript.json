@@ -1,0 +1,130 @@
+{
+ "format": 1,
+ "slug": "how-a-language-model-produces-text",
+ "mode": "record",
+ "date": "2026-11-11",
+ "claude_code_version": "2.1.322",
+ "model": "claude-sonnet-5-5",
+ "permission_mode": "dontAsk",
+ "tools": [
+  "Bash",
+  "Edit",
+  "Read"
+ ],
+ "command": [
+  "claude",
+  "-p",
+  "--bare",
+  "--output-format",
+  "stream-json",
+  "--verbose",
+  "--no-session-persistence",
+  "--model",
+  "claude-sonnet-5-5",
+  "--max-budget-usd",
+  "1.0",
+  "--permission-mode",
+  "dontAsk",
+  "--tools",
+  "Read,Edit,Bash",
+  "--allowedTools",
+  "Read",
+  "Edit",
+  "Bash(python3 -m pytest *)"
+ ],
+ "exit_code": 0,
+ "result": {
+  "outcome": "success",
+  "is_error": false,
+  "turns": 5,
+  "cost_usd": 0.020452500000000002,
+  "duration_ms": 8930,
+  "input_tokens": 8,
+  "output_tokens": 1049,
+  "cache_read_tokens": 4565,
+  "cache_write_tokens": 3796,
+  "final_text": "I wrote `sampling.py` with `softmax`, `empirical_distribution` and `entropy_bits`, following `spec.md`. All 14 tests in `tests/` pass.\n\nIn `empirical_distribution` I strip whitespace first, then remove trailing `.`, `!` and `?`, then lowercase. I don't strip whitespace a second time. So `\"hello .\"` becomes `\"hello \"`, with the trailing space kept. The spec doesn't say which way to handle this, and the tests pass either way."
+ },
+ "generated": {
+  "sampling.py": "97d9ad92ede934597e15f16a6493e0502a15de9ae2f5ef08885b960f5dbfb855"
+ },
+ "tests": {
+  "command": [
+   "python3",
+   "-m",
+   "pytest",
+   "-q",
+   "-p",
+   "no:cacheprovider",
+   "tests"
+  ],
+  "exit_code": 0,
+  "passed": true,
+  "changed_by_claude": []
+ },
+ "steps": [
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t1",
+   "input": {
+    "file_path": "./spec.md"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t1",
+   "is_error": false,
+   "result": "1\t# sampling.py\n2\t\n3\tA small module for studying how a language model chooses its next token. It turns scores into\n4\tprobabilities, turns a list of sampled answers into a distribution, and measures how spread out a\n5\tdistribution is. Use only the Python standard library.\n6\t\n7\t## softmax(scores, temperature=1.0)\n8\t\n9\t`scores` is a non-empty sequence of numbers, one per candidate token. Return a list of probabilities,\n10\tin the same order, that sum to 1. Divide every score by `temperature` before exponentiating. A lower\n11\ttemperature makes the highest score's share larger, and a higher one spreads the probability out.\n12\tSubtract the largest scaled score before exponentiating, so large scores don't overflow.\n13\t\n14\tRaise `ValueError` if `scores` is empty or `temperature` is not greater than 0.\n15\t\n16\t## empirical_distribution(answers)\n17\t\n18\t`answers` is an iterable of strings, the replies a model gave to the same request. Normalize each one by\n19\tstripping surrounding whitespace, removing trailing `.`, `!` and `?`, and lowercasing it. Return a dict\n20\tfrom each distinct normalized answer to its share of all the answers. The shares sum to 1. Order the\n21\tdict by share, largest first, and alphabetically among equal shares.\n22\t\n23\tRaise `ValueError` if there are no answers.\n24\t\n25\t## entropy_bits(probabilities)\n26\t\n27\t`probabilities` is either a sequence of probabilities or a mapping whose values are probabilities.\n28\tReturn the Shannon entropy in bits: the sum of `-p * log2(p)` over every `p` greater than 0. A\n29\tdistribution with one certain outcome has entropy 0.0, and two equally likely outcomes have 1.0.\n30\t\n31\tRaise `ValueError` if a probability is negative or the probabilities don't sum to 1 within 1e-6.\n32\t"
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t2",
+   "input": {
+    "command": "python3 -m pytest -q tests"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t2",
+   "is_error": true,
+   "result": "Exit code 2\n\n==================================== ERRORS ====================================\n___________________ ERROR collecting tests/test_sampling.py ____________________\nImportError while importing test module './tests/test_sampling.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n/usr/local/lib/python3.13/importlib/__init__.py:88: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntests/test_sampling.py:5: in <module>\n    from sampling import empirical_distribution, entropy_bits, softmax\nE   ModuleNotFoundError: No module named 'sampling'\n=========================== short test summary info ============================\nERROR tests/test_sampling.py\n!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n1 error in 0.06s"
+  },
+  {
+   "role": "assistant",
+   "tool": "Edit",
+   "id": "t3",
+   "input": {
+    "replace_all": false,
+    "file_path": "./sampling.py",
+    "old_string": "",
+    "new_string": "import math\nfrom collections import Counter\n\n\ndef softmax(scores, temperature=1.0):\n    scores = list(scores)\n    if not scores:\n        raise ValueError(\"scores must be non-empty\")\n    if not temperature > 0:\n        raise ValueError(\"temperature must be greater than 0\")\n    scaled = [s / temperature for s in scores]\n    m = max(scaled)\n    exps = [math.exp(s - m) for s in scaled]\n    total = sum(exps)\n    return [e / total for e in exps]\n\n\ndef empirical_distribution(answers):\n    normalized = [a.strip().rstrip(\".!?\").lower() for a in answers]\n    if not normalized:\n        raise ValueError(\"no answers\")\n    n = len(normalized)\n    counts = Counter(normalized)\n    items = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n    return {k: v / n for k, v in items}\n\n\ndef entropy_bits(probabilities):\n    if hasattr(probabilities, \"values\"):\n        probs = list(probabilities.values())\n    else:\n        probs = list(probabilities)\n    if any(p < 0 for p in probs):\n        raise ValueError(\"negative probability\")\n    if abs(sum(probs) - 1) > 1e-6:\n        raise ValueError(\"probabilities must sum to 1\")\n    h = sum(-p * math.log2(p) for p in probs if p > 0)\n    return h + 0.0\n"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t3",
+   "is_error": false,
+   "result": "The file ./sampling.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t4",
+   "input": {
+    "command": "python3 -m pytest -q tests"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t4",
+   "is_error": false,
+   "result": "..............                                                           [100%]\n14 passed in 0.01s"
+  },
+  {
+   "role": "assistant",
+   "text": "I wrote `sampling.py` with `softmax`, `empirical_distribution` and `entropy_bits`, following `spec.md`. All 14 tests in `tests/` pass.\n\nIn `empirical_distribution` I strip whitespace first, then remove trailing `.`, `!` and `?`, then lowercase. I don't strip whitespace a second time. So `\"hello .\"` becomes `\"hello \"`, with the trailing space kept. The spec doesn't say which way to handle this, and the tests pass either way."
+  }
+ ]
+}
