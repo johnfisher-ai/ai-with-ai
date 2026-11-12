@@ -1,0 +1,144 @@
+{
+ "format": 1,
+ "slug": "your-first-model-call",
+ "mode": "record",
+ "date": "2026-11-12",
+ "claude_code_version": "2.1.322",
+ "model": "claude-sonnet-5-5",
+ "permission_mode": "dontAsk",
+ "tools": [
+  "Bash",
+  "Edit",
+  "Read"
+ ],
+ "command": [
+  "claude",
+  "-p",
+  "--bare",
+  "--output-format",
+  "stream-json",
+  "--verbose",
+  "--no-session-persistence",
+  "--model",
+  "claude-sonnet-5-5",
+  "--max-budget-usd",
+  "1.0",
+  "--permission-mode",
+  "dontAsk",
+  "--tools",
+  "Read,Edit,Bash",
+  "--allowedTools",
+  "Read",
+  "Edit",
+  "Bash(python3 -m pytest *)"
+ ],
+ "exit_code": 0,
+ "result": {
+  "outcome": "success",
+  "is_error": false,
+  "turns": 6,
+  "cost_usd": 0.0357178,
+  "duration_ms": 13327,
+  "input_tokens": 10,
+  "output_tokens": 1843,
+  "cache_read_tokens": 10303,
+  "cache_write_tokens": 6495,
+  "final_text": "I wrote `ask.py` to the spec, and `python3 -m pytest -q tests` now reports 23 passed.\n\nThe tests use a stand-in client, so I haven't run it against the real API."
+ },
+ "generated": {
+  "ask.py": "becd83b0c81fc39c75efafca9edc07fd96ce0167f80678e7a47a16376e23528f"
+ },
+ "tests": {
+  "command": [
+   "python3",
+   "-m",
+   "pytest",
+   "-q",
+   "-p",
+   "no:cacheprovider",
+   "tests"
+  ],
+  "exit_code": 0,
+  "passed": true,
+  "changed_by_claude": []
+ },
+ "steps": [
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t1",
+   "input": {
+    "file_path": "./spec.md"
+   }
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t2",
+   "input": {
+    "command": "python3 -m pytest -q tests"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t1",
+   "is_error": false,
+   "result": "1\t# ask.py\n2\t\n3\tA command-line client for the Messages API. It sends one question, or a conversation typed line by line, to a Claude model through Anthropic's Python SDK and prints the reply. Apart from the standard library it needs only the SDK, and it imports the SDK only when `main` has to build a client itself, so the functions can be tested with a stand-in client and no key.\n4\t\n5\t## DEFAULT_MODEL and DEFAULT_MAX_TOKENS\n6\t\n7\t`DEFAULT_MODEL` is `\"claude-sonnet-5-5\"` and `DEFAULT_MAX_TOKENS` is `1024`.\n8\t\n9\t## build_request(prompt, history=None, system=None, model=DEFAULT_MODEL, max_tokens=DEFAULT_MAX_TOKENS)\n10\t\n11\tReturn the keyword arguments for `client.messages.create`, as a dict with the keys `model`, `max_tokens` and `messages`, and the key `system` only when `system` is given and not empty. `messages` is a new list holding the messages of `history`, in order, followed by `{\"role\": \"user\", \"content\": prompt}`. Never change the list passed as `history`.\n12\t\n13\tRaise `ValueError` if `prompt` is empty or only whitespace, if `max_tokens` is less than 1, or if `history` is not a valid conversation to add a question to. A valid history is empty, or starts with a `\"user\"` message, alternates between `\"user\"` and `\"assistant\"`, and ends with an `\"assistant\"` message. A message with any other role is invalid.\n14\t\n15\t## answer_text(message)\n16\t\n17\tReturn the text of a response. Join the `text` of every content block whose `type` is `\"text\"`, in order and with no separator, and skip blocks of every other type, such as `\"thinking\"`. Return `\"\"` when there are none.\n18\t\n19\t## format_usage(usage)\n20\t\n21\tReturn a short description of a response's `usage`, such as `\"20 tokens in, 57 out\"`. When `usage.output_tokens_details.thinking_tokens` exists and is greater than 0, add how many of the output tokens were thinking, as in `\"166 tokens in, 249 out, 103 of them thinking\"`.\n22\t\n23\t## chat(client, lines, out, system=None, model=DEFAULT_MODEL, max_tokens=DEFAULT_MAX_TOKENS, show_usage=False, history=None)\n24\t\n25\tRun a conversation. For each string in the iterable `lines`, strip it, skip it if it is empty, and stop at a line that is exactly `/quit`. Send it with `client.messages.create(**build_request(...))`, passing the conversation so far as the history. Write the reply's text to `out`, then the usage line as `[<format_usage>]` when `show_usage` is true, then an empty line, each followed by a newline. Then add the question and the reply to the history, the reply as `{\"role\": \"assistant\", \"content\": message.content}`, so its content blocks go back to the API unchanged.\n26\t\n27\t`history` starts the conversation from earlier messages and is not changed. Return the conversation as a new list of messages.\n28\t\n29\t## main(argv=None, client=None, stdin=None, out=None)\n30\t\n31\tParse `argv` (the program's arguments when `None`) with `argparse`:\n32\t\n33\t- an optional positional `prompt`\n34\t- `--system TEXT`, the system prompt\n35\t- `--model NAME`, defaulting to `DEFAULT_MODEL`\n36\t- `--max-tokens N`, an integer defaulting to `DEFAULT_MAX_TOKENS`\n37\t- `--usage`, which adds the usage line after each reply\n38\t- `--chat`, which reads a conversation from standard input, one line per message\n39\t\n40\t`stdin` and `out` default to `sys.stdin` and `sys.stdout`. When `client` is `None`, import `anthropic` and use `anthropic.Anthropic()`, which reads the key from the `ANTHROPIC_API_KEY` environment variable.\n41\t\n42\tWith `--chat`, run `chat` over the lines of `stdin`, with `prompt`, when given, sent first. Without it, send one question. The question is `prompt`, or all of `stdin` when no `prompt` is given. If that is empty, write `ask.py: no question given` to `sys.stderr` and return 2. Otherwise write the reply's text to `out` followed by a newline, then the usage line in square brackets when `--usage` is given.\n43\t\n44\tReturn 0 when the replies were written. Let errors raised by the client propagate. Chapter 5 handles them.\n45\t\n46\tRunning `python3 ask.py ...` calls `main` and exits with its return value.\n47\t"
+  },
+  {
+   "role": "tool",
+   "id": "t2",
+   "is_error": true,
+   "result": "Exit code 2\n\n==================================== ERRORS ====================================\n______________________ ERROR collecting tests/test_ask.py ______________________\nImportError while importing test module './tests/test_ask.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n/usr/local/lib/python3.13/importlib/__init__.py:88: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntests/test_ask.py:7: in <module>\n    from ask import DEFAULT_MAX_TOKENS, DEFAULT_MODEL, answer_text, build_request, chat, format_usage, main\nE   ModuleNotFoundError: No module named 'ask'\n=========================== short test summary info ============================\nERROR tests/test_ask.py\n!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n1 error in 0.07s"
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t3",
+   "input": {
+    "command": "head -60 tests/test_ask.py"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t3",
+   "is_error": false,
+   "result": "import copy\nimport io\nfrom types import SimpleNamespace\n\nimport pytest\n\nfrom ask import DEFAULT_MAX_TOKENS, DEFAULT_MODEL, answer_text, build_request, chat, format_usage, main\n\n\ndef reply(text, tokens_in=20, tokens_out=57, thinking=0):\n    \"\"\"A stand-in for an SDK response: a thinking block, a text block and usage.\"\"\"\n    return SimpleNamespace(\n        content=[SimpleNamespace(type=\"thinking\", thinking=\"\", signature=\"fixture\"),\n                 SimpleNamespace(type=\"text\", text=text)],\n        usage=SimpleNamespace(input_tokens=tokens_in, output_tokens=tokens_out,\n                              output_tokens_details=SimpleNamespace(thinking_tokens=thinking)))\n\n\nclass FakeClient:\n    \"\"\"Records every request and answers from a list of replies, in order.\"\"\"\n\n    def __init__(self, *replies):\n        self.replies = list(replies)\n        self.requests = []\n        self.messages = self\n\n    def create(self, **request):\n        self.requests.append(copy.deepcopy(request))\n        return self.replies.pop(0)\n\n\ndef test_defaults():\n    assert DEFAULT_MODEL == \"claude-sonnet-5-5\" and DEFAULT_MAX_TOKENS == 1024\n\n\ndef test_the_smallest_request():\n    assert build_request(\"Hi\") == {\"model\": \"claude-sonnet-5-5\", \"max_tokens\": 1024,\n                                   \"messages\": [{\"role\": \"user\", \"content\": \"Hi\"}]}\n\n\ndef test_a_system_prompt_is_sent_only_when_given():\n    assert build_request(\"Hi\", system=\"Be brief.\")[\"system\"] == \"Be brief.\"\n    assert \"system\" not in build_request(\"Hi\", system=\"\")\n    assert \"system\" not in build_request(\"Hi\", system=None)\n\n\ndef test_model_and_max_tokens_are_passed_through():\n    request = build_request(\"Hi\", model=\"claude-haiku-5-5\", max_tokens=64)\n    assert request[\"model\"] == \"claude-haiku-5-5\" and request[\"max_tokens\"] == 64\n\n\ndef test_history_comes_first_and_is_not_changed():\n    history = [{\"role\": \"user\", \"content\": \"My order is 48213.\"},\n               {\"role\": \"assistant\", \"content\": \"Thanks.\"}]\n    before = copy.deepcopy(history)\n    request = build_request(\"What's my order number?\", history=history)\n    assert request[\"messages\"] == before + [{\"role\": \"user\", \"content\": \"What's my order number?\"}]\n    assert history == before"
+  },
+  {
+   "role": "assistant",
+   "tool": "Edit",
+   "id": "t4",
+   "input": {
+    "replace_all": false,
+    "file_path": "./ask.py",
+    "old_string": "",
+    "new_string": "import argparse\nimport sys\n\nDEFAULT_MODEL = \"claude-sonnet-5-5\"\nDEFAULT_MAX_TOKENS = 1024\n\n\ndef build_request(prompt, history=None, system=None, model=DEFAULT_MODEL,\n                  max_tokens=DEFAULT_MAX_TOKENS):\n    if not isinstance(prompt, str) or not prompt.strip():\n        raise ValueError(\"prompt is empty\")\n    if max_tokens < 1:\n        raise ValueError(\"max_tokens must be at least 1\")\n    history = list(history) if history else []\n    for i, m in enumerate(history):\n        expected = \"user\" if i % 2 == 0 else \"assistant\"\n        role = m.get(\"role\") if isinstance(m, dict) else None\n        if role != expected:\n            raise ValueError(\"invalid history\")\n    if history and history[-1][\"role\"] != \"assistant\":\n        raise ValueError(\"history must end with an assistant message\")\n    request = {\"model\": model, \"max_tokens\": max_tokens,\n               \"messages\": history + [{\"role\": \"user\", \"content\": prompt}]}\n    if system:\n        request[\"system\"] = system\n    return request\n\n\ndef answer_text(message):\n    return \"\".join(b.text for b in message.content if getattr(b, \"type\", None) == \"text\")\n\n\ndef format_usage(usage):\n    s = f\"{usage.input_tokens} tokens in, {usage.output_tokens} out\"\n    details = getattr(usage, \"output_tokens_details\", None)\n    thinking = getattr(details, \"thinking_tokens\", None) if details is not None else None\n    if thinking and thinking > 0:\n        s += f\", {thinking} of them thinking\"\n    return s\n\n\ndef chat(client, lines, out, system=None, model=DEFAULT_MODEL,\n         max_tokens=DEFAULT_MAX_TOKENS, show_usage=False, history=None):\n    history = list(history) if history else []\n    for line in lines:\n        line = line.strip()\n        if not line:\n            continue\n        if line == \"/quit\":\n            break\n        request = build_request(line, history=history, system=system, model=model,\n                                max_tokens=max_tokens)\n        message = client.messages.create(**request)\n        out.write(answer_text(message) + \"\\n\")\n        if show_usage:\n            out.write(f\"[{format_usage(message.usage)}]\\n\")\n        out.write(\"\\n\")\n        history = history + [{\"role\": \"user\", \"content\": line},\n                             {\"role\": \"assistant\", \"content\": message.content}]\n    return history\n\n\ndef main(argv=None, client=None, stdin=None, out=None):\n    parser = argparse.ArgumentParser(prog=\"ask.py\")\n    parser.add_argument(\"prompt\", nargs=\"?\")\n    parser.add_argument(\"--system\")\n    parser.add_argument(\"--model\", default=DEFAULT_MODEL)\n    parser.add_argument(\"--max-tokens\", type=int, default=DEFAULT_MAX_TOKENS)\n    parser.add_argument(\"--usage\", action=\"store_true\")\n    parser.add_argument(\"--chat\", action=\"store_true\")\n    args = parser.parse_args(argv)\n    stdin = sys.stdin if stdin is None else stdin\n    out = sys.stdout if out is None else out\n    if client is None:\n        import anthropic\n        client = anthropic.Anthropic()\n\n    if args.chat:\n        lines = stdin\n        if args.prompt:\n            lines = [args.prompt] + list(stdin)\n        chat(client, lines, out, system=args.system, model=args.model,\n             max_tokens=args.max_tokens, show_usage=args.usage)\n        return 0\n\n    question = args.prompt if args.prompt else stdin.read()\n    if not question or not question.strip():\n        print(\"ask.py: no question given\", file=sys.stderr)\n        return 2\n    message = client.messages.create(**build_request(\n        question, system=args.system, model=args.model, max_tokens=args.max_tokens))\n    out.write(answer_text(message) + \"\\n\")\n    if args.usage:\n        out.write(f\"[{format_usage(message.usage)}]\\n\")\n    return 0\n\n\nif __name__ == \"__main__\":\n    sys.exit(main())\n"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t4",
+   "is_error": false,
+   "result": "The file ./ask.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t5",
+   "input": {
+    "command": "python3 -m pytest -q tests"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t5",
+   "is_error": false,
+   "result": ".......................                                                  [100%]\n23 passed in 0.01s"
+  },
+  {
+   "role": "assistant",
+   "text": "I wrote `ask.py` to the spec, and `python3 -m pytest -q tests` now reports 23 passed.\n\nThe tests use a stand-in client, so I haven't run it against the real API."
+  }
+ ]
+}

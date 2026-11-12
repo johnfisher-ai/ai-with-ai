@@ -8,7 +8,7 @@ carry nothing it shouldn't. For each file it checks that:
 
   - it is a format-1 recording named for its notebook, and that notebook exists
   - every exchange names its model, the date it was recorded and the SDK version
-  - every response keeps its status, its content type and its body, and no header
+  - every response keeps its status, its content type and its body, and no header or request ID
   - every exchange's key is the key book_client.py computes from the request it stores, so the
     notebook's request will find it
 
@@ -64,6 +64,8 @@ def check(path):
         body_fields = set(r) - RESPONSE_FIELDS
         if not RESPONSE_FIELDS <= set(r) or body_fields not in ({"body"}, {"text"}):
             problems.append(f"{where}: response fields {sorted(r)}, expected status, content_type and body or text")
+        if isinstance(r.get("body"), dict) and "request_id" in r["body"]:
+            problems.append(f"{where}: response body keeps a request_id")
         q = e["request"]
         if request_key(q.get("method"), q.get("path"), q.get("query"), q.get("body")) != e["key"]:
             problems.append(f"{where}: key does not match its request")

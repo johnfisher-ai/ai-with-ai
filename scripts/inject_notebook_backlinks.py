@@ -48,6 +48,10 @@ MAP = {
         ("../../tokens-context-and-cost.html#notebook", "Back to the book", "Chapter 3 · Tokens, context and cost"),
     "tokens-context-and-cost--solutions.html":
         ("../../tokens-context-and-cost.html#challenges", "Back to the book", "Chapter 3 · Practice challenges"),
+    "your-first-model-call.html":
+        ("../../your-first-model-call.html#notebook", "Back to the book", "Chapter 4 · Your first model call"),
+    "your-first-model-call--solutions.html":
+        ("../../your-first-model-call.html#challenges", "Back to the book", "Chapter 4 · Practice challenges"),
 }
 
 BOOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

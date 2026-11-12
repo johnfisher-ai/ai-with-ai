@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 4 · Your first model call · Building AI with AI</title>
+  <meta name="description" content="The Messages API through Anthropic's Python SDK: the fields of a request and a response, roles and conversation history, the system prompt, and how the book's notebooks replay recorded calls, with a command-line client Claude Code generated from a spec and tests.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/your-first-model-call.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="Your first model call · Chapter 4">
+  <meta property="og:description" content="A request's three fields, the roles that carry a conversation, the system prompt, and the replay switch behind every notebook in the book.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/your-first-model-call.html">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Your first model call · Chapter 4">
+  <meta name="twitter:description" content="A request's three fields, the roles that carry a conversation, the system prompt, and the replay switch behind every notebook in the book.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/book.css">
+  <link rel="stylesheet" href="../assets/css/chapter.css">
+  <link rel="stylesheet" href="../assets/css/challenges.css">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <script src="../assets/js/theme.js"></script>
+  <style>
+    .disp-table { width:100%; border-collapse:collapse; margin:0; font-size:0.84rem;
+                  border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .disp-table th,.disp-table td { padding:0.55rem 0.75rem; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+    .disp-table th { background:var(--panel-2); color:var(--ink); font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; }
+    .disp-table td { color:var(--ink-soft); } .disp-table tr:last-child td { border-bottom:none; }
+    .codebox { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--panel-2); margin:1rem 0; }
+    .codebox .cbh { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:0.4rem 0.85rem; color:#fff; background:#6d28d9; }
+    .codebox pre { margin:0; padding:0.85rem; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; line-height:1.55; overflow-x:auto; color:var(--ink); white-space:pre; }
+    .build-steps { margin:0.6rem 0 1rem 1.2rem; } .build-steps li { margin:0.25rem 0; }
+    .codebox.wrap pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+    .fig-narrow { max-width:520px; margin-left:auto !important; margin-right:auto !important; }
+    @media (max-width: 480px) { .fig-narrow { padding:0.8rem 0.5rem !important; } }
+  </style>
+</head>
+<body class="chapter">
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../toc.html">Contents</a>
+    <a href="notebooks/html/your-first-model-call.html" class="btn btn-primary" style="padding:0.4rem 1rem;font-size:0.8rem">🐍 Notebook</a>
+  </div>
+</nav>
+<div class="read-progress" id="readProgress"></div>
+
+<header class="chapter-hero">
+  <div class="chapter-hero-inner">
+    <div class="crumb">
+      <a href="../toc.html">Contents</a><span class="sep">/</span>
+      <span>Part 1 · Working with a model</span><span class="sep">/</span>
+      <span>Chapter 4</span>
+    </div>
+    <h1>Your first <span class="accent">model call</span></h1>
+    <p class="dek">One endpoint carries every model call in this book. This chapter sends the smallest request through
+       Anthropic's Python SDK, changes the conversation and the system prompt to see what each controls, opens the
+       replay switch behind every notebook, and runs the same calls through a command-line client Claude Code
+       generated.</p>
+    <div class="hero-meta">
+      <div class="m">⏱️ <b>~15 min</b>&nbsp;read</div>
+      <div class="m">🐍 <b>Notebook</b>&nbsp;included</div>
+      <div class="m">📊 <b>Chapter 4</b></div>
+    </div>
+  </div>
+</header>
+
+<main class="reading">
+
+  <section id="intro">
+    <p class="lead">A call to Claude is one HTTPS request to the <span class="term">Messages API</span>. The request
+       names a model, caps the length of the reply and carries the conversation as a list of messages, and the
+       response returns the reply as a list of content blocks with the tokens it used. The API keeps <span
+       class="hl">no state between calls</span>, so everything the model should know about a conversation travels in
+       each request.</p>
+
+    <div class="def-card">
+      <div class="sigma">AI</div>
+      <div class="def-body">
+        <span class="def-kw">A role</span> marks who wrote a message. <code>user</code> messages come from the person
+        or program asking, <code>assistant</code> messages are the model's replies, and a conversation alternates
+        between them, starting and ending with <code>user</code>. The <code>system</code> prompt sits outside the list
+        and applies to every turn.
+      </div>
+    </div>
+
+    <div class="callout key">
+      <div class="cico">🤖</div>
+      <div><div class="ctitle">The chapter in one line</div>
+        <p>The model knows only what the request carries, so the code that builds the request decides what the model can do.</p></div>
+    </div>
+  </section>
+
+  <section id="request">
+    <div class="section-eyebrow"><div class="num">1</div><h2>A request is three fields and a conversation</h2></div>
+    <p>The smallest request to <code>client.messages.create</code> names the model, sets <code>max_tokens</code> and
+       sends one user message. The notebook asked Claude Sonnet 5.5 what a context window is.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 400" width="100%" font-family="Inter, sans-serif" role="img" aria-label="The request on the left has three fields: model, which names the model, max_tokens, which caps the reply, and messages, the conversation. An arrow labeled POST /v1/messages leads to the response on the right, which holds role assistant, content as a list of blocks, stop_reason, which says why the reply ended, and usage, the tokens billed."><defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5578"/></marker></defs><rect x="6" y="20" width="200" height="230" rx="12" fill="#eef2ff" stroke="#c7d2fe"/><text x="106.0" y="50" text-anchor="middle" font-size="18" font-weight="800" fill="#3730a3">Request</text><text x="20" y="84" font-size="15" font-weight="700" fill="#1a2138" font-family="ui-monospace, Menlo, monospace">model</text><text x="20" y="104" font-size="14" fill="#4a5578">which model answers</text><text x="20" y="134" font-size="15" font-weight="700" fill="#1a2138" font-family="ui-monospace, Menlo, monospace">max_tokens</text><text x="20" y="154" font-size="14" fill="#4a5578">cap on the reply</text><text x="20" y="184" font-size="15" font-weight="700" fill="#1a2138" font-family="ui-monospace, Menlo, monospace">messages</text><text x="20" y="204" font-size="14" fill="#4a5578">the conversation</text><rect x="274" y="20" width="200" height="280" rx="12" fill="#fff1ec" stroke="#ffc9b8"/><text x="374.0" y="50" text-anchor="middle" font-size="18" font-weight="800" fill="#9a3412">Response</text><text x="288" y="84" font-size="15" font-weight="700" fill="#1a2138" font-family="ui-monospace, Menlo, monospace">role</text><text x="288" y="104" font-size="14" fill="#4a5578">always assistant</text><text x="288" y="134" font-size="15" font-weight="700" fill="#1a2138" font-family="ui-monospace, Menlo, monospace">content</text><text x="288" y="154" font-size="14" fill="#4a5578">a list of blocks</text><text x="288" y="184" font-size="15" font-weight="700" fill="#1a2138" font-family="ui-monospace, Menlo, monospace">stop_reason</text><text x="288" y="204" font-size="14" fill="#4a5578">why it ended</text><text x="288" y="234" font-size="15" font-weight="700" fill="#1a2138" font-family="ui-monospace, Menlo, monospace">usage</text><text x="288" y="254" font-size="14" fill="#4a5578">tokens billed</text><line x1="210" y1="135" x2="268" y2="135" stroke="#4a5578" stroke-width="2.4" marker-end="url(#a4)"/><text x="106" y="290" text-anchor="middle" font-size="14" fill="#4a5578">optional: system,</text><text x="106" y="310" text-anchor="middle" font-size="14" fill="#4a5578">tools and more</text><text x="240" y="355" text-anchor="middle" font-size="15" font-weight="700" fill="#1a2138">POST /v1/messages, one HTTPS request</text><text x="240" y="380" text-anchor="middle" font-size="14" fill="#4a5578">The SDK adds the key and the API version as headers.</text></svg>
+    </figure>
+    <p>The reply came back as a message with the role <code>assistant</code>, one <code>text</code> block, the stop
+       reason <code>end_turn</code> and a usage of 20 input tokens and 60 output tokens. Its text read, &#8220;A context window is the maximum amount of text (measured in tokens) that a language model can consider at once, including both your input and its own output, so anything beyond that limit is effectively &#8220;forgotten.&#8221;&#8221;
+       The answer lives in the content blocks, so code reads every block of type <code>text</code>, which is what the
+       chapter's <code>answer_text</code> does, and never assumes the answer is the first block. Chapter 5, Reading a
+       response, takes the stop reasons, the usage fields and the errors apart.</p>
+    <p>The replay helper keeps every request exactly as the SDK sent it, so the recording shows the JSON body on the
+       wire. It is the call's three fields and nothing more:</p>
+    <div class="codebox"><div class="cbh">POST /v1/messages, the body the SDK sent</div><pre tabindex="0">{
+  &quot;max_tokens&quot;: 1024,
+  &quot;messages&quot;: [
+    {
+      &quot;role&quot;: &quot;user&quot;,
+      &quot;content&quot;: &quot;In one sentence, what is a context window?&quot;
+    }
+  ],
+  &quot;model&quot;: &quot;claude-sonnet-5-5&quot;
+}</pre></div>
+    <p>The SDK adds the API key and the API version as headers, and the recording keeps neither. A request from another
+       language or from <code>curl</code> sends the same body. <em>Python, Visually</em>'s
+       <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/apis-and-json.html">APIs and JSON</a> covers HTTP requests and JSON in Python for readers who want
+       the layer underneath.</p>
+  </section>
+
+  <section id="roles">
+    <div class="section-eyebrow"><div class="num">2</div><h2>Roles carry the conversation</h2></div>
+    <p>Asked &#8220;What's my order number?&#8221; on its own, the model replied that it had no access to the order
+       information. Sent after two earlier turns, a user message giving order 48213 and an assistant reply, the same
+       question came back as &#8220;Your order number is 48213.&#8221; The application wrote that assistant turn
+       itself, and the model read it as its own earlier reply. The history a program sends is the only memory the
+       model has.</p>
+    <p>The same mechanism steers the shape of an answer. The notebook classified three reviews as positive, negative or
+       mixed, once with the instruction alone and once with two worked examples in front of it, each a user turn and
+       the one-word assistant turn the application wanted.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Review classifications with and without examples">
+      <table class="disp-table">
+        <thead><tr><th>Review</th><th>Instruction alone</th><th>With two examples</th></tr></thead>
+        <tbody>
+          <tr><td>The headphones sound great, but the case cracked within a week.</td><td>Mixed, then a paragraph (63 tokens)</td><td><code>mixed</code> (5 tokens)</td></tr>
+          <tr><td>Arrived two days early and works perfectly.</td><td>Positive, then a paragraph (68 tokens)</td><td><code>positive</code> (4 tokens)</td></tr>
+          <tr><td>Customer support never answered my emails.</td><td>Negative, then a paragraph (58 tokens)</td><td><code>negative</code> (4 tokens)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The labels agreed every time. The examples changed only the format, from a bold label and a paragraph of reasons
+       to a single word that code can compare with a string, in 4 or 5 output tokens in place of 58 to 68. Chapter 17, Examples in
+       the prompt, covers how to choose examples and the bias they bring.</p>
+  </section>
+
+  <section id="system">
+    <div class="section-eyebrow"><div class="num">3</div><h2>The system prompt frames every turn</h2></div>
+    <p>The <code>system</code> field tells the model how to behave across the whole conversation. The notebook sent
+       &#8220;My package is late. What should I do?&#8221; under three system prompts.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="One question under three system prompts">
+      <table class="disp-table">
+        <thead><tr><th>System prompt</th><th>Output tokens</th><th>Of them thinking</th><th>What came back</th></tr></thead>
+        <tbody>
+          <tr><td>None</td><td>644</td><td>21</td><td>A numbered guide in six steps</td></tr>
+          <tr><td>Answer in one sentence.</td><td>58</td><td>0</td><td>One sentence</td></tr>
+          <tr><td>Reply with a JSON object that has the keys action and reply</td><td>349</td><td>136</td><td>JSON that json.loads parsed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>One sentence of system prompt cut the reply from 644 output tokens to 58. The JSON instruction produced an object
+       with the keys <code>action</code> and <code>reply</code> that <code>json.loads</code> read without an error, at a
+       cost of 136 thinking tokens. Its <code>action</code> value, <code>request_order_info</code>, was a name the model
+       chose, since the prompt listed no allowed actions, and an instruction alone guarantees neither the format nor the
+       values. Chapter 19, Structured output, adds a schema and validation.</p>
+    <p>Older Claude models let a request end with a partial assistant turn for the model to continue. As of November 2026,
+       Claude Sonnet 5.5 answers such a request with a 400 error whose message reads &#8220;This model does not support
+       assistant message prefill. The conversation must end with a user message.&#8221; The chapter's client refuses that shape before
+       sending anything.</p>
+  </section>
+
+  <section id="replay">
+    <div class="section-eyebrow"><div class="num">4</div><h2>How the notebooks replay a call</h2></div>
+    <p>Every notebook in the book builds its client in Setup with <code>book_client.make_client</code>, which returns the
+       SDK's own client with a different transport underneath. The notebook's code is the same SDK call in every mode,
+       and only the place the answer comes from changes.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 390" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Three modes. Replay, the default, answers each request from the recording file, with no key and no network. Live, set with LIVE = True, sends the request to the Anthropic API with your own key. Record, used only in the book's own sessions, sends it to the API with the book's key and writes the answer to the file. In every mode the notebook code is the same SDK call."><defs><marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5578"/></marker></defs><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">One SDK call,</text><text x="240" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">three places to answer it</text><rect x="6" y="74" width="190" height="78" rx="10" fill="#ecfdf5" stroke="#6ee7b7"/><text x="101" y="106" text-anchor="middle" font-size="18" font-weight="800" fill="#047857">replay</text><text x="101" y="132" text-anchor="middle" font-size="14" fill="#4a5578">the default</text><line x1="200" y1="113" x2="266" y2="113" stroke="#4a5578" stroke-width="2.2" marker-end="url(#a5)"/><rect x="270" y="74" width="204" height="78" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text x="372" y="106" text-anchor="middle" font-size="16" font-weight="700" fill="#1a2138">recording file</text><text x="372" y="132" text-anchor="middle" font-size="14" fill="#4a5578">no key, no network</text><rect x="6" y="170" width="190" height="78" rx="10" fill="#eef2ff" stroke="#a5b4fc"/><text x="101" y="202" text-anchor="middle" font-size="18" font-weight="800" fill="#3730a3">live</text><text x="101" y="228" text-anchor="middle" font-size="14" fill="#4a5578">LIVE = True</text><line x1="200" y1="209" x2="266" y2="209" stroke="#4a5578" stroke-width="2.2" marker-end="url(#a5)"/><rect x="270" y="170" width="204" height="78" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text x="372" y="202" text-anchor="middle" font-size="16" font-weight="700" fill="#1a2138">Anthropic API</text><text x="372" y="228" text-anchor="middle" font-size="14" fill="#4a5578">your own key</text><rect x="6" y="266" width="190" height="78" rx="10" fill="#fff1ec" stroke="#fdba9e"/><text x="101" y="298" text-anchor="middle" font-size="18" font-weight="800" fill="#9a3412">record</text><text x="101" y="324" text-anchor="middle" font-size="14" fill="#4a5578">the book's sessions</text><line x1="200" y1="305" x2="266" y2="305" stroke="#4a5578" stroke-width="2.2" marker-end="url(#a5)"/><rect x="270" y="266" width="204" height="78" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text x="372" y="298" text-anchor="middle" font-size="16" font-weight="700" fill="#1a2138">API, then file</text><text x="372" y="324" text-anchor="middle" font-size="14" fill="#4a5578">the book's key</text><text x="240" y="372" text-anchor="middle" font-size="14" fill="#4a5578">A request is matched by a hash of its method, path, query and body.</text></svg>
+    </figure>
+    <p>In replay mode, the default, each request is hashed from its method, path, query and body, and the hash finds the
+       recorded answer. This chapter's recording holds 17 exchanges with Claude Sonnet 5.5, recorded with SDK 2.7.0. The
+       notebook added one question mark to its first request and sent it again, and replay refused with the SDK's
+       <code>NotFoundError</code>:</p>
+    <div class="codebox wrap"><div class="cbh">the message replay gave</div><pre tabindex="0">book_client: no recorded response for this request (key 23989e7e310591dd) in recordings/your-first-model-call.json. The request differs from the one the notebook recorded. Restore the cell&#x27;s original code, or set LIVE = True in Setup and use your own key.</pre></div>
+    <p>A changed request never receives an answer that belongs to a different one, so an edited cell fails with that
+       message. Setting <code>LIVE = True</code> in Setup sends the same requests to the API with your own key, read from
+       Colab's secrets panel or the <code>ANTHROPIC_API_KEY</code> environment variable, and prints live answers that
+       will differ from the recorded ones. Record mode is for the book's own sessions, and the introduction's
+       <a href="../introduction.html#claude-code">How the book uses Claude Code</a> explains how the book keeps what it
+       records.</p>
+  </section>
+
+  <section id="goes-wrong">
+    <div class="section-eyebrow"><div class="num">5</div><h2>Where a first model call goes wrong</h2></div>
+    <ul>
+      <li><strong>Reading the first block</strong> breaks when a reply carries a thinking block before its text. Join
+          the blocks of type <code>text</code>, as <code>answer_text</code> does.</li>
+      <li><strong>A missing history</strong> leaves the model guessing. It couldn't name the order number until the
+          request carried the turn that mentioned it.</li>
+      <li><strong>An unframed question</strong> gets a long, general answer. Without a system prompt the late-package
+          question drew 644 output tokens, and one sentence of system prompt brought it to 58.</li>
+      <li><strong>A requested format</strong> is followed only as far as the model chooses. The JSON parsed, but
+          its <code>action</code> value was invented, so validate before code acts on it.</li>
+      <li><strong>A final assistant turn</strong> is refused by Claude Sonnet 5.5 as of November 2026. End
+          every request with a user message.</li>
+    </ul>
+  </section>
+
+  <section id="build">
+    <div class="section-eyebrow"><div class="num">6</div><h2>Build it with Claude Code</h2></div>
+    <p>The notebook builds its requests, reads its replies and runs its conversations with <code>ask.py</code>, a
+       command-line client that Claude Code wrote against a spec and 23 tests. Here is the spec in full.</p>
+    <div class="codebox wrap"><div class="cbh">spec.md</div><pre tabindex="0"># ask.py
+
+A command-line client for the Messages API. It sends one question, or a conversation typed line by line, to a Claude model through Anthropic&#x27;s Python SDK and prints the reply. Apart from the standard library it needs only the SDK, and it imports the SDK only when `main` has to build a client itself, so the functions can be tested with a stand-in client and no key.
+
+## DEFAULT_MODEL and DEFAULT_MAX_TOKENS
+
+`DEFAULT_MODEL` is `&quot;claude-sonnet-5-5&quot;` and `DEFAULT_MAX_TOKENS` is `1024`.
+
+## build_request(prompt, history=None, system=None, model=DEFAULT_MODEL, max_tokens=DEFAULT_MAX_TOKENS)
+
+Return the keyword arguments for `client.messages.create`, as a dict with the keys `model`, `max_tokens` and `messages`, and the key `system` only when `system` is given and not empty. `messages` is a new list holding the messages of `history`, in order, followed by `{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}`. Never change the list passed as `history`.
+
+Raise `ValueError` if `prompt` is empty or only whitespace, if `max_tokens` is less than 1, or if `history` is not a valid conversation to add a question to. A valid history is empty, or starts with a `&quot;user&quot;` message, alternates between `&quot;user&quot;` and `&quot;assistant&quot;`, and ends with an `&quot;assistant&quot;` message. A message with any other role is invalid.
+
+## answer_text(message)
+
+Return the text of a response. Join the `text` of every content block whose `type` is `&quot;text&quot;`, in order and with no separator, and skip blocks of every other type, such as `&quot;thinking&quot;`. Return `&quot;&quot;` when there are none.
+
+## format_usage(usage)
+
+Return a short description of a response&#x27;s `usage`, such as `&quot;20 tokens in, 57 out&quot;`. When `usage.output_tokens_details.thinking_tokens` exists and is greater than 0, add how many of the output tokens were thinking, as in `&quot;166 tokens in, 249 out, 103 of them thinking&quot;`.
+
+## chat(client, lines, out, system=None, model=DEFAULT_MODEL, max_tokens=DEFAULT_MAX_TOKENS, show_usage=False, history=None)
+
+Run a conversation. For each string in the iterable `lines`, strip it, skip it if it is empty, and stop at a line that is exactly `/quit`. Send it with `client.messages.create(**build_request(...))`, passing the conversation so far as the history. Write the reply&#x27;s text to `out`, then the usage line as `[&lt;format_usage&gt;]` when `show_usage` is true, then an empty line, each followed by a newline. Then add the question and the reply to the history, the reply as `{&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: message.content}`, so its content blocks go back to the API unchanged.
+
+`history` starts the conversation from earlier messages and is not changed. Return the conversation as a new list of messages.
+
+## main(argv=None, client=None, stdin=None, out=None)
+
+Parse `argv` (the program&#x27;s arguments when `None`) with `argparse`:
+
+- an optional positional `prompt`
+- `--system TEXT`, the system prompt
+- `--model NAME`, defaulting to `DEFAULT_MODEL`
+- `--max-tokens N`, an integer defaulting to `DEFAULT_MAX_TOKENS`
+- `--usage`, which adds the usage line after each reply
+- `--chat`, which reads a conversation from standard input, one line per message
+
+`stdin` and `out` default to `sys.stdin` and `sys.stdout`. When `client` is `None`, import `anthropic` and use `anthropic.Anthropic()`, which reads the key from the `ANTHROPIC_API_KEY` environment variable.
+
+With `--chat`, run `chat` over the lines of `stdin`, with `prompt`, when given, sent first. Without it, send one question. The question is `prompt`, or all of `stdin` when no `prompt` is given. If that is empty, write `ask.py: no question given` to `sys.stderr` and return 2. Otherwise write the reply&#x27;s text to `out` followed by a newline, then the usage line in square brackets when `--usage` is given.
+
+Return 0 when the replies were written. Let errors raised by the client propagate. Chapter 5 handles them.
+
+Running `python3 ask.py ...` calls `main` and exits with its return value.</pre></div>
+    <p>Its opening sets the one dependency rule that makes the module testable, importing the SDK only inside
+       <code>main</code>, so every function can be exercised with a stand-in client and no key.
+       <code>build_request</code> fixes the exact dictionary sent to the API, down to leaving <code>system</code> out when
+       it is empty, and turns the API's rules about roles into checks that run before anything is sent.
+       <code>answer_text</code> and <code>format_usage</code> settle how a reply is read, skipping thinking blocks and
+       naming thinking tokens only when there are some. <code>chat</code> spells out how a conversation is kept, with the
+       reply's content blocks passed back unchanged, and <code>main</code> lists every option and both exit codes, and
+       leaves API errors to Chapter 5.</p>
+    <p>These three tests carry most of the spec's weight.</p>
+    <div class="codebox"><div class="cbh">tests/test_ask.py, three of its tests</div><pre tabindex="0">@pytest.mark.parametrize(&quot;prompt, history, max_tokens&quot;, [
+    (&quot;&quot;, None, 1024),
+    (&quot;   \n&quot;, None, 1024),
+    (&quot;Hi&quot;, None, 0),
+    (&quot;Hi&quot;, [{&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Hello.&quot;}], 1024),
+    (&quot;Hi&quot;, [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;A&quot;}, {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;B&quot;}], 1024),
+    (&quot;Hi&quot;, [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;A&quot;}], 1024),
+    (&quot;Hi&quot;, [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;A&quot;}, {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;B&quot;}], 1024),
+
+
+def test_chat_sends_the_history_with_each_question():
+    first, second = reply(&quot;Sorry to hear that.&quot;), reply(&quot;Order 48213.&quot;)
+    client, out = FakeClient(first, second), io.StringIO()
+    history = chat(client, [&quot;My screen arrived cracked.\n&quot;, &quot;\n&quot;, &quot;What was my order number?\n&quot;], out)
+    assert len(client.requests) == 2
+    assert client.requests[1][&quot;messages&quot;] == [
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;My screen arrived cracked.&quot;},
+        {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: first.content},
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What was my order number?&quot;}]
+    assert out.getvalue() == &quot;Sorry to hear that.\n\nOrder 48213.\n\n&quot;
+    assert len(history) == 4 and history[3] == {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: second.content}
+
+
+def test_main_chat_sends_the_prompt_first():
+    client, out = FakeClient(reply(&quot;Hello.&quot;), reply(&quot;Fine.&quot;)), io.StringIO()
+    assert main([&quot;--chat&quot;, &quot;Hi&quot;], client=client, stdin=io.StringIO(&quot;How are you?\n&quot;), out=out) == 0
+    assert [r[&quot;messages&quot;][-1][&quot;content&quot;] for r in client.requests] == [&quot;Hi&quot;, &quot;How are you?&quot;]
+    assert out.getvalue() == &quot;Hello.\n\nFine.\n\n&quot;</pre></div>
+    <p>The parametrized test feeds <code>build_request</code> seven requests the API would refuse or that make no sense,
+       an empty prompt, a cap of zero tokens and five broken histories, and expects each to raise
+       <code>ValueError</code>. The chat test checks the second request field by field, so a client that dropped the
+       first reply or passed back only its text would fail. The last test checks that a prompt given with
+       <code>--chat</code> is the first question sent. It checks the order of the requests, and nothing about when
+       standard input is read, which matters below.</p>
+    <p>The prompt is the book's standard build prompt with this chapter's file name. It points Claude Code at the spec
+       and the tests, says to write with the Edit tool, names the single shell command allowed and puts the tests off
+       limits.</p>
+    <div class="codebox wrap"><div class="cbh">prompt.md</div><pre tabindex="0">Read spec.md and write ask.py so that every test in tests/ passes. Create and change files with the Edit tool. The only shell command you may run is python3 -m pytest -q tests, which runs the tests. Do not change the tests.</pre></div>
+    <p>The book ran it with Claude Code 2.1.322 and Claude Sonnet 5.5, headless, in a folder holding
+       only the spec and the tests:</p>
+    <div class="codebox wrap"><div class="cbh">command</div><pre tabindex="0">BOOK_MODE=record python3 scripts/claude_build.py your-first-model-call</pre></div>
+    <p>The kept transcript shows what Claude Code did, in order:</p>
+    <ol class="build-steps">
+      <li>It read <code>spec.md</code> and ran the tests in the same step, and the tests failed to load because
+          <code>ask.py</code> didn't exist.</li>
+      <li>It ran <code>head -60 tests/test_ask.py</code> to read the test file. The prompt names pytest as the only
+          command, and Claude Code's <code>dontAsk</code> mode still allows read-only commands, as it did in Chapter 1's
+          build.</li>
+      <li>It wrote the module with one Edit.</li>
+      <li>It ran the tests, and all 23 passed.</li>
+      <li>It reported that the tests use a stand-in client, so it hadn't run the client against the real API.</li>
+    </ol>
+    <div class="codebox"><div class="cbh">generated by Claude Code</div><pre tabindex="0">import argparse
+import sys
+
+DEFAULT_MODEL = &quot;claude-sonnet-5-5&quot;
+DEFAULT_MAX_TOKENS = 1024
+
+
+def build_request(prompt, history=None, system=None, model=DEFAULT_MODEL,
+                  max_tokens=DEFAULT_MAX_TOKENS):
+    if not isinstance(prompt, str) or not prompt.strip():
+        raise ValueError(&quot;prompt is empty&quot;)
+    if max_tokens &lt; 1:
+        raise ValueError(&quot;max_tokens must be at least 1&quot;)
+    history = list(history) if history else []
+    for i, m in enumerate(history):
+        expected = &quot;user&quot; if i % 2 == 0 else &quot;assistant&quot;
+        role = m.get(&quot;role&quot;) if isinstance(m, dict) else None
+        if role != expected:
+            raise ValueError(&quot;invalid history&quot;)
+    if history and history[-1][&quot;role&quot;] != &quot;assistant&quot;:
+        raise ValueError(&quot;history must end with an assistant message&quot;)
+    request = {&quot;model&quot;: model, &quot;max_tokens&quot;: max_tokens,
+               &quot;messages&quot;: history + [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}]}
+    if system:
+        request[&quot;system&quot;] = system
+    return request
+
+
+def answer_text(message):
+    return &quot;&quot;.join(b.text for b in message.content if getattr(b, &quot;type&quot;, None) == &quot;text&quot;)
+
+
+def format_usage(usage):
+    s = f&quot;{usage.input_tokens} tokens in, {usage.output_tokens} out&quot;
+    details = getattr(usage, &quot;output_tokens_details&quot;, None)
+    thinking = getattr(details, &quot;thinking_tokens&quot;, None) if details is not None else None
+    if thinking and thinking &gt; 0:
+        s += f&quot;, {thinking} of them thinking&quot;
+    return s
+
+
+def chat(client, lines, out, system=None, model=DEFAULT_MODEL,
+         max_tokens=DEFAULT_MAX_TOKENS, show_usage=False, history=None):
+    history = list(history) if history else []
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        if line == &quot;/quit&quot;:
+            break
+        request = build_request(line, history=history, system=system, model=model,
+                                max_tokens=max_tokens)
+        message = client.messages.create(**request)
+        out.write(answer_text(message) + &quot;\n&quot;)
+        if show_usage:
+            out.write(f&quot;[{format_usage(message.usage)}]\n&quot;)
+        out.write(&quot;\n&quot;)
+        history = history + [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: line},
+                             {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: message.content}]
+    return history
+
+
+def main(argv=None, client=None, stdin=None, out=None):
+    parser = argparse.ArgumentParser(prog=&quot;ask.py&quot;)
+    parser.add_argument(&quot;prompt&quot;, nargs=&quot;?&quot;)
+    parser.add_argument(&quot;--system&quot;)
+    parser.add_argument(&quot;--model&quot;, default=DEFAULT_MODEL)
+    parser.add_argument(&quot;--max-tokens&quot;, type=int, default=DEFAULT_MAX_TOKENS)
+    parser.add_argument(&quot;--usage&quot;, action=&quot;store_true&quot;)
+    parser.add_argument(&quot;--chat&quot;, action=&quot;store_true&quot;)
+    args = parser.parse_args(argv)
+    stdin = sys.stdin if stdin is None else stdin
+    out = sys.stdout if out is None else out
+    if client is None:
+        import anthropic
+        client = anthropic.Anthropic()
+
+    if args.chat:
+        lines = stdin
+        if args.prompt:
+            lines = [args.prompt] + list(stdin)
+        chat(client, lines, out, system=args.system, model=args.model,
+             max_tokens=args.max_tokens, show_usage=args.usage)
+        return 0
+
+    question = args.prompt if args.prompt else stdin.read()
+    if not question or not question.strip():
+        print(&quot;ask.py: no question given&quot;, file=sys.stderr)
+        return 2
+    message = client.messages.create(**build_request(
+        question, system=args.system, model=args.model, max_tokens=args.max_tokens))
+    out.write(answer_text(message) + &quot;\n&quot;)
+    if args.usage:
+        out.write(f&quot;[{format_usage(message.usage)}]\n&quot;)
+    return 0
+
+
+if __name__ == &quot;__main__&quot;:
+    sys.exit(main())</pre></div>
+    <p>The build took 6 turns and cost 0.0357 dollars on the book's key. The notebook then
+       ran the client against the real recordings, which the tests never did. Review accepted the module, and found one
+       real gap. With a prompt, <code>--chat</code> builds its lines as <code>[args.prompt] + list(stdin)</code>, and
+       <code>list</code> reads standard input to the end before the prompt is sent, so at a terminal the first answer
+       waits until the user presses Ctrl-D. The spec never said when input is read, and the test named for the prompt
+       going first checks only the order of the requests. The third practice challenge writes the test that catches it.
+       Review also checked whether <code>main</code> building its client before checking for a question makes a missing
+       key fail first, and found that SDK 2.7.0 creates a client without a key and fails only when a request is sent,
+       so <code>python3 ask.py</code> with no question still prints &#8220;ask.py: no question given&#8221;. The
+       functions have no docstrings, which the spec didn't ask for. The spec, tests, transcript and generated file are in
+       the repository's <a href="https://github.com/johnfisher-ai/ai-with-ai/tree/main/builds/your-first-model-call">builds folder</a>. Copy
+       <code>generated/ask.py</code> to run the client yourself with
+       <code>python3 ask.py --chat --usage "your question"</code>, and
+       <code>python3 scripts/claude_build.py your-first-model-call --out my-build</code> repeats the build with your own Claude Code
+       account.</p>
+  </section>
+
+  <section id="notebook">
+    <div class="nb-cta" style="display:block">
+      <div style="display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.3rem">
+        <div class="nb-ic">🐍</div>
+        <div class="nb-body">
+          <h3>Run the notebook</h3>
+          <p>Sends the smallest request and prints the JSON behind it, varies the history, the examples and the system
+             prompt, shows replay refusing a changed request, and runs the chapter's command-line client in single and
+             chat modes.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+        <a class="btn btn-primary" href="notebooks/html/your-first-model-call.html">📓 View notebook (code and outputs)</a>
+        <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+           href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/your-first-model-call.ipynb"
+           target="_blank" rel="noopener">▶ Open in Colab</a>
+        <a class="btn btn-ghost" style="background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)"
+           href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/your-first-model-call.ipynb"
+           target="_blank" rel="noopener">⬇ View or download on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="takeaways">
+    <div class="takeaways">
+      <h3>🎓 In brief</h3>
+      <ul>
+        <li><span class="ck">✓</span><span>A request needs a model, <code>max_tokens</code> and <code>messages</code>, and the reply's text sits in a list of content blocks.</span></li>
+        <li><span class="ck">✓</span><span>The API keeps no state, so the model named the order number only when the request carried the turn that mentioned it.</span></li>
+        <li><span class="ck">✓</span><span>Two worked examples turned paragraph-long classifications into one-word labels, with the same labels.</span></li>
+        <li><span class="ck">✓</span><span>The system prompt took one answer from 644 output tokens to 58, or to JSON that parsed but held an invented value.</span></li>
+        <li><span class="ck">✓</span><span>Replay answers only the exact request that was recorded, and the chapter's client, generated against 23 tests, passed them all with one gap the tests left open.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="challenges">
+    <div class="section-eyebrow"><div class="num">7</div><h2>Practice challenges</h2></div>
+    <p>The first two challenges call the model through <code>ask.py</code>, and the third tests <code>ask.py</code>
+       with a stand-in client.</p>
+    <div class="challenges">
+      <div class="challenge"><div class="cnum">1</div><div class="cbody">
+        <h3>A system prompt that holds across turns</h3>
+        <p>Write a system prompt that makes the support assistant reply in Spanish, then hold a two-turn conversation in
+           English with <code>chat</code>.</p>
+        <div class="chint">Hint: chat takes a list of lines, an output stream and system=.</div></div></div>
+      <div class="challenge"><div class="cnum">2</div><div class="cbody">
+        <h3>Examples that pick a category</h3>
+        <p>Write two worked examples that make the model answer with one of Chapter 1's ticket categories, and run them
+           on two new tickets.</p>
+        <div class="chint">Hint: pass the examples to build_request as history.</div></div></div>
+      <div class="challenge"><div class="cnum">3</div><div class="cbody">
+        <h3>Find the gap in --chat</h3>
+        <p>Log when <code>main</code> reads each line of standard input and when it sends each question, then write the
+           test that requires the prompt to be sent before the next line is read.</p>
+        <div class="chint">Hint: an iterator that appends to a list on every next() makes the reads visible.</div></div></div>
+    </div>
+    <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:0.4rem">
+      <a class="btn btn-primary" href="notebooks/html/your-first-model-call--solutions.html">📓 View solutions</a>
+      <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+         href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/your-first-model-call--solutions.ipynb"
+         target="_blank" rel="noopener">▶ Open solutions in Colab</a>
+    </div>
+  </section>
+
+
+  <div class="callout key" style="margin-top:2rem">
+    <div class="cico">➡️</div>
+    <div><div class="ctitle">Up next</div>
+      <p><strong>Chapter 5 · Reading a response</strong> takes apart the stop reasons, the usage fields and the errors a
+         call can return, and builds a retry wrapper that backs off when the API is busy.</p></div>
+  </div>
+
+  <nav class="chapter-nav" aria-label="Previous and next chapter">
+    <a class="cn-btn prev" href="tokens-context-and-cost.html">
+      <span style="font-size:1.3rem">←</span>
+      <span><span class="cn-dir">Chapter 3 · Previous</span><br><span class="cn-title">Tokens, context and cost</span></span>
+    </a>
+    <a class="cn-btn next" href="../toc.html">
+      <span><span class="cn-dir">Chapter 5 · Coming soon</span><br><span class="cn-title">Reading a response</span></span>
+      <span style="font-size:1.3rem">→</span>
+    </a>
+  </nav>
+
+</main>
+
+<footer class="book-footer" style="background:#0a1230;color:#8892b0;border-top:none">
+  <strong style="color:#cbd5e1">Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  Chapter 4 &nbsp;·&nbsp; © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+const bar = document.getElementById('readProgress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = ((h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100) + '%';
+});
+</script>
+
+</body>
+</html>

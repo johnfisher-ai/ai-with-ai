@@ -139,6 +139,10 @@ class RecordingTransport(httpx2.BaseTransport):
         stored = {"status": response.status_code, "content_type": content_type}
         if content_type.startswith("application/json"):
             stored["body"] = json.loads(content)
+            if isinstance(stored["body"], dict) and "request_id" in stored["body"]:
+                # an error body names its request, and a recording keeps no request ID
+                stored["body"].pop("request_id")
+                content = json.dumps(stored["body"]).encode("utf-8")
             data = stored["body"] if isinstance(stored["body"], dict) else {}
             # a message names its model, and a model description (GET /v1/models/<id>) is one
             model = data.get("model") or (data.get("id") if data.get("type") == "model" else None)

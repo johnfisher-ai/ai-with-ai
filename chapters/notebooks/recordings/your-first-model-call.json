@@ -1,0 +1,1130 @@
+{
+ "notebook": "your-first-model-call",
+ "format": 1,
+ "exchanges": [
+  {
+   "key": "be1eaf77e1906f1c",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "In one sentence, what is a context window?"
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF8aNKkoUDurKvKBCzB",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "A context window is the maximum amount of text (measured in tokens) that a language model can consider at once, including both your input and its own output, so anything beyond that limit is effectively \"forgotten.\""
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 60,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "e5506b18760c3f30",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "What's my order number?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "Reply in one sentence."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF8gSSxQRtYDWhV1bTG",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSogUKEAgTGAI4AUIIdGhpbmtpbmcSDJGocT3rBYzoRqPIPhoMnIdDxHPctjgW4FhpIjDvvc2U9lYGo35EoHaFDkY//WaVgK9BiWZPWMd0phjEkUwGtmDIm4lw6cy4EAyIafkqvwRjCzblXk/R64gDC0G1j5DG7h4dbf2j6Jm/3eLedIXH+VYfMM4vkSdnLL47zBZwXlNiVY4UhCRdTS04KJv5pacFfiV5vhz2nIQOvKBNMr30QG5OrSAXML09fM7CWcNqxUx451NKzbCDIOLJAZmcSsIpancLNZQ8BSW1MHV7qCYGRAhZ4buoJR1zYCIuuwO/dOU913I4+64LtZGJxvyV5Opa/M7PrSNGgyu0A9M1A38AH7W8qr4m6P/SzJZAWfAp4gkomTWl5h4eE0029dQiQ7eu3tqfINlGsf8Kmm3LExozxl1d2A2l7Xt4yIoh/PfHhIjil31K0tG+hlANvV9G3oqcNHLW5Dhv13yEz6ZnCKxBzUJZQk6YjpLhjCSBAkktmH6sTUf3kSqZti/Uhwo+Wd/1cJXVYTz0kd+mWxKBz8bzfmSfwr/zBPb9N9aYqLQBme7vIqZP5+CxVLWxhzEEGn2Zq9d2sxpbBYRGqBqnfvaef+J4N0+n6lCGGjoQ1EAH3sL5dMJgcm4fR0zREPzdsRL82Dp58CDwWNC6yanLfS/hYZcC0t1sgYBbNBiDzEa/HwupZoB08z3sUiSCzgmTD8TzcMbiXD0MO7WdvQ2NNv9veRh539ddlzcNh3UltMasAn1knn3nJzFdjC94IAlKYkj1IMThelEAEF1E936hYZCTxIPJjtbA8jOlBcfnlaDtZ6CmGNeYIUpToNjcwdVaU5WrF7Kccn3ZM8zUt0fkE4N4/XWSeDowF4gxGXx9Wyh9mRgB"
+      },
+      {
+       "type": "text",
+       "text": "I don't have access to your order information, so please check your confirmation email, your account's order history, or contact the seller's support team to find your order number."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 67,
+      "output_tokens_details": {
+       "thinking_tokens": 24
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "e8c75580e36c183c",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order 48213 arrived with a cracked screen."
+      },
+      {
+       "role": "assistant",
+       "content": "I'm sorry it arrived damaged. I can help you arrange a replacement."
+      },
+      {
+       "role": "user",
+       "content": "What's my order number?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "Reply in one sentence."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF8mdVgUy2YhdEHqWNM",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSmAUKEAgTGAI4AUIIdGhpbmtpbmcSDD2daDs/swjFN1VhNRoMXy+I6javcX4Ca7e+IjA4fYRowyxot6S0zPCiucAw2fwzsEIpwE0fvXzZwGsytWaS/4tQTZz2hcevMeNlyD8qtQS+kcPd25J8CWcotM+5IcDxizS38pKFojbZw6kWi+d1s5P2DvgKF99Wn7e3E3jcx8qYPMqqBX/DE5yUGPna3FYY488L018c32ahCBUeu89msqItJHQjMlvyptg9eTHIJtislyrKKTlhnYiLWf5zfouAOjoDhHyvY0VM0dnvfKqqbfzo5nJoeFspeLwPkWJbxQsu2W9Bv2U9zeWf3WvPnnQmPqEOKISMgKbV9SJtFkcaW+nSY/VjrGRYKxLEkQ9DR7LzzLtez9d4B03I9fHnL5EeOJV+m0jUUgzjXJWWHc23qmzbnCTL/JRlP2jXjBWA2DWBQR22BPzOM7FCp/V6fZW94js2Ow2v3PrZ9uD08ma1NIT7aLHmh/+4y++TwpTHkMyZhYnRUNegWudGff2zAA05znwdvk6Qi/xz7fi1dvCuQAYx6vHFB1Jxg+yQi6PzQ43xhVvCs6pBH1up7wEdlvIivS9hI/TycSSpy5KTYBwyaFBjGryQ4coamjsRujSBmmRzm6FP62ED4gbEOVSpGTOjGSAJlKsJZAFLFpjUyiK5bsnpBNrxLq9qg9bqcrEgX5my0mRgOa5O/80UMnpr+x7cgm8J84lwRlzNqmJ5W+SG2/fo6uoQhdUkUHTpgvgf/JVnULi3xE22pqBI+26W/Qi5F4tJ+U6mff06G89zUIdZNkzzfHcerSSYtqjSoAkTZodYGE9zJjYI9NRWtbtwj+omTHES+dr+/EYEVikFCKERQtZHQReqGAE="
+      },
+      {
+       "type": "text",
+       "text": "Your order number is 48213."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 71,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 30,
+      "output_tokens_details": {
+       "thinking_tokens": 19
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "3209c8be3b7cf424",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: The headphones sound great, but the case cracked within a week."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF8rpXnw5rVMfbzKxwh",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "**Mixed**\n\nThe review has one positive point (the headphones sound great) and one negative point (the case cracked within a week). Neither outweighs the other, so the overall sentiment is mixed."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 52,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 63,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "22b7380ef4678c65",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: Battery life is excellent."
+      },
+      {
+       "role": "assistant",
+       "content": "positive"
+      },
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: The charger stopped working, though the refund was quick."
+      },
+      {
+       "role": "assistant",
+       "content": "mixed"
+      },
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: The headphones sound great, but the case cracked within a week."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF8w5GcN2XcP79usjSF",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "mixed"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 142,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 5,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "84a22bcac2068af9",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: Arrived two days early and works perfectly."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF8z6ak513A7nvSex4B",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "**Positive**\n\nThe reviewer praises both the delivery (\"arrived two days early\") and the product's performance (\"works perfectly\"). There are no complaints or reservations, so the sentiment is clearly positive."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 48,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 68,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "c3a50d6898f3b343",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: Battery life is excellent."
+      },
+      {
+       "role": "assistant",
+       "content": "positive"
+      },
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: The charger stopped working, though the refund was quick."
+      },
+      {
+       "role": "assistant",
+       "content": "mixed"
+      },
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: Arrived two days early and works perfectly."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF94u4eGoJShRLpwvtX",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "positive"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 138,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 4,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "bd6fc4ad256822a7",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: Customer support never answered my emails."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF9844vrKL4FNGjVvbB",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "**Negative**\n\nThe reviewer complains that customer support never responded to their emails. That's a clear expression of dissatisfaction, and the review includes nothing positive to balance it."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 45,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 58,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "2f0f520fcefb6fe9",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: Battery life is excellent."
+      },
+      {
+       "role": "assistant",
+       "content": "positive"
+      },
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: The charger stopped working, though the refund was quick."
+      },
+      {
+       "role": "assistant",
+       "content": "mixed"
+      },
+      {
+       "role": "user",
+       "content": "Classify the sentiment of this review as positive, negative or mixed.\n\nReview: Customer support never answered my emails."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF9EfgGDJzoNGhkrXSe",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "negative"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 135,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 4,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "c5ced878698bf6b5",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My package is late. What should I do?"
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF9HijaZR9YFSVfDrsp",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSmwUKEAgTGAI4AUIIdGhpbmtpbmcSDGy1e7bHPM7ygu9ebxoMWPzfkwx5xPSpnePhIjA1NIkdiPLjua4wAoGfABi4Ag4RibeLHr/UN9Z/++URgCU2H+EsaoEOAQZbjfyx398quATSJIIII+5C40aSrH8l8jlo5AgBGwYs+j8d+C7EssjmU1hMHpPgGzyflmMyOCFWB7xkTMh946m1UXxj3Lg+ZDEBPBRcdetiEDwBjCPTmFsxDJFcWhIf4QkDIVGbnahb4ow9RB12pIvs8gIc/Eb8QzHXsgTPbqqhZ9sGkpsnhX1ZUhzQLj5j7XxdnSwfaY5JaQw2tZBCx0vaLKLKa/FgIE+eVGnLcMVMBy9j+8u6qH8V1VSEpZf1nti7vNLLaM7RIhdwaaW4dcZTXH6NfqJNczZpKwQLDykzoeZmGmMRCh1TU3K5Tqs1wT4+L+nF5cjzlncy9lqOsGX/lVXnXEgHE/bFyAEv2/RxSauYkm51yPv0lWVYu5/d6awvlWVm5Y1BiUKv6l2ghpwbHcAhm6XEGFA6yUYlP5UNeCFaRsMvGXMyHkDRdSF8Z0YuyCAg9lHexlfwq4qEMQFVxcE0A/jqpe3ULUtxoc33GyGPVW83cnK69xr5V/pm2x1iBkjTfDdDdLS+rDZ1p4IpijfJqmtyzv3qEKWNKLyRFK2aoFyFyUarWEonxgJH6E8RXVaZh8+HzvhMq26hyYtx8Ke7kQ5vGAiFjrkUExlp2yVrzdEWSfFzxEWLXbYQVBIB2NvzYtBgR/KLJNPDcgyCAZoygBb2lRpLKS7wCNG2DUdNGPT4k0epNWsDrleIWbtgTq1d6HV9Qv7cYyGrVNS1KuifTgiIX1uRNwui/r8STidfVMVQn7/WvuXiF8/umcLjGAE="
+      },
+      {
+       "type": "text",
+       "text": "Here's a practical order of steps:\n\n**1. Check the tracking**\n- Look at the latest status and location. Delays from weather, high volume, or a missed scan are common and often resolve within a day or two.\n- Confirm the delivery address on the order is correct.\n\n**2. Look for a nearby delivery**\n- Check your porch, mailbox, side door, and with neighbors.\n- Ask others in your household or building. Packages are sometimes left with the front desk or office.\n- Look for a delivery notice or photo confirmation.\n\n**3. Wait a short window**\n- If tracking says \"delivered\" but it isn't there, wait 24-48 hours. It's sometimes marked early.\n- If it's just running behind, give it until the estimated delivery window passes by a day or two.\n\n**4. Contact the seller**\n- Reach out through the store or marketplace (Amazon, Etsy, eBay, etc.).\n- Sellers are usually responsible for getting the package to you, and they can open a trace with the carrier, send a replacement, or refund you.\n\n**5. Contact the carrier**\n- Call or use the website for USPS, UPS, FedEx, DHL, or whichever carrier is handling it.\n- Ask for a trace or search, and file a missing mail request if it's been several days with no movement.\n\n**6. Escalate if needed**\n- **Marketplace protection:** Amazon, eBay, and PayPal have guarantees if an item doesn't arrive within a set time. File a claim before the deadline.\n- **Credit card dispute:** If the seller is unresponsive, you can dispute the charge with your card issuer.\n- **Insurance:** If you paid for shipping insurance, file a claim with the carrier or seller.\n\n**Helpful details to have ready:** order number, tracking number, delivery address, and the date it was expected.\n\nIf you tell me the carrier, the store, and what the tracking says, I can give more specific advice."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 644,
+      "output_tokens_details": {
+       "thinking_tokens": 21
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "575d4bc89ae36815",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My package is late. What should I do?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "Answer in one sentence."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF9jVXLyBSbapsrwbL2",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "Check your tracking info for updates, and if it's still missing after a day or two past the estimated delivery date, contact the seller or carrier to request a trace, replacement, or refund."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 58,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "e3a2e0c0538cf6c2",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My package is late. What should I do?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are the support assistant for an online electronics store. Reply with a JSON object that has the keys action and reply, and nothing else."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxF9puDAyYkWSav1DDvn",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQS+gcKEAgTGAI4AUIIdGhpbmtpbmcSDKwZOvbL3KR/rtS5nRoM52HotaGhEhVaUhDmIjDuYvQ41/gmr148HYgM1ycrTY98noUcPOE6597HipGk6owQIXf3CPsuByenNgsziE8qlwfmK8rdqmPpEBWpxfTmlQsuzETq3fvfDvqd8Xmimb9J03ivZYbKiMycMAzf77MyLZbqqow/gewsUekHZOSq3CpOrsTzALcuj5Pb1+y/gNQp1vPA9D/7+bD15c5xHPbO2Owt7hGhp8ZzhaPPYfgy7/6/rACp2FxVu5pZnWEHfuj5w+IYN9lq8+L6Z6pi/x32F5Y4MIdlvLWZ1A/o6lpen3SpF8seDSrlVA7NVKIH0Ku4py59jw6QLa/4GWHxZTbkwgB2X8I96A3NsbCAyTda8ndFU/VRob5DOlrkdp1yZnbEkOAsnKSmmf2FGBNz7t6IgFeaXgIDI7fAsmIcdmgEtmLaNKJmk3vvUiKYjvdWrhish81dSsfMkS2aLI6/NjlOouyaj1aRmr/fZctl33+WpYcCn91U1us9MGLDFD0RCzbkwrPxYo8Rn7cc8KN9cGrzbspdyFmiIqlxmdZmSPKK1kr3LG1ICkYDZCZaTCOh2HLgGhPvX4J3TqudldeE1WneK7eLhqwJYJ3suBw2i8HQvtUio85r/a2qXpMaEmB2eRh6essexrxuPiW2ImXNev3IboItGZgz6+yuL2MxvQNEa+pg2FwlJ+OG+zKui5tdixfLq1r/C+StTLtKO5j7tzuTmHqeIlqyfKhhU4XrYvlfASj7tOyM/eKjhg7wVbMvxli1xXOWzrtatIkYxdpHk21NkFQ3x33v5vfvF5bpRR2kaHfScnLc0Zky9I3EfICV6iDT9AhNMUPw9CXhma+5RLTWuFvRuSKgnE3dsPVzdlTL+swFss8t8aEOwGLNT+v/uoDqCOQ9QrtOLYQ6zNVyYCmgXKdEnF/vt8/h+Y4W8/IbJ6B3OmUyvzU2c6SHGwbozlJAgMMS3L+IZc93hhrjv/SWeSLeFGpzaYXyl2hPNjdk9zyxfG5C0u6KYYd10cYVC9x75D8yWa7wkZn5KTSHegyxb9MHopnP2iHflwuTTS3cnJOXsBSxxR3anM+FIx0ZKTikjGa6P9QQPeyvEonUY5DrAWCUpN9r6S+OJ9AgFdVsICQbo1uykzAMpFm5QQsxKVMMav/KL8X+Jo8H1+4gb6dKIFQNZVbHJ2Jl+epWMSxvNeiKTczR34J+inCRGv5qfH4/MzNRfiuIVZgJwz7QYjAAuXDX2Xkb4TsiuoEHOy/YBxsyd4xSh33hcchBE1SIKYaPFOBAsfuRdOpjS7v5aL4/dl3DSFqf8zvoGAE="
+      },
+      {
+       "type": "text",
+       "text": "{\"action\": \"request_order_info\", \"reply\": \"Sorry your package is running late. Here is what you can do: 1) Check the tracking link in your shipping confirmation email for the latest status and estimated delivery date. 2) Look around your delivery address, such as the porch, mailroom, or neighbors, and confirm the shipping address on your order is correct. 3) If tracking hasn't updated in 3 or more business days, or the delivery date has passed, contact the carrier with your tracking number. 4) If you're still stuck, reply here with your order number and the email used for the order, and I'll look into it and help arrange a replacement or refund if the package is lost.\"}"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 59,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 349,
+      "output_tokens_details": {
+       "thinking_tokens": 136
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "df2cc2a6879ef2e7",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Classify the sentiment of: 'The box was crushed.'"
+      },
+      {
+       "role": "assistant",
+       "content": "Sentiment:"
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 400,
+    "content_type": "application/json",
+    "body": {
+     "type": "error",
+     "error": {
+      "type": "invalid_request_error",
+      "message": "This model does not support assistant message prefill. The conversation must end with a user message."
+     }
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "2bcf99c8b3851893",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "What does max_tokens limit?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "Answer in one sentence."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxFA5fEAG3Twe1SDMfjq",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "`max_tokens` caps the maximum number of tokens the model can generate in its response (the output length), not the size of your input prompt, and the response is cut off if it reaches that limit."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 59,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "2daac4a1769810f5",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order 48213 arrived with a cracked screen."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant. Reply in one or two sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxFAC3TLoeTKCWRazLSh",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSoQYKEAgTGAI4AUIIdGhpbmtpbmcSDNN+qv4VmQfiKmLh7BoMUMQ5PE7qhMvjOtQPIjCqSxPSKZ+wKJUCIcZ4/r33jTwVvXRIfPVJTuG3dqiyU5Zw70o7pAIR6fANbbIvw1gqvgXgtaorYOXBOizILrB+K/VtgMCtlK2J3rhWo+0JOmnSWb+pI9eNqHKrA7kdJE/kEI911leWyxYeQdCdMydkPdb9myDGQkNMfY9UT0kuOi2sNiMZcV3NbMCkzZfHu+1Q/y3l7AV3rdWY+/83Fd8p6PmgEHjKSK2CEhD1cgtKgcrEfZdL2oX1n2cwovgSRlZxtxJrHGzUCnBc4G1oQD99EOgLThTP8tqN2PhYIyjk8gTXLkYe+PypDerxbuR32b90if29gnsuuNFo0MHQRrK4Lgsxgpe8s/oh4ALOFxv+dBBWFqLIr2BNcxkzBSZM2O6Lq1wTcxK/KuZymh+4KFPAFpxvrDxcwhvoWoPPK/oEw9c8dU5YFM+SEUBjxUTGn39UtRUJ2ANKK7467UxJL4O9ZMnGhz8OvPUebcGlUwBnupuEbcc0hBhFFTPoNvHGNj5Z6nD38bZ9OsQd+BZwjENSDfEzd7xf3XJFg3ZO9JAVld7MyoYmeooa1RpiVdq2DMk56VLJdpSzn1Ly4TSBg7JTCUuD8kUfUqmMnsh5s2c91HlaINaylo/1uWy8ioE1FVHZV3vUDf70+uiQZ8RpcMNc4JZ2bb0PWsi8jSETV5UijOnAQ+wblots0YaImo5dBw4KeU5Zn9HcnQZXlHp0NsW2zTiipa/UtpbCY0E0rhlnkKE8GbL7+lzXN9o3POJgDewRiLtkfJOIvCtf1QiP0H5J0sa1jBsUp8qtUhwSG4VHdZSaFh9oVf2dM4TBWVLdoSDhCzu/S+zWDkmU3kmR1oAxCJM/H1N+jb4K9mWC4vxjysPz6Tv2+NdCXPaotmNe+ThwIZOVd3KskBXGMgkmwWDo8seFi1ywysvZvFsHjDusOmQr05UB0x+vezLpfmJD4rgAkwZd5PJCFI0kBxDnFuL/jS+ng6p5ehd34uNPEy9oJGkYAQ=="
+      },
+      {
+       "type": "text",
+       "text": "I'm sorry your order 48213 arrived with a cracked screen. Could you send a photo of the damage and the packaging, and tell me whether you'd prefer a replacement or a refund so I can get that started?"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 45,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 138,
+      "output_tokens_details": {
+       "thinking_tokens": 69
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "ace81b77958c0c02",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order 48213 arrived with a cracked screen."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSoQYKEAgTGAI4AUIIdGhpbmtpbmcSDNN+qv4VmQfiKmLh7BoMUMQ5PE7qhMvjOtQPIjCqSxPSKZ+wKJUCIcZ4/r33jTwVvXRIfPVJTuG3dqiyU5Zw70o7pAIR6fANbbIvw1gqvgXgtaorYOXBOizILrB+K/VtgMCtlK2J3rhWo+0JOmnSWb+pI9eNqHKrA7kdJE/kEI911leWyxYeQdCdMydkPdb9myDGQkNMfY9UT0kuOi2sNiMZcV3NbMCkzZfHu+1Q/y3l7AV3rdWY+/83Fd8p6PmgEHjKSK2CEhD1cgtKgcrEfZdL2oX1n2cwovgSRlZxtxJrHGzUCnBc4G1oQD99EOgLThTP8tqN2PhYIyjk8gTXLkYe+PypDerxbuR32b90if29gnsuuNFo0MHQRrK4Lgsxgpe8s/oh4ALOFxv+dBBWFqLIr2BNcxkzBSZM2O6Lq1wTcxK/KuZymh+4KFPAFpxvrDxcwhvoWoPPK/oEw9c8dU5YFM+SEUBjxUTGn39UtRUJ2ANKK7467UxJL4O9ZMnGhz8OvPUebcGlUwBnupuEbcc0hBhFFTPoNvHGNj5Z6nD38bZ9OsQd+BZwjENSDfEzd7xf3XJFg3ZO9JAVld7MyoYmeooa1RpiVdq2DMk56VLJdpSzn1Ly4TSBg7JTCUuD8kUfUqmMnsh5s2c91HlaINaylo/1uWy8ioE1FVHZV3vUDf70+uiQZ8RpcMNc4JZ2bb0PWsi8jSETV5UijOnAQ+wblots0YaImo5dBw4KeU5Zn9HcnQZXlHp0NsW2zTiipa/UtpbCY0E0rhlnkKE8GbL7+lzXN9o3POJgDewRiLtkfJOIvCtf1QiP0H5J0sa1jBsUp8qtUhwSG4VHdZSaFh9oVf2dM4TBWVLdoSDhCzu/S+zWDkmU3kmR1oAxCJM/H1N+jb4K9mWC4vxjysPz6Tv2+NdCXPaotmNe+ThwIZOVd3KskBXGMgkmwWDo8seFi1ywysvZvFsHjDusOmQr05UB0x+vezLpfmJD4rgAkwZd5PJCFI0kBxDnFuL/jS+ng6p5ehd34uNPEy9oJGkYAQ==",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I'm sorry your order 48213 arrived with a cracked screen. Could you send a photo of the damage and the packaging, and tell me whether you'd prefer a replacement or a refund so I can get that started?",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "What's my order number?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant. Reply in one or two sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxFAJc6Q1rRdixPGxCjY",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "Your order number is 48213, the one you mentioned earlier. Let me know if you'd like to go ahead with a replacement or refund for the cracked screen."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 193,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 52,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "926e93f8b7f951e1",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order 48213 arrived with a cracked screen."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSoQYKEAgTGAI4AUIIdGhpbmtpbmcSDNN+qv4VmQfiKmLh7BoMUMQ5PE7qhMvjOtQPIjCqSxPSKZ+wKJUCIcZ4/r33jTwVvXRIfPVJTuG3dqiyU5Zw70o7pAIR6fANbbIvw1gqvgXgtaorYOXBOizILrB+K/VtgMCtlK2J3rhWo+0JOmnSWb+pI9eNqHKrA7kdJE/kEI911leWyxYeQdCdMydkPdb9myDGQkNMfY9UT0kuOi2sNiMZcV3NbMCkzZfHu+1Q/y3l7AV3rdWY+/83Fd8p6PmgEHjKSK2CEhD1cgtKgcrEfZdL2oX1n2cwovgSRlZxtxJrHGzUCnBc4G1oQD99EOgLThTP8tqN2PhYIyjk8gTXLkYe+PypDerxbuR32b90if29gnsuuNFo0MHQRrK4Lgsxgpe8s/oh4ALOFxv+dBBWFqLIr2BNcxkzBSZM2O6Lq1wTcxK/KuZymh+4KFPAFpxvrDxcwhvoWoPPK/oEw9c8dU5YFM+SEUBjxUTGn39UtRUJ2ANKK7467UxJL4O9ZMnGhz8OvPUebcGlUwBnupuEbcc0hBhFFTPoNvHGNj5Z6nD38bZ9OsQd+BZwjENSDfEzd7xf3XJFg3ZO9JAVld7MyoYmeooa1RpiVdq2DMk56VLJdpSzn1Ly4TSBg7JTCUuD8kUfUqmMnsh5s2c91HlaINaylo/1uWy8ioE1FVHZV3vUDf70+uiQZ8RpcMNc4JZ2bb0PWsi8jSETV5UijOnAQ+wblots0YaImo5dBw4KeU5Zn9HcnQZXlHp0NsW2zTiipa/UtpbCY0E0rhlnkKE8GbL7+lzXN9o3POJgDewRiLtkfJOIvCtf1QiP0H5J0sa1jBsUp8qtUhwSG4VHdZSaFh9oVf2dM4TBWVLdoSDhCzu/S+zWDkmU3kmR1oAxCJM/H1N+jb4K9mWC4vxjysPz6Tv2+NdCXPaotmNe+ThwIZOVd3KskBXGMgkmwWDo8seFi1ywysvZvFsHjDusOmQr05UB0x+vezLpfmJD4rgAkwZd5PJCFI0kBxDnFuL/jS+ng6p5ehd34uNPEy9oJGkYAQ==",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I'm sorry your order 48213 arrived with a cracked screen. Could you send a photo of the damage and the packaging, and tell me whether you'd prefer a replacement or a refund so I can get that started?",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "What's my order number?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "Your order number is 48213, the one you mentioned earlier. Let me know if you'd like to go ahead with a replacement or refund for the cracked screen.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Thanks, that's all."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant. Reply in one or two sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxFANvoN6BkCqWZVfd55",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSlgcKEAgTGAI4AUIIdGhpbmtpbmcSDPYChYyax8F/+LWG1BoMO0MRwDz6n0noTQYsIjD/4iAtkVunQ7qN+femziDrqeeEG3mOd7cKwvuDqf4nTLNBF7WpdJPak5X2/nRT9esqswYfk8IjMJsSXLKMIss7a2f+wK9fukt57/0ENY2EP1KsYTAxzJDTKYfaDv/S54ZUyWYQqM1RPVqFIcfJfI14tyLoK58vWdTjU42HK2vQuAYCiKn93L8WW/29NEB4mMQiZxXHTESKCzDYqNwfQTJ/XOUYQFUL1cli4rfEDL3ho3mpMao9AGbP43gbLK9eQTztOu7Ky+KuGnjSr9vzYab6sXvE41rGRflPIf10U2nOJeAQY7tV90MVn3J80LVPw708v1zG2DsdWBMQxzgKV8H0Ul6tkDdjpB3SxrPsVy0Arc7YPkKzGfP32Pqsw7frKNjAKikJsauuHs4p4FSWUmb7M7ixEOSe9ASvcXZ0d1HqrrYmW5ftaCgA7hocVn6dAgAeqgB6zjY7sW0mfpSym3+VdKxAJWMD1EubqGRBJ0a0cBJ+H9gE50ZMqGHLd0whwUb0htFNgFPHjg2+Ko5048Yv9fqoftggh65foaVb7SzbaGg2MhOZ2cqBGjRKizymd3S7nLt9Npn4axmJKrTAwJrwR+VuURX17d7DWooKnjIWP5Aul3uHm/LlhwND0nqlrkl/U+HxgHotDHd6PAV+buQSvq7j6nt7idla5V78WUy1qJdV58C1W2ern9KOu6nvRIwBD9o0Q6eBoTUFWqfA0+dPOgyKUecPukJkjZ32oxMQjcGxJivyAsGt3DKPvnlle0lHX+Tb9fJ5PJiIx3vy/AY14LZrUnUdBPv8DrGOsNdKmdpE5S/0Eodbmm9bhMokMuyvMiUL21VC0pEHKRMnOSMuKEMgaDK0nvZC4pf4auaCesz5L5f3wExym1QcF8onFQvZr0oUuxejbcrtd0oCfYxNImXRYg0fBKgV73IvJLfRkRAzm7W/BN2eI7UK6XmopgCRUj/KiIc9KHONtNf19yT1HXdndzpNvQJPlPQlxBdFwgkyApuhQ/jZ7hboOzoW8AZAiqNvRospFOTRWUtJM6poYbIaRLxOyVtBXFE99M8A2yoQkQBRwDtGyyW1GaFpd7E8t+XJQClwPpDgOocZePSSKAfZTd9sjlePboMvRewwWhpSagm9Kf9F1Hj0bNShZwHO7ZOrZ5cYAQ=="
+      },
+      {
+       "type": "text",
+       "text": "You're welcome! Whenever you're ready, just send the photos and let me know if you'd like a replacement or refund for order 48213, and we'll take it from there."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 258,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 125,
+      "output_tokens_details": {
+       "thinking_tokens": 72
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  }
+ ]
+}

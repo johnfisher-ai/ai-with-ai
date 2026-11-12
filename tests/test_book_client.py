@@ -171,6 +171,25 @@ def test_an_error_response_is_recorded_and_replayed_as_the_same_error(folder):
         ask(client)
 
 
+def test_an_error_body_is_recorded_without_its_request_id(folder, monkeypatch):
+    error = {"type": "error", "error": {"type": "invalid_request_error", "message": "Fixture error."},
+             "request_id": "req_fixture_9"}
+    _, saved = record(folder, [(400, error)], [lambda c: pytest.raises(anthropic.BadRequestError, ask, c)])
+    assert "request_id" not in json.dumps(saved) and "req_fixture_9" not in json.dumps(saved)
+    with pytest.raises(anthropic.BadRequestError) as raised:
+        ask(book_client.make_client("demo", folder=folder, quiet=True))
+    assert "req_fixture_9" not in str(raised.value)
+    # the recording check rejects a body that still holds one
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "scripts"))
+    import check_recordings
+    monkeypatch.setattr(check_recordings, "NOTEBOOKS", folder.parent)
+    path = folder / "demo.json"
+    data = json.loads(path.read_text())
+    data["exchanges"][0]["response"]["body"]["request_id"] = "req_fixture_9"
+    path.write_text(json.dumps(data))
+    assert any("request_id" in p for p in check_recordings.check(path))
+
+
 def test_replay_needs_no_key_and_reports_what_it_replays(folder, monkeypatch, capsys):
     record(folder, [(200, message())], [ask])
     monkeypatch.delenv("AIWAI_RECORDING_KEY")
