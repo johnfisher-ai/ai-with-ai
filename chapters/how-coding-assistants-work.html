@@ -183,14 +183,14 @@
     <p>Every build in the book keeps a transcript of its steps, so the loop can be measured across all of them.</p>
     <figure class="nb-fig">
       <img src="../assets/img/how-coding-assistants-work-builds.png" width="1200" height="540" loading="lazy"
-           alt="Stacked bars of tool calls per build. Chapters 1 to 3 made 4 calls each, Chapters 4 and 5 made 5, and Chapter 6 made 11, 7 of them Read. The costs above the bars are 0.014, 0.020, 0.029, 0.036, 0.032 and 0.065 dollars.">
+           alt="Stacked bars of tool calls per build. Chapters 1 to 3 made 4 calls each, Chapters 4 and 5 made 5, and Chapter 6 made 11, 7 of them Read. The costs above the bars are 0.016, 0.020, 0.029, 0.036, 0.032 and 0.065 dollars.">
       <figcaption>From the notebook. Tool calls in each build by tool, with each build's cost in dollars.</figcaption>
     </figure>
     <div class="table-scroll" tabindex="0" role="region" aria-label="The six builds">
       <table class="disp-table">
         <thead><tr><th>Chapter</th><th>Tool calls</th><th>Refused</th><th>Turns</th><th>Output tokens</th><th>Dollars</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>4</td><td>0</td><td>5</td><td>777</td><td>0.0140</td></tr>
+          <tr><td>1</td><td>4</td><td>0</td><td>5</td><td>728</td><td>0.0162</td></tr>
           <tr><td>2</td><td>4</td><td>0</td><td>5</td><td>1,049</td><td>0.0205</td></tr>
           <tr><td>3</td><td>4</td><td>0</td><td>5</td><td>1,501</td><td>0.0285</td></tr>
           <tr><td>4</td><td>5</td><td>0</td><td>6</td><td>1,843</td><td>0.0357</td></tr>
@@ -199,8 +199,8 @@
         </tbody>
       </table>
     </div>
-    <p>The first five builds wrote a module from a spec and tests in 4 or 5 tool calls, read the spec, run or read the
-       tests, write with Edit, run the tests. Chapter 6's build explained a package, and took 11, seven of them Read. It
+    <p>The first five builds wrote a module from a spec and tests in 4 or 5 tool calls, read the spec, run the tests or
+       look around the folder, write with Edit, run the tests. Chapter 6's build explained a package, and took 11, seven of them Read. It
        also wrote the most, 3,176 output tokens, and cost the most, 0.0648 dollars, because explaining code means reading
        all of it and every file read is carried through the turns that follow.</p>
   </section>
@@ -216,7 +216,7 @@
           the input nearly sixfold for the request after it.</li>
       <li><strong>Broad permissions</strong> let a session do more than the task needs. The builds allow one or three
           commands, and a refused command shows up in the transcript.</li>
-      <li><strong>A transcript left unread</strong> hides how the work was done. Only the transcripts show that two of
+      <li><strong>A transcript left unread</strong> hides how the work was done. Only the transcripts show that three of
           the six builds wrote their file before running the tests.</li>
     </ul>
   </section>
@@ -333,10 +333,10 @@ The `anthropic` client reads the key from the `ANTHROPIC_API_KEY` environment va
        defined where the guide says. The prose needed review, and the notebook ran the claims it could. The first gap is
        real. <code>triage()</code> parses the reply with <code>parse_category()</code>, which returns
        <code>unrecognized</code> for <code>Billing.</code>, while <code>normalize_label()</code>, which would return
-       <code>billing</code>, is never called. It sits in the module Chapter 1's build produced, because that spec asked
-       for both functions. The second, third and fourth gaps also hold, since the triage call bypasses
+       <code>billing</code>, is never called. It sat in the module Chapter 1's first build produced, because that spec
+       asked for both functions, and Chapter 1's build was then run again from a revised spec that closes it. The second, third and fourth gaps also hold, since the triage call bypasses
        <code>retry.py</code>, <code>desk.main()</code> catches nothing, and the two <code>answer_text()</code> functions
-       differ in how they read a block. The guide also wrote the British spelling &#8220;behaviour&#8221;, which the spec
+       differ in how they read a block. The guide also uses a British spelling, <code>behaviour</code>, which the spec
        didn't rule out. The package, spec, tests, transcript and guide are in the repository's
        <a href="https://github.com/johnfisher-ai/ai-with-ai/tree/main/builds/how-coding-assistants-work">builds folder</a>.</p>
   </section>

@@ -7839,7 +7839,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>This notebook runs the chapter's two ideas on eight support tickets for an online store. First a language model classifies each ticket, as a component behind a single function call. Then it loads the module Claude Code generated in the chapter's build from a spec and tests the book wrote first, checks the module's <code>normalize_label</code> against six of those cases, and runs its <code>triage</code> on the same tickets. A final section totals what the calls cost.</p>
+<p>This notebook runs the chapter's two ideas on eight support tickets for an online store. First a language model classifies each ticket, as a component behind a single function call. Then it loads the module Claude Code generated in the chapter's build from a spec and tests the book wrote first, checks the module's <code>parse_category</code> against six of those cases, and runs its <code>triage</code> on the same tickets. A final section totals what the calls cost.</p>
 </div>
 </div>
 </div>
@@ -8009,7 +8009,7 @@ login      I can't log in to download the invoice for my last order.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="An-assistant-that-writes-code-you-check-with-tests">An assistant that writes code you check with tests<a class="anchor-link" href="#An-assistant-that-writes-code-you-check-with-tests">¶</a></h2><p>A developer would hand the next step to a coding assistant such as Claude Code. The chapter's build gave it two files the book wrote first. <code>spec.md</code> describes the module <code>triage.py</code> in plain words, constant by constant and function by function, and <code>tests/test_triage.py</code> holds 25 pytest tests that decide when the module is done. One function the spec asks for is <code>normalize_label</code>, which turns a messy one-word reply such as <code>" Billing.\n"</code> into a clean category, and six of the tests are the cases below, written before any code existed. Claude Code ran in a terminal, outside this notebook, and what it produced is kept in the repository's <code>builds/what-building-ai-with-ai-means/</code> folder. This cell loads the module it generated and prints <code>normalize_label</code>.</p>
+<h2 id="An-assistant-that-writes-code-you-check-with-tests">An assistant that writes code you check with tests<a class="anchor-link" href="#An-assistant-that-writes-code-you-check-with-tests">¶</a></h2><p>A developer would hand the next step to a coding assistant such as Claude Code. The chapter's build gave it two files the book wrote first. <code>spec.md</code> describes the module <code>triage.py</code> in plain words, constant by constant and function by function, and <code>tests/test_triage.py</code> holds 27 pytest tests that decide when the module is done. One function the spec asks for is <code>parse_category</code>, which turns a messy one-word reply such as <code>" Billing.\n"</code> into a clean category and flags anything else as <code>unrecognized</code>, and six of the tests are the cases below, written before any code existed. Claude Code ran in a terminal, outside this notebook, and what it produced is kept in the repository's <code>builds/what-building-ai-with-ai-means/</code> folder. This cell loads the module it generated and prints <code>parse_category</code>.</p>
 </div>
 </div>
 </div>
@@ -8033,7 +8033,7 @@ login      I can't log in to download the invoice for my last order.
 <span class="n">built</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">built</span><span class="p">)</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">built</span><span class="o">.</span><span class="n">normalize_label</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">built</span><span class="o">.</span><span class="n">parse_category</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8046,9 +8046,9 @@ login      I can't log in to download the invoice for my last order.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>def normalize_label(raw):
-    t = raw.lower().strip(string.whitespace + string.punctuation)
-    return t if t in CATEGORIES else "other"
+<pre>def parse_category(text):
+    cleaned = text.lower().strip(string.whitespace + string.punctuation)
+    return cleaned if cleaned in CATEGORIES else "unrecognized"
 
 </pre>
 </div>
@@ -8062,7 +8062,7 @@ login      I can't log in to download the invoice for my last order.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Claude Code's <code>normalize_label</code> lowercases the reply, strips whitespace and punctuation from both ends, and returns the result when it is one of the four categories, or <code>other</code> when it isn't. That is what the spec asks for, in two lines. It is ordinary code in a file, so it is read, reviewed and versioned like any other, and nothing in the notebook runs it until it has been read.</p>
+<p>Claude Code's <code>parse_category</code> lowercases the reply, strips whitespace and punctuation from both ends, and returns the result when it is one of the four categories, or <code>unrecognized</code> when it isn't. That is what the spec asks for, in two lines. It is ordinary code in a file, so it is read, reviewed and versioned like any other, and nothing in the notebook runs it until it has been read.</p>
 </div>
 </div>
 </div>
@@ -8075,14 +8075,14 @@ login      I can't log in to download the invoice for my last order.
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># These cases are the book's, written before Claude Code saw the spec. They are also in the build's tests.</span>
-<span class="n">normalize_label</span> <span class="o">=</span> <span class="n">built</span><span class="o">.</span><span class="n">normalize_label</span>
+<span class="n">parse_category</span> <span class="o">=</span> <span class="n">built</span><span class="o">.</span><span class="n">parse_category</span>
 <span class="n">CASES</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">" Billing.</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"billing"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"LOGIN"</span><span class="p">,</span> <span class="s2">"login"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"shipping!"</span><span class="p">,</span> <span class="s2">"shipping"</span><span class="p">),</span>
-         <span class="p">(</span><span class="s2">"other"</span><span class="p">,</span> <span class="s2">"other"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"refund"</span><span class="p">,</span> <span class="s2">"other"</span><span class="p">),</span> <span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="s2">"other"</span><span class="p">)]</span>
+         <span class="p">(</span><span class="s2">"other"</span><span class="p">,</span> <span class="s2">"other"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"refund"</span><span class="p">,</span> <span class="s2">"unrecognized"</span><span class="p">),</span> <span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="s2">"unrecognized"</span><span class="p">)]</span>
 <span class="n">passed</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">raw</span><span class="p">,</span> <span class="n">expected</span> <span class="ow">in</span> <span class="n">CASES</span><span class="p">:</span>
-    <span class="n">got</span> <span class="o">=</span> <span class="n">normalize_label</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+    <span class="n">got</span> <span class="o">=</span> <span class="n">parse_category</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
     <span class="n">passed</span> <span class="o">+=</span> <span class="n">got</span> <span class="o">==</span> <span class="n">expected</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'pass'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'FAIL'</span><span class="si">}</span><span class="s2">  normalize_label(</span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2">) -&gt; </span><span class="si">{</span><span class="n">got</span><span class="si">!r}</span><span class="s2">, expected </span><span class="si">{</span><span class="n">expected</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'pass'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'FAIL'</span><span class="si">}</span><span class="s2">  parse_category(</span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2">) -&gt; </span><span class="si">{</span><span class="n">got</span><span class="si">!r}</span><span class="s2">, expected </span><span class="si">{</span><span class="n">expected</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">passed</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">CASES</span><span class="p">)</span><span class="si">}</span><span class="s2"> cases pass"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8096,12 +8096,12 @@ login      I can't log in to download the invoice for my last order.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>pass  normalize_label(' Billing.\n') -&gt; 'billing', expected 'billing'
-pass  normalize_label('LOGIN') -&gt; 'login', expected 'login'
-pass  normalize_label('shipping!') -&gt; 'shipping', expected 'shipping'
-pass  normalize_label('other') -&gt; 'other', expected 'other'
-pass  normalize_label('refund') -&gt; 'other', expected 'other'
-pass  normalize_label('') -&gt; 'other', expected 'other'
+<pre>pass  parse_category(' Billing.\n') -&gt; 'billing', expected 'billing'
+pass  parse_category('LOGIN') -&gt; 'login', expected 'login'
+pass  parse_category('shipping!') -&gt; 'shipping', expected 'shipping'
+pass  parse_category('other') -&gt; 'other', expected 'other'
+pass  parse_category('refund') -&gt; 'unrecognized', expected 'unrecognized'
+pass  parse_category('') -&gt; 'unrecognized', expected 'unrecognized'
 6 of 6 cases pass
 </pre>
 </div>
@@ -8115,7 +8115,7 @@ pass  normalize_label('') -&gt; 'other', expected 'other'
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>All six cases pass, as they did inside the build, where they ran alongside the other 19 tests. Had one failed there, Claude Code would have changed the code and run the tests again, and a test it couldn't satisfy would point to a gap in the spec. This is the second sense of the book's title. An assistant writes the code, and you accept what passes the tests you wrote yourself. Part 2 develops this workflow.</p>
+<p>All six cases pass, as they did inside the build, where they ran alongside the other 21 tests. Had one failed there, Claude Code would have changed the code and run the tests again, and a test it couldn't satisfy would point to a gap in the spec. This is the second sense of the book's title. An assistant writes the code, and you accept what passes the tests you wrote yourself. Part 2 develops this workflow.</p>
 </div>
 </div>
 </div>
@@ -8173,7 +8173,7 @@ login      I can't log in to download the invoice for my last order.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The generated <code>triage</code> returned the same category as the hand-written function for all eight tickets. Its requests are identical down to the system prompt and <code>max_tokens</code>, so the notebook answers them from the same recording, and a request that differed in any field would have found no recorded response and raised an error. The recording works as a second check on the generated code, alongside the 25 tests it was built against.</p>
+<p>The generated <code>triage</code> returned the same category as the hand-written function for all eight tickets. Its requests are identical down to the system prompt and <code>max_tokens</code>, so the notebook answers them from the same recording, and a request that differed in any field would have found no recorded response and raised an error. The recording works as a second check on the generated code, alongside the 27 tests it was built against.</p>
 </div>
 </div>
 </div>
@@ -8253,7 +8253,7 @@ about 0.0030 dollars at those prices
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Where-building-AI-with-AI-goes-wrong">Where building AI with AI goes wrong<a class="anchor-link" href="#Where-building-AI-with-AI-goes-wrong">¶</a></h2><p>A model's reply is text, and nothing forces it to be one of your categories. The cell below takes four made-up replies, of the kinds a model can return, through the strict check in <code>triage</code> and through the generated <code>normalize_label</code>.</p>
+<h2 id="Where-building-AI-with-AI-goes-wrong">Where building AI with AI goes wrong<a class="anchor-link" href="#Where-building-AI-with-AI-goes-wrong">¶</a></h2><p>A model's reply is text, and nothing forces it to be one of your categories. The cell below takes four made-up replies, of the kinds a model can return, through three ways of reading a reply: a strict check like the hand-written <code>triage</code> above, the generated <code>parse_category</code>, and a tolerant reader that files anything unknown under <code>other</code>.</p>
 </div>
 </div>
 </div>
@@ -8265,11 +8265,23 @@ about 0.0030 dollars at those prices
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># The same raw replies through triage's strict check and through the generated normalize_label</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+
+<span class="c1"># The same raw replies through three ways of reading them</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">strict</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""The hand-written triage's check: an exact category, or unrecognized."""</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">label</span> <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">CATEGORIES</span> <span class="k">else</span> <span class="s2">"unrecognized"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tolerant</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Forgive the formatting and file anything else under other."""</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">whitespace</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">label</span> <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">CATEGORIES</span> <span class="k">else</span> <span class="s2">"other"</span>
+
+
 <span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"billing"</span><span class="p">,</span> <span class="s2">"Billing."</span><span class="p">,</span> <span class="s2">"refund"</span><span class="p">,</span> <span class="s2">"I think this is a login problem."</span><span class="p">]:</span>
-    <span class="n">strict</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="n">strict</span> <span class="o">=</span> <span class="n">strict</span> <span class="k">if</span> <span class="n">strict</span> <span class="ow">in</span> <span class="n">CATEGORIES</span> <span class="k">else</span> <span class="s2">"unrecognized"</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">raw</span><span class="si">!r:</span><span class="s2">36</span><span class="si">}</span><span class="s2"> strict: </span><span class="si">{</span><span class="n">strict</span><span class="si">:</span><span class="s2">&lt;13</span><span class="si">}</span><span class="s2"> normalize_label: </span><span class="si">{</span><span class="n">normalize_label</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">raw</span><span class="si">!r:</span><span class="s2">36</span><span class="si">}</span><span class="s2"> strict: </span><span class="si">{</span><span class="n">strict</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="si">:</span><span class="s2">&lt;13</span><span class="si">}</span><span class="s2"> parse_category: </span><span class="si">{</span><span class="n">parse_category</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="si">:</span><span class="s2">&lt;13</span><span class="si">}</span><span class="s2"> tolerant: </span><span class="si">{</span><span class="n">tolerant</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8282,10 +8294,10 @@ about 0.0030 dollars at those prices
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>'billing'                            strict: billing       normalize_label: billing
-'Billing.'                           strict: unrecognized  normalize_label: billing
-'refund'                             strict: unrecognized  normalize_label: other
-'I think this is a login problem.'   strict: unrecognized  normalize_label: other
+<pre>'billing'                            strict: billing       parse_category: billing       tolerant: billing
+'Billing.'                           strict: unrecognized  parse_category: billing       tolerant: billing
+'refund'                             strict: unrecognized  parse_category: unrecognized  tolerant: other
+'I think this is a login problem.'   strict: unrecognized  parse_category: unrecognized  tolerant: other
 </pre>
 </div>
 </div>
@@ -8298,7 +8310,7 @@ about 0.0030 dollars at those prices
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The strict check accepts only an exact category, so <code>Billing.</code> with a capital and a period comes back <code>unrecognized</code>, and a person or a retry has to deal with it. <code>normalize_label</code> turns the same reply into <code>billing</code>. It also turns <code>refund</code> and a whole sentence into <code>other</code>, which looks tidy and hides that the model didn't answer the question it was asked. The strict check stops work that a little cleanup would have saved. The normalizer files real problems under <code>other</code> without saying so. A system built on a model has to choose which failure it can live with, and count how often each one happens. None of this showed in the eight tickets above, where every reply was clean, so one good run says little about the next thousand.</p>
+<p>The strict check accepts only an exact category, so <code>Billing.</code> with a capital and a period comes back <code>unrecognized</code>, and a person or a retry has to deal with it. The tolerant reader turns the same reply into <code>billing</code>, and it also turns <code>refund</code> and a whole sentence into <code>other</code>, which looks tidy and hides that the model didn't answer the question it was asked. The generated <code>parse_category</code> sits between them. It forgives the formatting, so <code>Billing.</code> becomes <code>billing</code>, and it still flags <code>refund</code> and the sentence as <code>unrecognized</code>, so the replies that matter reach a person. An earlier build of this module read replies with the strict check and kept the tolerant reader as a separate function that nothing called. Chapter 6's repository guide flagged that gap, and the spec was revised to the middle design. Whichever design a system uses, it has to count how often each failure happens. None of this showed in the eight tickets above, where every reply was clean, so one good run says little about the next thousand.</p>
 </div>
 </div>
 </div>
@@ -8312,7 +8324,7 @@ about 0.0030 dollars at those prices
 <h2 id="Recap">Recap<a class="anchor-link" href="#Recap">¶</a></h2><ul>
 <li>A model can be a component of a conventional program. <code>triage</code> hides the call behind a function, and a guard keeps a reply outside the list from passing as a category.</li>
 <li>Two of the eight labels were judgment calls, and only a test set can say how often such calls go the right way.</li>
-<li>A coding assistant writes code from a spec and tests written first. Claude Code generated <code>triage.py</code>, its <code>normalize_label</code> passed the book's six cases, and its <code>triage</code> sent the same requests and returned the same categories as the function written by hand.</li>
+<li>A coding assistant writes code from a spec and tests written first. Claude Code generated <code>triage.py</code>, its <code>parse_category</code> passed the book's six cases, and its <code>triage</code> sent the same requests and returned the same categories as the function written by hand.</li>
 <li>Replies report their token counts. The eight calls cost about 0.003 dollars at November 2026 prices, and the three hardest tickets cost the most because the model thought before answering.</li>
 <li>The next chapter, How a language model produces text, opens up the model behind these replies.</li>
 </ul>

@@ -112,7 +112,7 @@
        applies the second, with Claude Code generating the code the chapter needs from a spec and tests, and Chapter 137,
        How this book is built, shows the workflow behind this book.</p>
     <figure style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
-      <svg viewBox="0 0 720 260" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Two panels. On the left, a program sends a ticket to the model, gets one word back, passes it through a guard and keeps a category. On the right, you send a request to an assistant, it writes a function, and tests you wrote first decide whether to keep it or ask again."><defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5578"/></marker></defs><text x="180" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2138">A model as a component</text><text x="540" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2138">An assistant as a collaborator</text><line x1="360" y1="40" x2="360" y2="250" stroke="#e6e9f2" stroke-width="1.5"/><rect x="30" y="60" width="120" height="56" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="90.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#3730a3">Your program</text><text x="90.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">triage(ticket)</text><rect x="210" y="60" width="120" height="56" rx="10" fill="#fff1ec" stroke="#ffc9b8"/><text x="270.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#9a3412">The model</text><text x="270.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">Claude Sonnet 5.5</text><line x1="152" y1="78" x2="207" y2="78" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="72" text-anchor="middle" font-size="9.5" fill="#4a5578">ticket</text><line x1="208" y1="100" x2="153" y2="100" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="115" text-anchor="middle" font-size="9.5" fill="#4a5578">one word</text><rect x="30" y="160" width="120" height="50" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="90.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#047857">A guard</text><text x="90.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">in the list, or not</text><line x1="90" y1="118" x2="90" y2="157" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><rect x="210" y="160" width="120" height="50" rx="10" fill="#f4f6fb" stroke="#cdd3e3"/><text x="270.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#1a2138">The category</text><text x="270.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">billing, login, ...</text><line x1="152" y1="185" x2="207" y2="185" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="240" text-anchor="middle" font-size="10" fill="#4a5578">Your code calls the model like any other function.</text><rect x="390" y="60" width="110" height="56" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="445.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#3730a3">You</text><text x="445.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">a request in words</text><rect x="570" y="60" width="120" height="56" rx="10" fill="#fff1ec" stroke="#ffc9b8"/><text x="630.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#9a3412">The assistant</text><text x="630.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">writes the code</text><line x1="502" y1="88" x2="567" y2="88" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="535" y="82" text-anchor="middle" font-size="9.5" fill="#4a5578">request</text><rect x="570" y="160" width="120" height="50" rx="10" fill="#f4f6fb" stroke="#cdd3e3"/><text x="630.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#1a2138">normalize_label</text><text x="630.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">the code it wrote</text><line x1="630" y1="118" x2="630" y2="157" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><rect x="390" y="160" width="110" height="50" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="445.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#047857">Your tests</text><text x="445.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">written first</text><line x1="567" y1="185" x2="503" y2="185" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="535" y="179" text-anchor="middle" font-size="9.5" fill="#4a5578">checked by</text><text x="445" y="232" text-anchor="middle" font-size="10" font-weight="700" fill="#047857">pass: keep it</text><text x="445" y="246" text-anchor="middle" font-size="10" fill="#4a5578">fail: ask again or fix it</text></svg>
+      <svg viewBox="0 0 720 260" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Two panels. On the left, a program sends a ticket to the model, gets one word back, passes it through a guard and keeps a category. On the right, you send a request to an assistant, it writes a function, and tests you wrote first decide whether to keep it or ask again."><defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5578"/></marker></defs><text x="180" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2138">A model as a component</text><text x="540" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2138">An assistant as a collaborator</text><line x1="360" y1="40" x2="360" y2="250" stroke="#e6e9f2" stroke-width="1.5"/><rect x="30" y="60" width="120" height="56" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="90.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#3730a3">Your program</text><text x="90.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">triage(ticket)</text><rect x="210" y="60" width="120" height="56" rx="10" fill="#fff1ec" stroke="#ffc9b8"/><text x="270.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#9a3412">The model</text><text x="270.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">Claude Sonnet 5.5</text><line x1="152" y1="78" x2="207" y2="78" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="72" text-anchor="middle" font-size="9.5" fill="#4a5578">ticket</text><line x1="208" y1="100" x2="153" y2="100" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="115" text-anchor="middle" font-size="9.5" fill="#4a5578">one word</text><rect x="30" y="160" width="120" height="50" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="90.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#047857">A guard</text><text x="90.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">in the list, or not</text><line x1="90" y1="118" x2="90" y2="157" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><rect x="210" y="160" width="120" height="50" rx="10" fill="#f4f6fb" stroke="#cdd3e3"/><text x="270.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#1a2138">The category</text><text x="270.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">billing, login, ...</text><line x1="152" y1="185" x2="207" y2="185" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="180" y="240" text-anchor="middle" font-size="10" fill="#4a5578">Your code calls the model like any other function.</text><rect x="390" y="60" width="110" height="56" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="445.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#3730a3">You</text><text x="445.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">a request in words</text><rect x="570" y="60" width="120" height="56" rx="10" fill="#fff1ec" stroke="#ffc9b8"/><text x="630.0" y="83.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#9a3412">The assistant</text><text x="630.0" y="99.0" text-anchor="middle" font-size="9.5" fill="#4a5578">writes the code</text><line x1="502" y1="88" x2="567" y2="88" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="535" y="82" text-anchor="middle" font-size="9.5" fill="#4a5578">request</text><rect x="570" y="160" width="120" height="50" rx="10" fill="#f4f6fb" stroke="#cdd3e3"/><text x="630.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#1a2138">parse_category</text><text x="630.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">the code it wrote</text><line x1="630" y1="118" x2="630" y2="157" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><rect x="390" y="160" width="110" height="50" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="445.0" y="180.0" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#047857">Your tests</text><text x="445.0" y="196.0" text-anchor="middle" font-size="9.5" fill="#4a5578">written first</text><line x1="567" y1="185" x2="503" y2="185" stroke="#4a5578" stroke-width="1.6" marker-end="url(#ar1)"/><text x="535" y="179" text-anchor="middle" font-size="9.5" fill="#4a5578">checked by</text><text x="445" y="232" text-anchor="middle" font-size="10" font-weight="700" fill="#047857">pass: keep it</text><text x="445" y="246" text-anchor="middle" font-size="10" fill="#4a5578">fail: ask again or fix it</text></svg>
     </figure>
     <p>The models behind both are the large language models the first book introduces in
        <a href="https://johnfisher-ai.github.io/Statistics-Data-Science-AI-Visual-Book/chapters/nlp-and-large-language-models.html">NLP and large language models</a>. This book treats them as building blocks, so it starts from their interface, the text you send and the text that
@@ -157,22 +157,22 @@
     <p>A developer doesn't paste code out of a chat reply. They hand the job to a coding assistant such as Claude Code,
        which works inside the project's folder, reads its files, runs commands and edits code. The chapter's build gave
        Claude Code two files the book wrote first: <code>spec.md</code>, a plain-language description of the module
-       <code>triage.py</code>, and a file of 25 pytest tests that decide when the module is done. Section 7 reads both,
+       <code>triage.py</code>, and a file of 27 pytest tests that decide when the module is done. Section 7 reads both,
        and the <a href="../introduction.html#claude-code">introduction</a> explains how a Claude Code session uses them.</p>
-    <p>One function the spec asks for is <code>normalize_label</code>, which turns a messy one-word reply such as
-       <code>" Billing.\n"</code> into a clean category. Before any code existed, the book wrote six cases it has to
-       pass, among them a capitalized word, trailing punctuation, a word outside the list and an empty string. This is
-       the function Claude Code wrote.</p>
+    <p>One function the spec asks for is <code>parse_category</code>, which turns a messy one-word reply such as
+       <code>" Billing.\n"</code> into a clean category and flags anything that isn't one. Before any code existed, the
+       book wrote six cases it has to pass, among them a capitalized word, trailing punctuation, a word outside the list
+       and an empty string. This is the function Claude Code wrote.</p>
     <div class="codebox"><div class="cbh">generated by Claude Code</div><pre tabindex="0">import string
 
-def normalize_label(raw):
-    t = raw.lower().strip(string.whitespace + string.punctuation)
-    return t if t in CATEGORIES else &quot;other&quot;</pre></div>
-    <p>It lowercases the reply, strips whitespace and punctuation from both ends, and returns <code>other</code> for
-       anything outside the list, which is what the spec says in two sentences. All six cases pass, in the build's own
-       test run and again in the notebook, which imports the generated module like any other file in the project. Code
-       reaches the program only after it is committed, read and covered by tests. The cases are the contract, and the
-       practice of writing them is covered in <em>Python, Visually</em>'s
+def parse_category(text):
+    cleaned = text.lower().strip(string.whitespace + string.punctuation)
+    return cleaned if cleaned in CATEGORIES else &quot;unrecognized&quot;</pre></div>
+    <p>It lowercases the reply, strips whitespace and punctuation from both ends, and returns <code>unrecognized</code>
+       for anything outside the list, which is what the spec says in two sentences. All six cases pass, in the build's
+       own test run and again in the notebook, which imports the generated module like any other file in the project.
+       Code reaches the program only after it is committed, read and covered by tests. The cases are the contract, and
+       the practice of writing them is covered in <em>Python, Visually</em>'s
        <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/testing-and-packaging.html">Testing and Packaging</a>.</p>
   </section>
 
@@ -213,26 +213,32 @@ def normalize_label(raw):
   <section id="goes-wrong">
     <div class="section-eyebrow"><div class="num">6</div><h2>Where building AI with AI goes wrong</h2></div>
     <p>A model's reply is text, and nothing forces it into your categories. The notebook passes four sample replies
-       through the strict check in <code>triage</code> and through the model's <code>normalize_label</code>.</p>
-    <div class="table-scroll" tabindex="0" role="region" aria-label="Four replies through two checks">
+       through three ways of reading them: a strict check like the hand-written <code>triage</code>, the generated
+       <code>parse_category</code>, and a tolerant reader that files anything unknown under <code>other</code>.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Four replies read three ways">
       <table class="disp-table">
-        <thead><tr><th>Reply</th><th>Strict check</th><th>normalize_label</th></tr></thead>
+        <thead><tr><th>Reply</th><th>Strict check</th><th>parse_category</th><th>Tolerant reader</th></tr></thead>
         <tbody>
-          <tr><td><code>'billing'</code></td><td><code>billing</code></td><td><code>billing</code></td></tr>
-          <tr><td><code>'Billing.'</code></td><td><code>unrecognized</code></td><td><code>billing</code></td></tr>
-          <tr><td><code>'refund'</code></td><td><code>unrecognized</code></td><td><code>other</code></td></tr>
-          <tr><td><code>'I think this is a login problem.'</code></td><td><code>unrecognized</code></td><td><code>other</code></td></tr>
+          <tr><td><code>'billing'</code></td><td><code>billing</code></td><td><code>billing</code></td><td><code>billing</code></td></tr>
+          <tr><td><code>'Billing.'</code></td><td><code>unrecognized</code></td><td><code>billing</code></td><td><code>billing</code></td></tr>
+          <tr><td><code>'refund'</code></td><td><code>unrecognized</code></td><td><code>unrecognized</code></td><td><code>other</code></td></tr>
+          <tr><td><code>'I think this is a login problem.'</code></td><td><code>unrecognized</code></td><td><code>unrecognized</code></td><td><code>other</code></td></tr>
         </tbody>
       </table>
     </div>
-    <p>The strict check stops <code>Billing.</code> because of a capital and a period, so a human or a retry has to handle a case that trivial normalization would have resolved. The normalizer accepts it, and also files the word
-       refund and a whole sentence under <code>other</code> without saying the model failed to answer. Each design has its own failure mode, and a system built on a model has to choose the one it can tolerate and
-       measure how often it occurs.</p>
-    <p>The chapter surfaced other failure modes as well. Two labels were judgment calls, and only a test set can say how often such
-       calls go the right way. The hardest tickets cost the most, through thinking that a reply doesn't show. And
-       generated code is only as well checked as its tests. <code>normalize_label</code> files a reply that names two
-       categories under <code>other</code>, which the spec allows and no test questions. None of this showed as an error in the eight
-       tickets, where every reply was clean, and one good run says little about the next thousand.</p>
+    <p>The strict check stops <code>Billing.</code> because of a capital and a period, so a human or a retry has to
+       handle a case that trivial cleanup would have resolved. The tolerant reader accepts it, and also files the word
+       refund and a whole sentence under <code>other</code> without saying the model failed to answer.
+       <code>parse_category</code> forgives the formatting and flags the rest, so only the replies that need a person
+       reach one. Each design fails in its own way, and a system built on a model has to choose the failure it can
+       tolerate and measure how often it occurs.</p>
+    <p>The chapter surfaced other failure modes as well. Two labels were judgment calls, and only a test set can say how
+       often such calls go the right way. The hardest tickets cost the most, through thinking that a reply doesn't show.
+       And generated code is only as well checked as its tests. An earlier build of this module read replies with the
+       strict check and kept the tolerant reader as a second function that nothing called, and all its tests passed.
+       Chapter 6's repository guide found that gap, and the spec and tests were rewritten to settle it, a reply that
+       names two categories included. None of this showed as an error in the eight tickets, where every reply was clean,
+       and one good run says little about the next thousand.</p>
   </section>
 
   <section id="build">
@@ -249,39 +255,27 @@ def normalize_label(raw):
        lives in the spec, so Chapter 2's build uses the same prompt with its own file name.</p>
     <div class="codebox wrap"><div class="cbh">spec.md</div><pre tabindex="0"># triage.py
 
-A module that sorts a customer support ticket for an online store into one category by asking a language
-model. It is one component of a larger program, so it takes the API client as an argument and never creates
-one. Use only the Python standard library, and don&#x27;t import the `anthropic` package.
+A module that sorts a customer support ticket for an online store into one category by asking a language model. It is one component of a larger program, so it takes the API client as an argument and never creates one. Use only the Python standard library, and don&#x27;t import the `anthropic` package.
 
 ## Constants
 
 - `CATEGORIES` is the tuple `(&quot;billing&quot;, &quot;login&quot;, &quot;shipping&quot;, &quot;other&quot;)`.
 - `MODEL` is `&quot;claude-sonnet-5-5&quot;`.
-- `SYSTEM_PROMPT` is exactly
-  `&quot;You sort customer support tickets for an online store. Reply with exactly one word from this list: billing, login, shipping, other.&quot;`
+- `SYSTEM_PROMPT` is exactly `&quot;You sort customer support tickets for an online store. Reply with exactly one word from this list: billing, login, shipping, other.&quot;`
 
 ## answer_text(reply)
 
-`reply` has a `content` list of blocks, and each block has a `type`. Return the `text` of every block whose
-type is `&quot;text&quot;`, joined with nothing between them. Ignore every other block: a reply can carry `thinking`
-blocks, whose text is empty.
+`reply` has a `content` list of blocks, and each block has a `type`. Return the `text` of every block whose type is `&quot;text&quot;`, joined with nothing between them. Ignore every other block, since a reply can carry `thinking` blocks, whose text is empty.
 
 ## parse_category(text)
 
-Strip surrounding whitespace and lowercase the result. Return it if it is one of `CATEGORIES`, and otherwise
-return the string `&quot;unrecognized&quot;`. Do no other cleanup, so `&quot;Billing.&quot;` is `&quot;unrecognized&quot;`.
+Turn a reply into a category, or flag it. Lowercase `text`, then remove every whitespace and punctuation character (Python&#x27;s `string.whitespace` and `string.punctuation`) from both ends. Return the result if it is one of `CATEGORIES`, and otherwise return the string `&quot;unrecognized&quot;`.
 
-## normalize_label(raw)
-
-A tolerant alternative to `parse_category`, for a caller that wants every reply forced into a category.
-Lowercase `raw`, then remove every whitespace and punctuation character (Python&#x27;s `string.whitespace` and
-`string.punctuation`) from both ends. Return the result if it is one of `CATEGORIES`, and otherwise return
-`&quot;other&quot;`.
+The cleanup forgives formatting, so `&quot; Billing.\n&quot;` is `&quot;billing&quot;`. It forgives nothing else, so `&quot;refund&quot;`, a sentence, or a reply that names two categories is `&quot;unrecognized&quot;`, and the caller decides what to do with it. This is the module&#x27;s only function for reading a reply.
 
 ## triage(client, ticket, model=MODEL)
 
-Raise `ValueError` if `ticket` is empty or only whitespace, without calling the client. Otherwise call
-`client.messages.create` with exactly these keyword arguments and no others:
+Raise `ValueError` if `ticket` is empty or only whitespace, without calling the client. Otherwise call `client.messages.create` with exactly these keyword arguments and no others:
 
     model=model, max_tokens=1024, system=SYSTEM_PROMPT,
     messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: ticket}]
@@ -290,9 +284,9 @@ Pass the ticket unchanged. Return `parse_category(answer_text(reply))`.</pre></d
     <p>The spec describes the module in the words a developer would use with a colleague, and each section pins down a
        decision the tests then check. The constants are exact, because the notebook replays recorded requests and a
        system prompt that differed by a word would match none of them. <code>answer_text</code> says what to do with
-       the <code>thinking</code> blocks Section 4 shows replies carry. <code>parse_category</code> and
-       <code>normalize_label</code> are the strict and the tolerant way to read a reply, the two designs Section 6
-       compares, and the spec says what each does with <code>"Billing."</code>. <code>triage</code> fixes the request
+       the <code>thinking</code> blocks Section 4 shows replies carry. <code>parse_category</code> is the module's one way to read a reply,
+       the middle design Section 6 compares with a strict check and a tolerant one, and its second paragraph says what
+       the cleanup forgives, formatting, and what it leaves flagged, a wrong word, a sentence or two categories. <code>triage</code> fixes the request
        field by field and says what happens to an empty ticket. The opening paragraph also says what the module must
        not do, which is create its own client or import the SDK, and that keeps it testable without a key.</p>
     <div class="codebox"><div class="cbh">tests/test_triage.py, three of its tests</div><pre tabindex="0">class FakeClient:
@@ -317,19 +311,20 @@ def test_the_request_is_exactly_the_one_the_spec_gives():
 
 # The six cases the chapter wrote before any code existed, and one for a space before the final period
 @pytest.mark.parametrize(&quot;raw, expected&quot;, [(&quot; Billing.\n&quot;, &quot;billing&quot;), (&quot;LOGIN&quot;, &quot;login&quot;), (&quot;shipping!&quot;, &quot;shipping&quot;),
-                                           (&quot;other&quot;, &quot;other&quot;), (&quot;refund&quot;, &quot;other&quot;), (&quot;&quot;, &quot;other&quot;),
+                                           (&quot;other&quot;, &quot;other&quot;), (&quot;refund&quot;, &quot;unrecognized&quot;), (&quot;&quot;, &quot;unrecognized&quot;),
                                            (&quot;billing .&quot;, &quot;billing&quot;)])
-def test_normalize_label(raw, expected):
-    assert normalize_label(raw) == expected</pre></div>
-    <p>The 25 tests turn those sentences into checks. A fake client stands in for the API, records each request and
+def test_parse_category(raw, expected):
+    assert parse_category(raw) == expected</pre></div>
+    <p>The 27 tests turn those sentences into checks. A fake client stands in for the API, records each request and
        returns the blocks a test hands it, so the tests run in milliseconds with no key and no network. One test
        compares the request with the spec's, field for field. The six cases from Section 3 sit in a parametrized test
        with a seventh, a space before the final period, which covers the kind of case Chapter 2's build found its own
-       spec had left open.</p>
+       spec had left open. Another test checks that the module has no <code>normalize_label</code>, so no later build
+       can bring back a second way of reading a reply.</p>
     <p>Run headless on the book's key, with Claude Code 2.1.322 and Claude Sonnet 5.5, through
        <code>BOOK_MODE=record python3 scripts/claude_build.py what-building-ai-with-ai-means</code>, Claude Code read the
-       spec and ran the tests, which failed because <code>triage.py</code> didn't exist yet. It wrote the module with
-       its Edit tool and ran the tests again, and all 25 passed, for 0.0140 dollars.</p>
+       spec and listed the folder with <code>ls</code>, a read-only command the build allows. It wrote the module with
+       its Edit tool without running the tests first, then ran them once, and all 27 passed, for 0.0162 dollars.</p>
     <div class="codebox"><div class="cbh">generated by Claude Code</div><pre tabindex="0">import string
 
 CATEGORIES = (&quot;billing&quot;, &quot;login&quot;, &quot;shipping&quot;, &quot;other&quot;)
@@ -342,18 +337,13 @@ SYSTEM_PROMPT = (
 
 def answer_text(reply):
     return &quot;&quot;.join(
-        getattr(b, &quot;text&quot;, &quot;&quot;) for b in reply.content if b.type == &quot;text&quot;
+        b.text for b in reply.content if getattr(b, &quot;type&quot;, None) == &quot;text&quot;
     )
 
 
 def parse_category(text):
-    t = text.strip().lower()
-    return t if t in CATEGORIES else &quot;unrecognized&quot;
-
-
-def normalize_label(raw):
-    t = raw.lower().strip(string.whitespace + string.punctuation)
-    return t if t in CATEGORIES else &quot;other&quot;
+    cleaned = text.lower().strip(string.whitespace + string.punctuation)
+    return cleaned if cleaned in CATEGORIES else &quot;unrecognized&quot;
 
 
 def triage(client, ticket, model=MODEL):
@@ -367,8 +357,8 @@ def triage(client, ticket, model=MODEL):
     )
     return parse_category(answer_text(reply))</pre></div>
     <p>Review accepted the module as written. It has no docstrings, its first check, <code>not ticket</code>, repeats
-       what <code>not ticket.strip()</code> already catches, and <code>answer_text</code> reads each block's text with
-       <code>getattr</code>, which tolerates a text block with no text and which the spec never asked for. None of
+       what <code>not ticket.strip()</code> already catches, and <code>answer_text</code> reads each block's type with
+       <code>getattr</code>, which tolerates a block with no type and which the spec never asked for. None of
        these changes what the module does with a real reply. The notebook ran the generated <code>triage</code> on the
        same eight tickets. It sent the same requests as the hand-written function, field for field, so the replay
        helper answered them from the same recording, and all eight categories matched. A request that differed in any
@@ -411,7 +401,7 @@ def triage(client, ticket, model=MODEL):
         <li><span class="ck">✓</span><span>An assistant can write the code, and tests you wrote first decide whether it ships.</span></li>
         <li><span class="ck">✓</span><span>Every call reports its tokens, and the bill follows them, the thinking a reply doesn't show included.</span></li>
         <li><span class="ck">✓</span><span>Identical requests can return different outputs, so verify the behavior that matters on every run.</span></li>
-        <li><span class="ck">✓</span><span>Claude Code generated the triage module from a spec and 25 tests, and the recorded requests confirmed it calls the model exactly as the hand-written version does.</span></li>
+        <li><span class="ck">✓</span><span>Claude Code generated the triage module from a spec and 27 tests, and the recorded requests confirmed it calls the model exactly as the hand-written version does.</span></li>
       </ul>
     </div>
   </section>
@@ -430,7 +420,7 @@ def triage(client, ticket, model=MODEL):
         <div class="chint">Hint: ask for <code>category: reason</code> on one line, and split on the first colon.</div></div></div>
       <div class="challenge"><div class="cnum">3</div><div class="cbody">
         <h3>Write three more cases</h3>
-        <p>Write cases of your own for the generated <code>normalize_label</code>, such as shouting with extra punctuation, and add the ones worth keeping to the build's tests.</p>
+        <p>Write cases of your own for the generated <code>parse_category</code>, such as shouting with extra punctuation, and add the ones worth keeping to the build's tests.</p>
         <div class="chint">Hint: decide each expected answer before you run the case, and put the cases in given/tests/.</div></div></div>
     </div>
     <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:0.4rem">

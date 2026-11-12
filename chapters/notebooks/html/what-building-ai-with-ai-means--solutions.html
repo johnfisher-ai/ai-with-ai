@@ -8057,7 +8057,7 @@ I can't log in to download the invoice for my last order.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Challenge-3.-Write-three-more-cases">Challenge 3. Write three more cases<a class="anchor-link" href="#Challenge-3.-Write-three-more-cases">¶</a></h2><p>Write cases of your own for the generated <code>normalize_label</code>, run them, and add them to the build's tests so every later build has to pass them. These three are shouting with extra punctuation, a question mark, and a reply that names two categories.</p>
+<h2 id="Challenge-3.-Write-three-more-cases">Challenge 3. Write three more cases<a class="anchor-link" href="#Challenge-3.-Write-three-more-cases">¶</a></h2><p>Write cases of your own for the generated <code>parse_category</code>, run them, and add them to the build's tests so every later build has to pass them. These three are shouting with extra punctuation, a question mark, and a reply that names two categories.</p>
 </div>
 </div>
 </div>
@@ -8080,11 +8080,11 @@ I can't log in to download the invoice for my last order.
 <span class="kn">import</span><span class="w"> </span><span class="nn">triage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">built</span>
 <span class="n">built</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">built</span><span class="p">)</span>
 
-<span class="c1"># Challenge 3. Three more cases for the generated normalize_label</span>
-<span class="n">MORE_CASES</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"  SHIPPING!!"</span><span class="p">,</span> <span class="s2">"shipping"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Login?"</span><span class="p">,</span> <span class="s2">"login"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"billing and login"</span><span class="p">,</span> <span class="s2">"other"</span><span class="p">)]</span>
+<span class="c1"># Challenge 3. Three more cases for the generated parse_category</span>
+<span class="n">MORE_CASES</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"  SHIPPING!!"</span><span class="p">,</span> <span class="s2">"shipping"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Login?"</span><span class="p">,</span> <span class="s2">"login"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"billing and login"</span><span class="p">,</span> <span class="s2">"unrecognized"</span><span class="p">)]</span>
 <span class="k">for</span> <span class="n">raw</span><span class="p">,</span> <span class="n">expected</span> <span class="ow">in</span> <span class="n">MORE_CASES</span><span class="p">:</span>
-    <span class="n">got</span> <span class="o">=</span> <span class="n">built</span><span class="o">.</span><span class="n">normalize_label</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'pass'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'FAIL'</span><span class="si">}</span><span class="s2">  normalize_label(</span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2">) -&gt; </span><span class="si">{</span><span class="n">got</span><span class="si">!r}</span><span class="s2">, expected </span><span class="si">{</span><span class="n">expected</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">got</span> <span class="o">=</span> <span class="n">built</span><span class="o">.</span><span class="n">parse_category</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'pass'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'FAIL'</span><span class="si">}</span><span class="s2">  parse_category(</span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2">) -&gt; </span><span class="si">{</span><span class="n">got</span><span class="si">!r}</span><span class="s2">, expected </span><span class="si">{</span><span class="n">expected</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8097,9 +8097,9 @@ I can't log in to download the invoice for my last order.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>pass  normalize_label('  SHIPPING!!') -&gt; 'shipping', expected 'shipping'
-pass  normalize_label('Login?') -&gt; 'login', expected 'login'
-pass  normalize_label('billing and login') -&gt; 'other', expected 'other'
+<pre>pass  parse_category('  SHIPPING!!') -&gt; 'shipping', expected 'shipping'
+pass  parse_category('Login?') -&gt; 'login', expected 'login'
+pass  parse_category('billing and login') -&gt; 'unrecognized', expected 'unrecognized'
 </pre>
 </div>
 </div>
@@ -8112,7 +8112,7 @@ pass  normalize_label('billing and login') -&gt; 'other', expected 'other'
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>All three cases pass against the generated <code>normalize_label</code>. A reply that names two categories goes to <code>other</code>, which the spec allows and a person reviewing tickets might not want, so a case like this one belongs in the build's <code>given/tests/</code>. There it becomes part of the contract, and any later build that changes the behavior fails it.</p>
+<p>All three cases pass against the generated <code>parse_category</code>. A reply that names two categories comes back <code>unrecognized</code>, so a person decides which one applies. That behavior is worth keeping, so a case like this one belongs in the build's <code>given/tests/</code>. There it becomes part of the contract, and any later build that changes the behavior fails it.</p>
 </div>
 </div>
 </div>

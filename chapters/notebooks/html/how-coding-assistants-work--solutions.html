@@ -8024,7 +8024,7 @@ triage.py      36 lines
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>chapter tool calls  refused turns   out dollars   tools in order
-      1          4        0     5   777  0.0140   Read Bash Edit Bash
+      1          4        0     5   728  0.0162   Read Bash Edit Bash
       2          4        0     5  1049  0.0205   Read Bash Edit Bash
       3          4        0     5  1501  0.0285   Read Bash Edit Bash
       4          5        0     6  1843  0.0357   Read Bash Bash Edit Bash
@@ -8152,7 +8152,7 @@ answer: none, the budget ran out while the model was still reading
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Chapter 1: first two tool calls ['Read', 'Bash'], ran the tests before writing: True
+<pre>Chapter 1: first two tool calls ['Read', 'Bash'], ran the tests before writing: False
 Chapter 2: first two tool calls ['Read', 'Bash'], ran the tests before writing: True
 Chapter 3: first two tool calls ['Read', 'Bash'], ran the tests before writing: True
 Chapter 4: first two tool calls ['Read', 'Bash'], ran the tests before writing: True
@@ -8170,7 +8170,7 @@ Chapter 6: first two tool calls ['Read', 'Bash'], ran the tests before writing: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Every build began with Read, for the spec, and then Bash. In the first four, that Bash call ran the failing tests. In Chapter 5's build it listed the folder, and in Chapter 6's it listed the folder and printed the tests, so neither ran the tests before writing. The same prompt pattern produced two orders of work, and the transcript is the only place to see which one a run followed.</p>
+<p>Every build began with Read, for the spec, and then Bash. In Chapters 2, 3 and 4, that Bash call ran the failing tests. In Chapters 1 and 5 it listed the folder, and in Chapter 6 it listed the folder and printed the tests, so those three wrote before running the tests. The same prompt pattern produced two orders of work, and the transcript is the only place to see which one a run followed.</p>
 </div>
 </div>
 </div>
@@ -8239,7 +8239,7 @@ Chapter 6: first two tool calls ['Read', 'Bash'], ran the tests before writing: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The test fails, and <code>triage()</code> returns <code>unrecognized</code>. Added to Chapter 1's build as a given test, with a spec sentence that <code>triage()</code> normalizes the reply, it would make the next build call <code>normalize_label()</code> or fold its rule into <code>parse_category()</code>.</p>
+<p>The test fails, and <code>triage()</code> returns <code>unrecognized</code>. The test runs against the package's copy of Chapter 1's first build. Chapter 1's rebuilt module folds the cleanup into <code>parse_category()</code> and carries this case among its given tests, so the same test passes against it.</p>
 </div>
 </div>
 </div>

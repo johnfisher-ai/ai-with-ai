@@ -10,18 +10,13 @@ SYSTEM_PROMPT = (
 
 def answer_text(reply):
     return "".join(
-        getattr(b, "text", "") for b in reply.content if b.type == "text"
+        b.text for b in reply.content if getattr(b, "type", None) == "text"
     )
 
 
 def parse_category(text):
-    t = text.strip().lower()
-    return t if t in CATEGORIES else "unrecognized"
-
-
-def normalize_label(raw):
-    t = raw.lower().strip(string.whitespace + string.punctuation)
-    return t if t in CATEGORIES else "other"
+    cleaned = text.lower().strip(string.whitespace + string.punctuation)
+    return cleaned if cleaned in CATEGORIES else "unrecognized"
 
 
 def triage(client, ticket, model=MODEL):
