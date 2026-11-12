@@ -1,0 +1,437 @@
+{
+ "notebook": "reading-a-response",
+ "format": 1,
+ "exchanges": [
+  {
+   "key": "ce8001b7e8ee1d64",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Name the capital of France in one word."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxGeAHRtQrYNaCD9u3R4",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "Paris"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 5,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "c4494a632d46c0a2",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 40,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Explain how a support ticket triage system works."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxGeEeribwu892ERSoyw",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQS3wUKEAgTGAI4AUIIdGhpbmtpbmcSDBWC6wBRt2fasdTSchoM5s52nWYSi6DjT5KZIjBssMQtMO7R82xrKjBI/rOihPuYFR2HJMGUDWvD26QXVH3fVeim4uHIu6c67BtIaDEq/AQh7g65tiy9UEYPzw44k2PFBjvWqs/LqNlfBvD1kOZHlxXIKsBUAXSCTAPgF84koTgIvv+SFK1pUCJe/2GP+bpJgU9xbmgdxFbKsS/yymVANoKwrf+CoqSwB8nzmulXPxRHpflvHtBwpe7wyfKM6Ohn9rlK4kg/KMoy1b8N9XQ5CgylVyOdjxEm+Bz0unvIzMCL1crbLWaFXcgGEY+F3izBURmmIM5aynYoIPuus3VXsTVfcLphkYNF3VoBnWxdnKbJTgjWjSb6o7zj0iWVK5+h91mD1kiVyLmxSa+InVESLWmBYagX4Pk0wM3WDfD52bnmCKH03ZJJm3BRO+wnlIvOWFoqiLqz4NTl7x+uy00+w4qO7KdlqLIvr10lt7IJ3ipsxUi5egaZkpybLuOXuYXgok30xWgXwUSIzyvemW9aY0YIod0wV5cIfJfNxe3Ne7AkOWaP6OUQGj7RkBuTOLOevUv5ZB0qDrUKzURjfIEQWr+eW+ERwe8Kt0xi6lr36hCXxNodutMvk7HzrQW8yjGBhdrJnU3RJ+oRl6nT6H6H+CzbRr8zSYWMe1o279W8CauWTrRn7Ci9P5HWBZxkR3wpEuxeCY/y9DTno3+Q0Skj38XysoKl6efi2UQfidCLZ/aHD9SddikNTTtooPWB34rcOvCTYySzoLFkPRpW2jn1i7ZUTc21tORUyQVos3KU6GrjhTtlZCz4LBwBjFCKSHMGSwmELLK74keVYXxzF1jRF5ScHLmCUO1AdlTY2Y90xpEqx4WLFJX13eq1SlyFkJYnr45fhrFiG9yHu0bj3X5wL8ZhQVQJtByfCnEsLgDhit6I3Bq2ff+SWPrRRT0YAQ=="
+      }
+     ],
+     "container": null,
+     "stop_reason": "max_tokens",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 40,
+      "output_tokens_details": {
+       "thinking_tokens": 40
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "58ee15b93ddb22f2",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 4096,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Explain how a support ticket triage system works."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxGeNHFhSSq9gY2sFGXB",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSlgcKEAgTGAI4AUIIdGhpbmtpbmcSDL/6kWLhpKfTivtgVhoMsij0Nn8IqU0EpPUKIjBr3WfV1YHhg6QpNpH0TbdI02JdEzksKi5nmeikI3RmNU2/IXkS6gklXMG7lWEmRuUqswaFKCzRXaXsmUxQIdmMeqzFQM/GehZUGGzXM1P5Gfu5V5SqOAU8n5UFqntDN/vfPaKVW2daaGsBNTzyM1wbniV0jnOF5uyypJ6DhN6BmrS1Tr0LADTRMa1BR7aJaAWzCHzVRzBZ0zGE1f14xp/EV1tGsq5Hj0IfmgTv3OUu6B8bMttFkHtJaf8nB/tKrereQDvc1tvOYR5D5SfuAn4VDeYl2duuK1SNJ0mEQdbEW1XQG9XLJEiskA+ss5JqmMjzwy654SWkH1DGNxllBwyVGbB/F1ROANCfWRnk02iSJgphBMAlZWtJf/Uo+t8QBHwL+EDkch1ZBR3rPCEniQNCOOlYXVQKSm/Um1zlyskMz3C2/gdUTBqHVQajLmZ9iQGs0w5zqvE9ZJEcBl/6wLZjJRqkj0C9qYfhGYmehXhEbAF77fSeEjCl8VyxXXbGd59O9DHnD1V9124D/XpyYjmsTcZJC8cltI8dmId4Vmclpr2Lmkmrn+v+Llzpf2R/7EMG7ZyDeMzPWcEcmoiKl6Nx2ygA2GCh4ism/BVTPMZZRR+Ql57qkr6xffeKhjBIWM2kubgmtZS2dnItQqicVkzQyYjENPFWxyVau/WPc5EFIsEXv40Tx/GbtqkCjGL5m9LA5kUMHV9yopSPAjwbiu7HPB4N80ycfQ01AxUmJVFpEYeEeEzaSJ5cNEQfMHazu7Er1Xi6KSelTq688OBV4ZDQATJgUvYmULfqUulgxsuogCu8kXDvIHsKsT6bZZUt5e0oBEJk5kuvPDwH5PnUIlegUm2cjuKKwwC3RIvWyKUDucWl2HVSvBDDSXjU9apH7iNiOGGuN/pRHvlp/PetUOQALIQtypAZjEzOF9DWR3yQ4dVEOysybZoLrwvYIMJHSmShO5GHjuoZ8MT+N+fN8J9LhkO1/DFUV4x0jzejIXHjxYwh0ktoZU0Rw0S9OZ14mJRMw7Gy8YSt7Qp5XIi+EGShZC5+j2XPb6WkQQi+IO99eujK906Eyabq1ml2GLFR1WBK6ZebcD/kTOuT/UaNLQOO6KqLFlO5d3tNnta0arnrt7TAQN+aqJ0M51/zJojHnU1Jwa5t/wkYAQ=="
+      },
+      {
+       "type": "text",
+       "text": "# How a Support Ticket Triage System Works\n\nTriage is the process of quickly assessing incoming support requests and deciding **what they are, how urgent they are, and who should handle them**. The goal is to get the right ticket to the right person at the right time.\n\n---\n\n## 1. Intake: Collecting the Ticket\n\nTickets arrive from multiple channels:\n- Email, web forms, chat, phone, social media, in-app messages\n- Monitoring alerts or API submissions\n\nThe system normalizes them into a common format with fields like requester, subject, body, attachments, timestamp, and channel. It also enriches them with context, such as:\n- Customer account, plan/tier, and contract (SLA) level\n- Product version, device, or environment\n- Past ticket history and sentiment\n\n---\n\n## 2. Classification: Understanding the Issue\n\nThe system determines what the ticket is about:\n\n| Attribute | Examples |\n|---|---|\n| **Category** | Billing, bug, how-to question, feature request, account access |\n| **Product/Component** | Mobile app, API, checkout, authentication |\n| **Type** | Incident, question, request, complaint |\n| **Language** | English, Spanish, etc. |\n| **Sentiment** | Frustrated, neutral, happy |\n\nClassification can be done by:\n- **Rules**: keyword matching, form dropdown selections, or sender domain\n- **Machine learning**: text classifiers trained on historical tickets\n- **LLMs**: reading the ticket and assigning labels or summarizing it\n- **Humans**: a triage agent reviewing a queue (common in smaller teams)\n\n---\n\n## 3. Prioritization: Deciding Urgency\n\nPriority is usually a function of **impact** and **urgency**, adjusted by customer tier:\n\n| | **High urgency** | **Low urgency** |\n|---|---|---|\n| **High impact** (many users, revenue, security) | P1 – Critical | P2 – High |\n| **Low impact** (single user, cosmetic) | P3 – Medium | P4 – Low |\n\nFactors that raise priority:\n- Outage or data loss, or a security issue\n- Enterprise or premium customers\n- Approaching an SLA deadline\n- Repeated contacts or an angry tone\n- Many similar tickets arriving at once (indicating an incident)\n\n---\n\n## 4. Routing: Assigning to the Right Place\n\nOnce classified and prioritized, the ticket goes to a queue or person based on:\n- **Skill**: billing specialist, network engineer, Tier 2 support\n- **Language or timezone**\n- **Workload**: current queue size and agent availability\n- **Ownership**: the account's existing assigned rep\n\nCommon assignment methods include round-robin, load-balanced, skill-based, and manual pickup from a shared queue.\n\n---\n\n## 5. SLA Tracking and Escalation\n\nEach priority level has timers, for example:\n\n- **P1**: first response in 15 min, resolution target in 4 hrs\n- **P3**: first response in 8 hrs, resolution in 3 days\n\nThe system monitors these timers and **escalates automatically** when needed:\n- Notifies a manager as a deadline approaches\n- Reassigns or bumps priority if there's no response\n- Moves the ticket to Tier 2/3 or engineering if frontline can't solve it\n- Pages on-call staff for critical incidents\n\n---\n\n## 6. Automation and Deflection\n\nMany systems resolve or reduce tickets before an agent is involved:\n- **Auto-replies** with suggested help articles\n- **Chatbots** answering common questions\n- **Duplicate detection** and merging\n- **Spam filtering**\n- **Macros or canned responses** for repeat issues\n- **Auto-tagging** and summarization to save agent time\n\n---\n\n## 7. Resolution and Feedback Loop\n\nAfter the ticket is handled:\n- It's resolved, closed, and often followed by a satisfaction survey (CSAT)\n- Agents can correct misclassifications, which becomes training data\n- Teams review metrics to tune rules and models\n\nKey metrics include:\n- First response time and time to resolution\n- SLA compliance rate\n- Reassignment rate (a sign of poor routing)\n- Backlog size and ticket volume by category\n- CSAT and reopen rate\n\n---\n\n## Example Flow\n\n> **Email:** \"Your checkout page is throwing errors and none of our customers can pay us!\" (from an Enterprise customer)\n\n1. **Intake**: The email becomes a ticket and is matched to the customer's account (Enterprise tier).\n2. **Classification**: Category = *Bug*, Component = *Checkout/Payments*, Sentiment = *Urgent/Negative*.\n3. **Prioritization**: High impact + high urgency + Enterprise → **P1**.\n4. **Routing**: Sent to the Payments on-call engineer and the account manager is notified.\n5. **SLA timer**: 15-minute first-response clock starts.\n6. **Escalation**: If no one acknowledges in 10 minutes, the system pages the engineering manager.\n7. **Resolution**: The fix is deployed, the customer is updated, and the ticket is closed with a root-cause tag.\n\n---\n\n## Simple Pseudocode\n\n```python\ndef triage(ticket):\n    ticket = enrich(ticket)                # add account, tier, history\n    ticket.category = classify(ticket)     # rules / ML / LLM\n    ticket.priority = score_priority(ticket)\n\n    if is_duplicate(ticket) or is_spam(ticket):\n        return merge_or_discard(ticket)\n\n    if can_auto_resolve(ticket):\n        return send_auto_response(ticket)\n\n    queue = route(ticket.category, ticket.language, ticket.priority)\n    assign(ticket, queue)\n    start_sla_timer(ticket)\n```\n\n---\n\n## Summary\n\nA triage system works as a pipeline: **collect → classify → prioritize → route → monitor → learn**. It can be as simple as one person sorting a shared inbox or as sophisticated as an ML-driven platform integrated with on-call alerting, and the goal is the same: handle urgent issues fast, spread work sensibly, and keep customers informed."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 2150,
+      "output_tokens_details": {
+       "thinking_tokens": 109
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "d24abbace362bbd7",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "List six steps for handling a damaged-item complaint, numbered 1. to 6., one line each."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "stop_sequences": [
+      "4."
+     ]
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxGfaHMAUn8nTAsALAw5",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "1. Acknowledge the complaint promptly, apologize, and thank the customer for reporting it.\n2. Collect details: order number, photos of the damage, and packaging condition.\n3. Verify the claim against the order record, shipping data, and return policy.\n"
+      }
+     ],
+     "container": null,
+     "stop_reason": "stop_sequence",
+     "stop_sequence": "4.",
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 39,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 123,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "b97492a0219e77d2",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 100,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Hello."
+      }
+     ],
+     "model": "claude-sonnet-9-9"
+    }
+   },
+   "response": {
+    "status": 404,
+    "content_type": "application/json",
+    "body": {
+     "type": "error",
+     "error": {
+      "type": "not_found_error",
+      "message": "model: claude-sonnet-9-9"
+     }
+    }
+   },
+   "model": "claude-sonnet-9-9",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "c98cadbb0b09e52e",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 100,
+     "messages": [],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 400,
+    "content_type": "application/json",
+    "body": {
+     "type": "error",
+     "error": {
+      "type": "invalid_request_error",
+      "message": "messages: at least one message is required"
+     }
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "911f7b35c58a0ba4",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 100,
+     "messages": [
+      {
+       "role": "user",
+       "content": ""
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 400,
+    "content_type": "application/json",
+    "body": {
+     "type": "error",
+     "error": {
+      "type": "invalid_request_error",
+      "message": "messages.0: user messages must have non-empty content"
+     }
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "ce8001b7e8ee1d64",
+   "call": 2,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Name the capital of France in one word."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxGfhfbLBVcfUHEUHj33",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "Paris"
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 5,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "b97492a0219e77d2",
+   "call": 2,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 100,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Hello."
+      }
+     ],
+     "model": "claude-sonnet-9-9"
+    }
+   },
+   "response": {
+    "status": 404,
+    "content_type": "application/json",
+    "body": {
+     "type": "error",
+     "error": {
+      "type": "not_found_error",
+      "message": "model: claude-sonnet-9-9"
+     }
+    }
+   },
+   "model": "claude-sonnet-9-9",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  }
+ ]
+}

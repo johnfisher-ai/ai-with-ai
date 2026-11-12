@@ -1,0 +1,144 @@
+{
+ "format": 1,
+ "slug": "reading-a-response",
+ "mode": "record",
+ "date": "2026-11-12",
+ "claude_code_version": "2.1.322",
+ "model": "claude-sonnet-5-5",
+ "permission_mode": "dontAsk",
+ "tools": [
+  "Bash",
+  "Edit",
+  "Read"
+ ],
+ "command": [
+  "claude",
+  "-p",
+  "--bare",
+  "--output-format",
+  "stream-json",
+  "--verbose",
+  "--no-session-persistence",
+  "--model",
+  "claude-sonnet-5-5",
+  "--max-budget-usd",
+  "1.0",
+  "--permission-mode",
+  "dontAsk",
+  "--tools",
+  "Read,Edit,Bash",
+  "--allowedTools",
+  "Read",
+  "Edit",
+  "Bash(python3 -m pytest *)"
+ ],
+ "exit_code": 0,
+ "result": {
+  "outcome": "success",
+  "is_error": false,
+  "turns": 6,
+  "cost_usd": 0.0323209,
+  "duration_ms": 10158,
+  "input_tokens": 10,
+  "output_tokens": 1337,
+  "cache_read_tokens": 10734,
+  "cache_write_tokens": 7143,
+  "final_text": "I wrote `retry.py` to the spec, and `python3 -m pytest -q tests` now reports all 29 tests passing.\n\nI added one check beyond the spec. `retry_after` also returns `None` for header values like `nan` or `inf`, since those aren't usable wait times."
+ },
+ "generated": {
+  "retry.py": "ec76ec4cb29a0c7b0dd45f8f642f342e3a60f049b3e1714c92c00c4ed576ff49"
+ },
+ "tests": {
+  "command": [
+   "python3",
+   "-m",
+   "pytest",
+   "-q",
+   "-p",
+   "no:cacheprovider",
+   "tests"
+  ],
+  "exit_code": 0,
+  "passed": true,
+  "changed_by_claude": []
+ },
+ "steps": [
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t1",
+   "input": {
+    "file_path": "./spec.md"
+   }
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t2",
+   "input": {
+    "command": "ls . ./tests"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t1",
+   "is_error": false,
+   "result": "1\t# retry.py\n2\t\n3\tRetries for calls to the Messages API. It decides which errors are worth another attempt, how long to wait before it, and runs a call until it succeeds, fails for a reason no retry can fix, or runs out of attempts. It uses the standard library and Anthropic's Python SDK, whose exception classes it reads.\n4\t\n5\t## is_retryable(error)\n6\t\n7\tReturn `True` for an error that a later attempt of the same request may not hit, and `False` for every other error.\n8\t\n9\t- `anthropic.APIConnectionError`, which includes `anthropic.APITimeoutError`, is retryable.\n10\t- `anthropic.APIStatusError` is retryable when its `status_code` is 408, 409 or 429, or 500 or more, which covers 529, the status Anthropic's API returns when it is overloaded.\n11\t- One 429 is not retryable. When the organization has reached its spend cap, the error's `body` is a dict whose `error.details.error_code` is `\"enforced_spend_limit_reached\"`, and retries fail until access resumes.\n12\t- Any other exception, including a status error such as 400, 401, 403 or 404, is not retryable.\n13\t\n14\t## retry_after(error)\n15\t\n16\tReturn how many seconds the API asked the client to wait, as a float, from the `retry-after` header of a status error's `response`. Return `None` when the error has no response, the header is missing, or its value is not a number of seconds that is 0 or more.\n17\t\n18\t## backoff_delay(attempt, base=1.0, cap=30.0, rng=random.random)\n19\t\n20\tReturn the delay before the next attempt with exponential backoff and full jitter. `attempt` counts the attempts that have failed so far, starting from 0 for the first. The delay is `rng()` multiplied by the smaller of `cap` and `base * 2 ** attempt`, so it lies between 0 and that ceiling. `rng` returns a float in [0, 1), and tests pass their own.\n21\t\n22\t## call_with_retries(fn, max_attempts=4, base=1.0, cap=30.0, sleep=time.sleep, rng=random.random, on_retry=None)\n23\t\n24\tCall `fn()` with no arguments and return what it returns. If it raises a retryable error and attempts remain, wait and call it again. `max_attempts` counts every call, the first included, and must be at least 1, or `ValueError` is raised before `fn` is called.\n25\t\n26\tThe wait is `retry_after(error)` when that is not `None`, because the API knows when capacity returns, and `backoff_delay(attempt, base, cap, rng)` otherwise. Before each wait, call `on_retry(number, error, delay)` when it is given, where `number` is the attempt that just failed, counting from 1. Then call `sleep(delay)`.\n27\t\n28\tA non-retryable error is raised at once, unchanged. When the last attempt fails, raise its error unchanged, so the caller handles the same exception the SDK raised.\n29\t\n30\t## create_with_retries(client, request, **options)\n31\t\n32\tSend `client.messages.create(**request)` through `call_with_retries`, passing `options` on to it, and return the response. The SDK's client retries on its own, twice by default, and retries stacked on retries multiply the attempts. So send the request through `client.with_options(max_retries=0)`, which leaves the retrying to this module.\n33\t"
+  },
+  {
+   "role": "tool",
+   "id": "t2",
+   "is_error": false,
+   "result": ".:\nspec.md\ntests\n\n./tests:\ntest_retry.py"
+  },
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t3",
+   "input": {
+    "file_path": "./tests/test_retry.py"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t3",
+   "is_error": false,
+   "result": "1\timport anthropic\n2\timport httpx2\n3\timport pytest\n4\t\n5\tfrom retry import backoff_delay, call_with_retries, create_with_retries, is_retryable, retry_after\n6\t\n7\tREQUEST = httpx2.Request(\"POST\", \"https://api.anthropic.com/v1/messages\")\n8\tCLASSES = {400: anthropic.BadRequestError, 401: anthropic.AuthenticationError,\n9\t           403: anthropic.PermissionDeniedError, 404: anthropic.NotFoundError, 408: anthropic.APIStatusError,\n10\t           409: anthropic.ConflictError, 429: anthropic.RateLimitError, 500: anthropic.InternalServerError,\n11\t           503: anthropic.ServiceUnavailableError, 529: anthropic.OverloadedError}\n12\t\n13\t\n14\tdef api_error(status, headers=None, error=None):\n15\t    \"\"\"A status error built the way the SDK builds one, from a response written for these tests.\"\"\"\n16\t    body = {\"type\": \"error\", \"error\": error or {\"type\": \"fixture_error\", \"message\": \"Fixture error.\"}}\n17\t    response = httpx2.Response(status, request=REQUEST, headers=headers or {}, json=body)\n18\t    return CLASSES.get(status, anthropic.APIStatusError)(\"Fixture error.\", response=response, body=body)\n19\t\n20\t\n21\tclass Flaky:\n22\t    \"\"\"A call that raises the given errors in turn, then returns \"done\".\"\"\"\n23\t\n24\t    def __init__(self, *errors):\n25\t        self.errors = list(errors)\n26\t        self.calls = 0\n27\t\n28\t    def __call__(self):\n29\t        self.calls += 1\n30\t        if self.errors:\n31\t            raise self.errors.pop(0)\n32\t        return \"done\"\n33\t\n34\t\n35\t@pytest.mark.parametrize(\"status\", [408, 409, 429, 500, 503, 529])\n36\tdef test_transient_statuses_are_retryable(status):\n37\t    assert is_retryable(api_error(status)) is True\n38\t\n39\t\n40\t@pytest.mark.parametrize(\"status\", [400, 401, 403, 404, 413])\n41\tdef test_request_errors_are_not_retryable(status):\n42\t    assert is_retryable(api_error(status)) is False\n43\t\n44\t\n45\tdef test_connection_errors_and_timeouts_are_retryable():\n46\t    assert is_retryable(anthropic.APIConnectionError(request=REQUEST)) is True\n47\t    assert is_retryable(anthropic.APITimeoutError(REQUEST)) is True\n48\t\n49\t\n50\tdef test_other_exceptions_are_not_retryable():\n51\t    assert is_retryable(ValueError(\"not from the API\")) is False\n52\t\n53\t\n54\tdef test_a_spend_cap_429_is_not_retryable():\n55\t    error = api_error(429, error={\"type\": \"rate_limit_error\", \"message\": \"Fixture spend cap.\",\n56\t                                  \"details\": {\"error_code\": \"enforced_spend_limit_reached\"}})\n57\t    assert is_retryable(error) is False\n58\t\n59\t\n60\t@pytest.mark.parametrize(\"value, expected\", [(\"2\", 2.0), (\"1.5\", 1.5), (\"0\", 0.0), (\"soon\", None), (\"-1\", None)])\n61\tdef test_retry_after_reads_the_header(value, expected):\n62\t    assert retry_after(api_error(429, headers={\"retry-after\": value})) == expected\n63\t\n64\t\n65\tdef test_retry_after_without_a_header_or_a_response():\n66\t    assert retry_after(api_error(429)) is None\n67\t    assert retry_after(anthropic.APIConnectionError(request=REQUEST)) is None\n68\t\n69\t\n70\tdef test_backoff_doubles_and_stops_at_the_cap():\n71\t    assert [backoff_delay(a, rng=lambda: 1.0) for a in range(6)] == [1, 2, 4, 8, 16, 30]\n72\t    assert backoff_delay(2, base=0.5, cap=10.0, rng=lambda: 0.5) == 1.0\n73\t    assert backoff_delay(3, rng=lambda: 0.0) == 0.0\n74\t\n75\t\n76\tdef test_a_call_that_succeeds_is_not_retried():\n77\t    slept = []\n78\t    assert call_with_retries(Flaky(), sleep=slept.append) == \"done\"\n79\t    assert slept == []\n80\t\n81\t\n82\tdef test_rate_limits_wait_as_long_as_retry_after_says():\n83\t    fn, slept = Flaky(api_error(429, {\"retry-after\": \"3\"}), api_error(429, {\"retry-after\": \"3\"})), []\n84\t    assert call_with_retries(fn, sleep=slept.append) == \"done\"\n85\t    assert fn.calls == 3 and slept == [3.0, 3.0]\n86\t\n87\t\n88\tdef test_without_retry_after_the_wait_is_exponential_backoff():\n89\t    fn, slept = Flaky(api_error(529), api_error(500), api_error(503)), []\n90\t    assert call_with_retries(fn, base=0.5, sleep=slept.append, rng=lambda: 1.0) == \"done\"\n91\t    assert slept == [0.5, 1.0, 2.0]\n92\t\n93\t\n94\tdef test_a_request_error_is_raised_at_once():\n95\t    error = api_error(400)\n96\t    fn, slept = Flaky(error), []\n97\t    with pytest.raises(anthropic.BadRequestError) as raised:\n98\t        call_with_retries(fn, sleep=slept.append)\n99\t    assert raised.value is error and fn.calls == 1 and slept == []\n100\t\n101\t\n102\tdef test_the_last_error_is_raised_when_attempts_run_out():\n103\t    errors = [api_error(529), api_error(529), api_error(529)]\n104\t    fn, slept = Flaky(*errors), []\n105\t    with pytest.raises(anthropic.OverloadedError) as raised:\n106\t        call_with_retries(fn, max_attempts=3, sleep=slept.append, rng=lambda: 0.0)\n107\t    assert raised.value is errors[2] and fn.calls == 3 and len(slept) == 2\n108\t\n109\t\n110\tdef test_on_retry_hears_about_each_failed_attempt():\n111\t    first, second = api_error(429, {\"retry-after\": \"1\"}), anthropic.APIConnectionError(request=REQUEST)\n112\t    heard = []\n113\t    call_with_retries(Flaky(first, second), sleep=lambda s: None, rng=lambda: 1.0,\n114\t                      on_retry=lambda n, e, d: heard.append((n, e, d)))\n115\t    assert heard == [(1, first, 1.0), (2, second, 2.0)]\n116\t\n117\t\n118\tdef test_max_attempts_must_be_at_least_one():\n119\t    fn = Flaky()\n120\t    with pytest.raises(ValueError):\n121\t        call_with_retries(fn, max_attempts=0)\n122\t    assert fn.calls == 0\n123\t    with pytest.raises(anthropic.RateLimitError):\n124\t        call_with_retries(Flaky(api_error(429)), max_attempts=1, sleep=lambda s: None)\n125\t\n126\t\n127\tclass FakeClient:\n128\t    \"\"\"Records with_options and create calls, and fails once before answering.\"\"\"\n129\t\n130\t    def __init__(self):\n131\t        self.options, self.requests = [], []\n132\t        self.messages = self\n133\t\n134\t    def with_options(self, **options):\n135\t        self.options.append(options)\n136\t        return self\n137\t\n138\t    def create(self, **request):\n139\t        self.requests.append(request)\n140\t        if len(self.requests) == 1:\n141\t            raise api_error(529)\n142\t        return \"a message\"\n143\t\n144\t\n145\tdef test_create_with_retries_turns_off_the_sdks_own_retries():\n146\t    client, slept = FakeClient(), []\n147\t    request = {\"model\": \"claude-sonnet-5-5\", \"max_tokens\": 64, \"messages\": [{\"role\": \"user\", \"content\": \"Hi\"}]}\n148\t    assert create_with_retries(client, request, sleep=slept.append, rng=lambda: 1.0) == \"a message\"\n149\t    assert {\"max_retries\": 0} in client.options and client.requests == [request, request]\n150\t    assert slept == [1.0]\n151\t"
+  },
+  {
+   "role": "assistant",
+   "tool": "Edit",
+   "id": "t4",
+   "input": {
+    "replace_all": false,
+    "file_path": "./retry.py",
+    "old_string": "",
+    "new_string": "import math\nimport random\nimport time\n\nimport anthropic\n\n\ndef _spend_cap_reached(error):\n    body = getattr(error, \"body\", None)\n    if not isinstance(body, dict):\n        return False\n    inner = body.get(\"error\")\n    if not isinstance(inner, dict):\n        return False\n    details = inner.get(\"details\")\n    return isinstance(details, dict) and details.get(\"error_code\") == \"enforced_spend_limit_reached\"\n\n\ndef is_retryable(error):\n    if isinstance(error, anthropic.APIConnectionError):\n        return True\n    if isinstance(error, anthropic.APIStatusError):\n        status = error.status_code\n        if status == 429 and _spend_cap_reached(error):\n            return False\n        return status in (408, 409, 429) or status >= 500\n    return False\n\n\ndef retry_after(error):\n    response = getattr(error, \"response\", None)\n    if response is None:\n        return None\n    value = response.headers.get(\"retry-after\")\n    if value is None:\n        return None\n    try:\n        seconds = float(value)\n    except (TypeError, ValueError):\n        return None\n    if not math.isfinite(seconds) or seconds < 0:\n        return None\n    return seconds\n\n\ndef backoff_delay(attempt, base=1.0, cap=30.0, rng=random.random):\n    return rng() * min(cap, base * 2 ** attempt)\n\n\ndef call_with_retries(fn, max_attempts=4, base=1.0, cap=30.0, sleep=time.sleep,\n                      rng=random.random, on_retry=None):\n    if max_attempts < 1:\n        raise ValueError(\"max_attempts must be at least 1\")\n    attempt = 0\n    while True:\n        try:\n            return fn()\n        except Exception as error:\n            if not is_retryable(error) or attempt + 1 >= max_attempts:\n                raise\n            delay = retry_after(error)\n            if delay is None:\n                delay = backoff_delay(attempt, base, cap, rng)\n            if on_retry is not None:\n                on_retry(attempt + 1, error, delay)\n            sleep(delay)\n            attempt += 1\n\n\ndef create_with_retries(client, request, **options):\n    c = client.with_options(max_retries=0)\n    return call_with_retries(lambda: c.messages.create(**request), **options)\n"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t4",
+   "is_error": false,
+   "result": "The file ./retry.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t5",
+   "input": {
+    "command": "python3 -m pytest -q tests"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t5",
+   "is_error": false,
+   "result": ".............................                                            [100%]\n29 passed in 0.76s"
+  },
+  {
+   "role": "assistant",
+   "text": "I wrote `retry.py` to the spec, and `python3 -m pytest -q tests` now reports all 29 tests passing.\n\nI added one check beyond the spec. `retry_after` also returns `None` for header values like `nan` or `inf`, since those aren't usable wait times."
+  }
+ ]
+}

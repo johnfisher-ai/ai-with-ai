@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 5 · Reading a response · Building AI with AI</title>
+  <meta name="description" content="Stop reasons, usage fields, the errors the Messages API returns and retries that back off, read from recorded responses, with a retry module Claude Code generated from a spec and tests.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/reading-a-response.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="Reading a response · Chapter 5">
+  <meta property="og:description" content="Why a reply stopped, what it consumed, how a call fails, and how to retry the failures that clear on their own.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/reading-a-response.html">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reading a response · Chapter 5">
+  <meta name="twitter:description" content="Why a reply stopped, what it consumed, how a call fails, and how to retry the failures that clear on their own.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/book.css">
+  <link rel="stylesheet" href="../assets/css/chapter.css">
+  <link rel="stylesheet" href="../assets/css/challenges.css">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <script src="../assets/js/theme.js"></script>
+  <style>
+    .disp-table { width:100%; border-collapse:collapse; margin:0; font-size:0.84rem;
+                  border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .disp-table th,.disp-table td { padding:0.55rem 0.75rem; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+    .disp-table th { background:var(--panel-2); color:var(--ink); font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; }
+    .disp-table td { color:var(--ink-soft); } .disp-table tr:last-child td { border-bottom:none; }
+    .codebox { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--panel-2); margin:1rem 0; }
+    .codebox .cbh { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:0.4rem 0.85rem; color:#fff; background:#6d28d9; }
+    .codebox pre { margin:0; padding:0.85rem; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; line-height:1.55; overflow-x:auto; color:var(--ink); white-space:pre; }
+    .build-steps { margin:0.6rem 0 1rem 1.2rem; } .build-steps li { margin:0.25rem 0; }
+    .codebox.wrap pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+    .fig-narrow { max-width:520px; margin-left:auto !important; margin-right:auto !important; }
+    @media (max-width: 480px) { .fig-narrow { padding:0.8rem 0.5rem !important; } }
+  </style>
+</head>
+<body class="chapter">
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../toc.html">Contents</a>
+    <a href="notebooks/html/reading-a-response.html" class="btn btn-primary" style="padding:0.4rem 1rem;font-size:0.8rem">🐍 Notebook</a>
+  </div>
+</nav>
+<div class="read-progress" id="readProgress"></div>
+
+<header class="chapter-hero">
+  <div class="chapter-hero-inner">
+    <div class="crumb">
+      <a href="../toc.html">Contents</a><span class="sep">/</span>
+      <span>Part 1 · Working with a model</span><span class="sep">/</span>
+      <span>Chapter 5</span>
+    </div>
+    <h1>Reading a <span class="accent">response</span></h1>
+    <p class="dek">A reply that looks fine can be cut off, and a call that fails can fail for a reason no retry will
+       fix. This chapter reads why each reply stopped, what it consumed and how each failure is typed, then retries
+       through a busy API with a module Claude Code generated from a spec and tests.</p>
+    <div class="hero-meta">
+      <div class="m">⏱️ <b>~15 min</b>&nbsp;read</div>
+      <div class="m">🐍 <b>Notebook</b>&nbsp;included</div>
+      <div class="m">📊 <b>Chapter 5</b></div>
+    </div>
+  </div>
+</header>
+
+<main class="reading">
+
+  <section id="intro">
+    <p class="lead">Every response from the Messages API carries more than its text. <span class="term">stop_reason</span>
+       says whether the reply finished or was cut off, <code>usage</code> accounts for every token, and a failed call
+       raises an exception typed by its HTTP status. Code that reads only the text treats a truncated reply as a
+       complete one and retries errors that will <span class="hl">fail the same way every time</span>.</p>
+
+    <div class="def-card">
+      <div class="sigma">AI</div>
+      <div class="def-body">
+        <span class="def-kw">A retryable error</span> is one that a later attempt of the same request may not hit:
+        a rate limit, an overloaded server, a timeout or a dropped connection. A request error, such as an unknown model
+        or an empty message, fails the same way on every attempt.
+      </div>
+    </div>
+
+    <div class="callout key">
+      <div class="cico">🤖</div>
+      <div><div class="ctitle">The chapter in one line</div>
+        <p>Read <code>stop_reason</code> before the text, and retry only what time can fix, waiting as long as the API asks.</p></div>
+    </div>
+  </section>
+
+  <section id="stops">
+    <div class="section-eyebrow"><div class="num">1</div><h2>Stop reasons say whether a reply is complete</h2></div>
+    <p>The notebook sent four requests to Claude Sonnet 5.5 chosen to end in different ways.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Four requests and how each reply stopped">
+      <table class="disp-table">
+        <thead><tr><th>Request</th><th>max_tokens</th><th>stop_reason</th><th>Blocks</th><th>Output tokens</th><th>Text</th></tr></thead>
+        <tbody>
+          <tr><td>Name the capital of France in one word.</td><td>1,024</td><td><code>end_turn</code></td><td>text</td><td>5</td><td>&#8220;Paris&#8221;</td></tr>
+          <tr><td>Explain how a support ticket triage system works.</td><td>40</td><td><code>max_tokens</code></td><td>thinking only</td><td>40, all thinking</td><td>empty</td></tr>
+          <tr><td>The same question</td><td>4,096</td><td><code>end_turn</code></td><td>thinking, text</td><td>2,150, 109 thinking</td><td>5,545 characters</td></tr>
+          <tr><td>List six steps, numbered 1. to 6.</td><td>1,024, stop at <code>4.</code></td><td><code>stop_sequence</code></td><td>text</td><td>123</td><td>Steps 1 to 3</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The capped request is the one to remember. With <code>max_tokens</code> at 40, all 40 tokens went to thinking,
+       and the reply held a thinking block and no text, so code that reads the text alone gets an empty string and no
+       sign of trouble. With room to finish, the same question took 2,150 output tokens. The stop sequence
+       <code>4.</code> ended the list after three items, and the returned text leaves the sequence itself out.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 420" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Four stop reasons and what code should do. end_turn: the model finished, use the text. max_tokens: the cap cut the reply off, raise the cap or flag it. stop_sequence: a requested string appeared, and the text stops before it. refusal: the model declined, read stop_details."><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">Check stop_reason</text><text x="240" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">before reading the text</text><rect x="6" y="70" width="468" height="72" rx="10" fill="#ecfdf5" stroke="#6ee7b7"/><text x="20" y="100" font-size="17" font-weight="800" fill="#047857" font-family="ui-monospace, Menlo, monospace">end_turn</text><text x="20" y="126" font-size="15" fill="#1a2138">The model finished.</text><text x="462" y="126" text-anchor="end" font-size="15" font-weight="700" fill="#047857">Use the text.</text><rect x="6" y="154" width="468" height="72" rx="10" fill="#fff7ed" stroke="#fdba74"/><text x="20" y="184" font-size="17" font-weight="800" fill="#9a3412" font-family="ui-monospace, Menlo, monospace">max_tokens</text><text x="20" y="210" font-size="15" fill="#1a2138">The cap cut the reply off.</text><text x="462" y="210" text-anchor="end" font-size="15" font-weight="700" fill="#9a3412">Raise the cap or flag it.</text><rect x="6" y="238" width="468" height="72" rx="10" fill="#eef2ff" stroke="#a5b4fc"/><text x="20" y="268" font-size="17" font-weight="800" fill="#3730a3" font-family="ui-monospace, Menlo, monospace">stop_sequence</text><text x="20" y="294" font-size="15" fill="#1a2138">A requested string appeared.</text><text x="462" y="294" text-anchor="end" font-size="15" font-weight="700" fill="#3730a3">The text stops before it.</text><rect x="6" y="322" width="468" height="72" rx="10" fill="#fef2f2" stroke="#fca5a5"/><text x="20" y="352" font-size="17" font-weight="800" fill="#b91c1c" font-family="ui-monospace, Menlo, monospace">refusal</text><text x="20" y="378" font-size="15" fill="#1a2138">The model declined.</text><text x="462" y="378" text-anchor="end" font-size="15" font-weight="700" fill="#b91c1c">Read stop_details.</text><text x="240" y="412" text-anchor="middle" font-size="14" fill="#4a5578">Tool use and longer turns add stop reasons in Part 7.</text></svg>
+    </figure>
+    <p>A request can also end with <code>refusal</code> when a safety classifier declines it, and as of November 2026
+       Claude Sonnet 5.5 reports the category in <code>stop_details</code>. Chapter 3 met
+       <code>model_context_window_exceeded</code>, the stop reason for a reply that fills the context window, and the
+       tool-use chapters in Part 7 add the stop reasons of a reply that calls a tool.</p>
+  </section>
+
+  <section id="usage">
+    <div class="section-eyebrow"><div class="num">2</div><h2>Usage accounts for every token</h2></div>
+    <p>The full-length answer reported this <code>usage</code>, printed in full by the notebook.</p>
+    <div class="codebox"><div class="cbh">usage of the 2,150-token answer</div><pre tabindex="0">{
+  &quot;cache_creation&quot;: {
+    &quot;ephemeral_1h_input_tokens&quot;: 0,
+    &quot;ephemeral_5m_input_tokens&quot;: 0
+  },
+  &quot;cache_creation_input_tokens&quot;: 0,
+  &quot;cache_read_input_tokens&quot;: 0,
+  &quot;inference_geo&quot;: &quot;global&quot;,
+  &quot;input_tokens&quot;: 22,
+  &quot;output_tokens&quot;: 2150,
+  &quot;output_tokens_details&quot;: {
+    &quot;thinking_tokens&quot;: 109
+  },
+  &quot;service_tier&quot;: &quot;standard&quot;,
+  &quot;speed&quot;: &quot;standard&quot;
+}</pre></div>
+    <p><code>input_tokens</code> and <code>output_tokens</code> are the counts Chapter 3 priced, and
+       <code>thinking_tokens</code> says how many of the output tokens were thinking. The cache counts are 0 because the
+       request used no prompt caching. When it does, cached input is billed at a lower rate and, as of November 2026,
+       cache reads don't count toward the input-token rate limit. <code>service_tier</code>, <code>speed</code> and
+       <code>inference_geo</code> report how and where the request ran. Logging the whole object with each call costs
+       little and answers most questions about a bill later.</p>
+  </section>
+
+  <section id="errors">
+    <div class="section-eyebrow"><div class="num">3</div><h2>Errors arrive typed by status</h2></div>
+    <p>A failed call raises an SDK exception whose class matches the HTTP status, and its <code>body</code> holds the
+       API's error <code>type</code> and message. The notebook sent four requests that fail.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Four failed requests">
+      <table class="disp-table">
+        <thead><tr><th>Request</th><th>Status</th><th>Raised</th><th>Error type</th><th>Message</th></tr></thead>
+        <tbody>
+          <tr><td>A model that doesn't exist</td><td>404</td><td><code>NotFoundError</code></td><td><code>not_found_error</code></td><td>model: claude-sonnet-9-9</td></tr>
+          <tr><td>No messages</td><td>400</td><td><code>BadRequestError</code></td><td><code>invalid_request_error</code></td><td>messages: at least one message is required</td></tr>
+          <tr><td>An empty message</td><td>400</td><td><code>BadRequestError</code></td><td><code>invalid_request_error</code></td><td>messages.0: user messages must have non-empty content</td></tr>
+          <tr><td>max_tokens=200000</td><td>none sent</td><td><code>ValueError, from the SDK</code></td><td><code>none</code></td><td>Streaming is required for operations that may take longer than 10 minutes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Each message names the field at fault, so it belongs in the log. The last request never reached the API. SDK
+       2.7.0 refuses a non-streaming request that could run longer than ten minutes, and raises a plain
+       <code>ValueError</code> before sending anything. Anthropic's error reference lists the rest of the statuses as
+       of November 2026, among them 401 for a bad key, 403 for a key without permission, 413 for a request that is too
+       large, 429 for a rate limit, 500 for an internal error and 529 when the API is overloaded. An error response also
+       carries a request ID, which the book's recordings drop before anything is saved.</p>
+  </section>
+
+  <section id="retries">
+    <div class="section-eyebrow"><div class="num">4</div><h2>Retries that wait the right amount</h2></div>
+    <p>As of November 2026 the API limits each organization by requests, input tokens and output tokens per minute,
+       replenished continuously like a bucket refilling, and a request over a limit gets a 429. Its
+       <code>retry-after</code> header, when present, gives the seconds to wait, and earlier retries fail. A 529 means
+       the API is overloaded, which Anthropic's error reference ties to high traffic across all users. Neither can be recorded on demand, so the notebook built the two
+       errors the way the SDK does, raised them in front of a real request and let the chapter's
+       <code>call_with_retries</code> work through them.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 360" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Three attempts on one request. Attempt 1 gets a simulated 529 overloaded error with no retry-after header, so the wait is a jittered backoff of 0.62 seconds. Attempt 2 gets a simulated 429 rate limit error with retry-after 2, so the wait is 2 seconds. Attempt 3 gets the recorded answer, Paris."><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">One request,</text><text x="240" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">three attempts</text><rect x="60" y="66" width="360" height="62" rx="10" fill="#fef2f2" stroke="#fca5a5"/><text x="76" y="92" font-size="15" font-weight="700" fill="#1a2138">attempt 1</text><text x="404" y="92" text-anchor="end" font-size="16" font-weight="800" fill="#b91c1c">529 overloaded</text><text x="404" y="116" text-anchor="end" font-size="14" fill="#4a5578">no retry-after</text><line x1="240" y1="130" x2="240" y2="166" stroke="#4a5578" stroke-width="2" stroke-dasharray="4 4"/><text x="252" y="154" font-size="14" fill="#4a5578">wait 0.62 s, jittered backoff</text><rect x="60" y="170" width="360" height="62" rx="10" fill="#fff7ed" stroke="#fdba74"/><text x="76" y="196" font-size="15" font-weight="700" fill="#1a2138">attempt 2</text><text x="404" y="196" text-anchor="end" font-size="16" font-weight="800" fill="#9a3412">429 rate limit</text><text x="404" y="220" text-anchor="end" font-size="14" fill="#4a5578">retry-after: 2</text><line x1="240" y1="234" x2="240" y2="270" stroke="#4a5578" stroke-width="2" stroke-dasharray="4 4"/><text x="252" y="258" font-size="14" fill="#4a5578">wait 2.00 s, as the header asks</text><rect x="60" y="274" width="360" height="62" rx="10" fill="#ecfdf5" stroke="#6ee7b7"/><text x="76" y="300" font-size="15" font-weight="700" fill="#1a2138">attempt 3</text><text x="404" y="300" text-anchor="end" font-size="16" font-weight="800" fill="#047857">200, Paris</text><text x="404" y="324" text-anchor="end" font-size="14" fill="#4a5578">the recorded answer</text></svg>
+    </figure>
+    <p>The 529 carried no header, so the wait came from exponential backoff with full jitter, a random fraction of a
+       ceiling that doubles with each failure, here 0.62 seconds. The 429 asked for 2 seconds and got exactly that. The
+       request for an unknown model was raised after one attempt and no wait. Not every 429 is worth retrying. A 429
+       that reports the organization's spend cap carries the error code <code>enforced_spend_limit_reached</code>, and
+       Anthropic's documentation says retries fail until access resumes.</p>
+    <p>The SDK retries on its own, twice by default as of SDK 2.7.0, on 408, 409, 429, every 5xx status and dropped
+       connections, honoring <code>retry-after</code>. Its own loop is the right choice for most code. A wrapper of your
+       own earns its keep when the program needs to log each retry, cap the total wait or share a budget across calls,
+       and then the SDK's retries should be turned off, because a default client inside a four-attempt wrapper can send
+       up to 12 requests for one call.</p>
+  </section>
+
+  <section id="goes-wrong">
+    <div class="section-eyebrow"><div class="num">5</div><h2>Where reading a response goes wrong</h2></div>
+    <ul>
+      <li><strong>An unchecked stop reason</strong> passes a truncated reply off as finished. The 40-token reply came
+          back with no text at all, so check for <code>max_tokens</code> before using the text.</li>
+      <li><strong>A tight cap</strong> forgets thinking. Thinking tokens come out of
+          <code>max_tokens</code> too, and here they used all of it.</li>
+      <li><strong>Retrying request errors</strong> spends time and quota on a failure that can't change. A 400 or 404
+          is raised at once by <code>is_retryable</code>.</li>
+      <li><strong>Fixed retry delays</strong> send clients back in step. Jitter spreads them out, and
+          <code>retry-after</code>, when the API sends it, overrides both.</li>
+      <li><strong>Stacked retry loops</strong> multiply the requests. Keep one in charge, the SDK's or your own.</li>
+    </ul>
+  </section>
+
+  <section id="build">
+    <div class="section-eyebrow"><div class="num">6</div><h2>Build it with Claude Code</h2></div>
+    <p>The notebook's retrying comes from <code>retry.py</code>. The book wrote its spec from Anthropic's published
+       error and rate-limit pages, wrote 29 tests, and had Claude Code write the module.</p>
+    <div class="codebox wrap"><div class="cbh">spec.md</div><pre tabindex="0"># retry.py
+
+Retries for calls to the Messages API. It decides which errors are worth another attempt, how long to wait before it, and runs a call until it succeeds, fails for a reason no retry can fix, or runs out of attempts. It uses the standard library and Anthropic&#x27;s Python SDK, whose exception classes it reads.
+
+## is_retryable(error)
+
+Return `True` for an error that a later attempt of the same request may not hit, and `False` for every other error.
+
+- `anthropic.APIConnectionError`, which includes `anthropic.APITimeoutError`, is retryable.
+- `anthropic.APIStatusError` is retryable when its `status_code` is 408, 409 or 429, or 500 or more, which covers 529, the status Anthropic&#x27;s API returns when it is overloaded.
+- One 429 is not retryable. When the organization has reached its spend cap, the error&#x27;s `body` is a dict whose `error.details.error_code` is `&quot;enforced_spend_limit_reached&quot;`, and retries fail until access resumes.
+- Any other exception, including a status error such as 400, 401, 403 or 404, is not retryable.
+
+## retry_after(error)
+
+Return how many seconds the API asked the client to wait, as a float, from the `retry-after` header of a status error&#x27;s `response`. Return `None` when the error has no response, the header is missing, or its value is not a number of seconds that is 0 or more.
+
+## backoff_delay(attempt, base=1.0, cap=30.0, rng=random.random)
+
+Return the delay before the next attempt with exponential backoff and full jitter. `attempt` counts the attempts that have failed so far, starting from 0 for the first. The delay is `rng()` multiplied by the smaller of `cap` and `base * 2 ** attempt`, so it lies between 0 and that ceiling. `rng` returns a float in [0, 1), and tests pass their own.
+
+## call_with_retries(fn, max_attempts=4, base=1.0, cap=30.0, sleep=time.sleep, rng=random.random, on_retry=None)
+
+Call `fn()` with no arguments and return what it returns. If it raises a retryable error and attempts remain, wait and call it again. `max_attempts` counts every call, the first included, and must be at least 1, or `ValueError` is raised before `fn` is called.
+
+The wait is `retry_after(error)` when that is not `None`, because the API knows when capacity returns, and `backoff_delay(attempt, base, cap, rng)` otherwise. Before each wait, call `on_retry(number, error, delay)` when it is given, where `number` is the attempt that just failed, counting from 1. Then call `sleep(delay)`.
+
+A non-retryable error is raised at once, unchanged. When the last attempt fails, raise its error unchanged, so the caller handles the same exception the SDK raised.
+
+## create_with_retries(client, request, **options)
+
+Send `client.messages.create(**request)` through `call_with_retries`, passing `options` on to it, and return the response. The SDK&#x27;s client retries on its own, twice by default, and retries stacked on retries multiply the attempts. So send the request through `client.with_options(max_retries=0)`, which leaves the retrying to this module.</pre></div>
+    <p><code>is_retryable</code> carries the policy, and its bullets copy the documented split between conditions that
+       clear and requests that are wrong, with the spend cap called out as the one 429 that doesn't clear.
+       <code>retry_after</code> defines exactly which header values count, so a malformed header falls back to
+       backoff instead of crashing the retry loop. <code>backoff_delay</code> gives the formula and takes the random
+       source as an argument, which is what lets a test pin the delays. <code>call_with_retries</code> settles the
+       details a loop gets wrong, what <code>max_attempts</code> counts, which wait wins, when the callback runs and
+       that the caller sees the SDK's own exception. <code>create_with_retries</code> says why the SDK's retries are
+       switched off.</p>
+    <p>Three of the tests check the decisions most worth getting right.</p>
+    <div class="codebox"><div class="cbh">tests/test_retry.py, three of its tests</div><pre tabindex="0">def test_a_spend_cap_429_is_not_retryable():
+    error = api_error(429, error={&quot;type&quot;: &quot;rate_limit_error&quot;, &quot;message&quot;: &quot;Fixture spend cap.&quot;,
+                                  &quot;details&quot;: {&quot;error_code&quot;: &quot;enforced_spend_limit_reached&quot;}})
+    assert is_retryable(error) is False
+
+
+def test_rate_limits_wait_as_long_as_retry_after_says():
+    fn, slept = Flaky(api_error(429, {&quot;retry-after&quot;: &quot;3&quot;}), api_error(429, {&quot;retry-after&quot;: &quot;3&quot;})), []
+    assert call_with_retries(fn, sleep=slept.append) == &quot;done&quot;
+    assert fn.calls == 3 and slept == [3.0, 3.0]
+
+
+def test_create_with_retries_turns_off_the_sdks_own_retries():
+    client, slept = FakeClient(), []
+    request = {&quot;model&quot;: &quot;claude-sonnet-5-5&quot;, &quot;max_tokens&quot;: 64, &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hi&quot;}]}
+    assert create_with_retries(client, request, sleep=slept.append, rng=lambda: 1.0) == &quot;a message&quot;
+    assert {&quot;max_retries&quot;: 0} in client.options and client.requests == [request, request]
+    assert slept == [1.0]</pre></div>
+    <p>The first builds a 429 with the spend-cap error code and expects no retry. The second fails twice with
+       <code>retry-after: 3</code> and checks that the module slept exactly 3 seconds each time, through a list standing
+       in for <code>time.sleep</code>, so the test takes no time at all. The third hands
+       <code>create_with_retries</code> a client that records its options, and checks that
+       <code>max_retries=0</code> was asked for and the request was sent twice. Every error in the tests is built from
+       the SDK's real exception classes, so the module is tested against the types it will meet.</p>
+    <p>The prompt is the book's build prompt with this chapter's file name, pointing at the two inputs, limiting writes
+       to the Edit tool and the shell to one pytest command, and protecting the tests.</p>
+    <div class="codebox wrap"><div class="cbh">prompt.md</div><pre tabindex="0">Read spec.md and write retry.py so that every test in tests/ passes. Create and change files with the Edit tool. The only shell command you may run is python3 -m pytest -q tests, which runs the tests. Do not change the tests.</pre></div>
+    <p>The book ran it with Claude Code 2.1.322 and Claude Sonnet 5.5, headless, in a folder holding
+       only the spec and the tests:</p>
+    <div class="codebox wrap"><div class="cbh">command</div><pre tabindex="0">BOOK_MODE=record python3 scripts/claude_build.py reading-a-response</pre></div>
+    <p>This run followed a different path from the earlier chapters' builds. In order, the transcript shows:</p>
+    <ol class="build-steps">
+      <li>Claude Code read <code>spec.md</code>.</li>
+      <li>It listed the folder with <code>ls . ./tests</code>, a read-only command its <code>dontAsk</code> mode allows
+          beside the one the prompt named.</li>
+      <li>It read the test file with the Read tool, without running the tests first.</li>
+      <li>It wrote the module with one Edit.</li>
+      <li>It ran the tests once, and all 29 passed.</li>
+      <li>It reported one check it had added beyond the spec, that <code>retry_after</code> also returns
+          <code>None</code> for <code>nan</code> or <code>inf</code>.</li>
+    </ol>
+    <div class="codebox"><div class="cbh">generated by Claude Code</div><pre tabindex="0">import math
+import random
+import time
+
+import anthropic
+
+
+def _spend_cap_reached(error):
+    body = getattr(error, &quot;body&quot;, None)
+    if not isinstance(body, dict):
+        return False
+    inner = body.get(&quot;error&quot;)
+    if not isinstance(inner, dict):
+        return False
+    details = inner.get(&quot;details&quot;)
+    return isinstance(details, dict) and details.get(&quot;error_code&quot;) == &quot;enforced_spend_limit_reached&quot;
+
+
+def is_retryable(error):
+    if isinstance(error, anthropic.APIConnectionError):
+        return True
+    if isinstance(error, anthropic.APIStatusError):
+        status = error.status_code
+        if status == 429 and _spend_cap_reached(error):
+            return False
+        return status in (408, 409, 429) or status &gt;= 500
+    return False
+
+
+def retry_after(error):
+    response = getattr(error, &quot;response&quot;, None)
+    if response is None:
+        return None
+    value = response.headers.get(&quot;retry-after&quot;)
+    if value is None:
+        return None
+    try:
+        seconds = float(value)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(seconds) or seconds &lt; 0:
+        return None
+    return seconds
+
+
+def backoff_delay(attempt, base=1.0, cap=30.0, rng=random.random):
+    return rng() * min(cap, base * 2 ** attempt)
+
+
+def call_with_retries(fn, max_attempts=4, base=1.0, cap=30.0, sleep=time.sleep,
+                      rng=random.random, on_retry=None):
+    if max_attempts &lt; 1:
+        raise ValueError(&quot;max_attempts must be at least 1&quot;)
+    attempt = 0
+    while True:
+        try:
+            return fn()
+        except Exception as error:
+            if not is_retryable(error) or attempt + 1 &gt;= max_attempts:
+                raise
+            delay = retry_after(error)
+            if delay is None:
+                delay = backoff_delay(attempt, base, cap, rng)
+            if on_retry is not None:
+                on_retry(attempt + 1, error, delay)
+            sleep(delay)
+            attempt += 1
+
+
+def create_with_retries(client, request, **options):
+    c = client.with_options(max_retries=0)
+    return call_with_retries(lambda: c.messages.create(**request), **options)</pre></div>
+    <p>The build took 6 turns and cost 0.0323 dollars on the book's key. Review accepted the
+       module unchanged. The extra check is a real fix. <code>float("nan")</code> parses and is not less than 0, so it
+       passes the spec's check for a negative wait, and an infinite wait would hang the program. Review
+       also found a gap the spec left. <code>call_with_retries</code> waits as long as <code>retry-after</code> says,
+       however long that is, and the third practice challenge adds a ceiling without changing the module, through its
+       <code>on_retry</code> callback. The functions have no docstrings, which the spec didn't ask for. The spec, tests,
+       transcript and generated file are in the repository's <a href="https://github.com/johnfisher-ai/ai-with-ai/tree/main/builds/reading-a-response">builds folder</a>,
+       and <code>python3 scripts/claude_build.py reading-a-response --out my-build</code> repeats the build with your own Claude Code
+       account. <em>Python, Visually</em>'s <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/apis-and-json.html">APIs and JSON</a> covers HTTP status codes
+       and errors from the Python side.</p>
+  </section>
+
+  <section id="notebook">
+    <div class="nb-cta" style="display:block">
+      <div style="display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.3rem">
+        <div class="nb-ic">🐍</div>
+        <div class="nb-body">
+          <h3>Run the notebook</h3>
+          <p>Provokes three stop reasons, prints every usage field, sends four requests that fail, and retries a real
+             request through a simulated overload and rate limit with the chapter's retry module.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+        <a class="btn btn-primary" href="notebooks/html/reading-a-response.html">📓 View notebook (code and outputs)</a>
+        <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+           href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/reading-a-response.ipynb"
+           target="_blank" rel="noopener">▶ Open in Colab</a>
+        <a class="btn btn-ghost" style="background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)"
+           href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/reading-a-response.ipynb"
+           target="_blank" rel="noopener">⬇ View or download on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="takeaways">
+    <div class="takeaways">
+      <h3>🎓 In brief</h3>
+      <ul>
+        <li><span class="ck">✓</span><span>A 40-token cap produced a reply of thinking and no text, so check <code>stop_reason</code> before trusting the text.</span></li>
+        <li><span class="ck">✓</span><span>A stop sequence ends the reply where the request says, and the returned text leaves the sequence out.</span></li>
+        <li><span class="ck">✓</span><span>Failed calls raise exceptions typed by status, and 400 and 404 errors fail the same way on every attempt.</span></li>
+        <li><span class="ck">✓</span><span>Rate limits and overload clear with time, so retry them with jittered backoff, or as long as <code>retry-after</code> asks.</span></li>
+        <li><span class="ck">✓</span><span>The retry module Claude Code generated passed 29 tests and added a check the spec missed, and review found the one limit it lacked.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="challenges">
+    <div class="section-eyebrow"><div class="num">7</div><h2>Practice challenges</h2></div>
+    <p>The first challenge calls the model, and the other two use only <code>retry.py</code>.</p>
+    <div class="challenges">
+      <div class="challenge"><div class="cnum">1</div><div class="cbody">
+        <h3>Keep only the first item</h3>
+        <p>Use a stop sequence to make the model return only the first item of a numbered list.</p>
+        <div class="chint">Hint: try a line break first, and read the API's answer.</div></div></div>
+      <div class="challenge"><div class="cnum">2</div><div class="cbody">
+        <h3>Which statuses are retried</h3>
+        <p>Run <code>is_retryable</code> on a status error for each code in Anthropic's error list.</p>
+        <div class="chint">Hint: anthropic.APIStatusError takes a message, a response and a body.</div></div></div>
+      <div class="challenge"><div class="cnum">3</div><div class="cbody">
+        <h3>Give up on a long wait</h3>
+        <p>Show what <code>call_with_retries</code> does with a 429 that asks for 600 seconds, then add a
+           <code>max_wait</code> that raises the error instead, with a test.</p>
+        <div class="chint">Hint: on_retry runs before every wait, and it may raise.</div></div></div>
+    </div>
+    <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:0.4rem">
+      <a class="btn btn-primary" href="notebooks/html/reading-a-response--solutions.html">📓 View solutions</a>
+      <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+         href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/reading-a-response--solutions.ipynb"
+         target="_blank" rel="noopener">▶ Open solutions in Colab</a>
+    </div>
+  </section>
+
+
+  <div class="callout key" style="margin-top:2rem">
+    <div class="cico">➡️</div>
+    <div><div class="ctitle">Up next</div>
+      <p><strong>Chapter 6 · How coding assistants work</strong> opens Part 2, Building with Claude Code, with an
+         assistant as an agent that reads files, runs commands and searches, and what it can and can't see.</p></div>
+  </div>
+
+  <nav class="chapter-nav" aria-label="Previous and next chapter">
+    <a class="cn-btn prev" href="your-first-model-call.html">
+      <span style="font-size:1.3rem">←</span>
+      <span><span class="cn-dir">Chapter 4 · Previous</span><br><span class="cn-title">Your first model call</span></span>
+    </a>
+    <a class="cn-btn next" href="../toc.html">
+      <span><span class="cn-dir">Chapter 6 · Coming soon</span><br><span class="cn-title">How coding assistants work</span></span>
+      <span style="font-size:1.3rem">→</span>
+    </a>
+  </nav>
+
+</main>
+
+<footer class="book-footer" style="background:#0a1230;color:#8892b0;border-top:none">
+  <strong style="color:#cbd5e1">Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  Chapter 5 &nbsp;·&nbsp; © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+const bar = document.getElementById('readProgress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = ((h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100) + '%';
+});
+</script>
+
+</body>
+</html>
