@@ -1,0 +1,2 @@
+{"format": 1, "model": "claude-sonnet-5-5", "allowed_commands": ["python3 -m pytest *", "ls *", "grep *"],
+ "test_command": ["python3", "-m", "pytest", "-q", "-p", "no:cacheprovider", "tests"], "max_budget_usd": 1.0}

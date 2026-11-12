@@ -1,0 +1,409 @@
+{
+ "notebook": "how-coding-assistants-work",
+ "format": 1,
+ "exchanges": [
+  {
+   "key": "7d19056472f4a20b",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 4096,
+     "messages": [
+      {
+       "role": "user",
+       "content": "What happens when the API answers with a 429 rate limit error while supportdesk is drafting a reply? Answer in a short paragraph."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You answer questions about the Python package supportdesk. Use the tools to read the code before you answer, and name the functions your answer relies on.",
+     "tools": [
+      {
+       "name": "list_files",
+       "description": "List the Python files in the supportdesk package.",
+       "input_schema": {
+        "type": "object",
+        "properties": {}
+       }
+      },
+      {
+       "name": "read_file",
+       "description": "Return the text of one file in the supportdesk package, such as desk.py.",
+       "input_schema": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The file name"
+         }
+        },
+        "required": [
+         "name"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgyG67U8om2gYZTPb3pnN",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "tool_use",
+       "id": "toolu_014wogwRZRwSLikZhEGTWQwV",
+       "name": "list_files",
+       "input": {},
+       "caller": {
+        "type": "direct"
+       }
+      }
+     ],
+     "container": null,
+     "stop_reason": "tool_use",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 528,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 26,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "91bd4f49b0809af4",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 4096,
+     "messages": [
+      {
+       "role": "user",
+       "content": "What happens when the API answers with a 429 rate limit error while supportdesk is drafting a reply? Answer in a short paragraph."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "id": "toolu_014wogwRZRwSLikZhEGTWQwV",
+         "caller": {
+          "type": "direct"
+         },
+         "input": {},
+         "name": "list_files",
+         "type": "tool_use"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": [
+        {
+         "type": "tool_result",
+         "tool_use_id": "toolu_014wogwRZRwSLikZhEGTWQwV",
+         "content": "__init__.py\nask.py\ndesk.py\nretry.py\ntokencost.py\ntriage.py"
+        }
+       ]
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You answer questions about the Python package supportdesk. Use the tools to read the code before you answer, and name the functions your answer relies on.",
+     "tools": [
+      {
+       "name": "list_files",
+       "description": "List the Python files in the supportdesk package.",
+       "input_schema": {
+        "type": "object",
+        "properties": {}
+       }
+      },
+      {
+       "name": "read_file",
+       "description": "Return the text of one file in the supportdesk package, such as desk.py.",
+       "input_schema": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The file name"
+         }
+        },
+        "required": [
+         "name"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgyG6BN3LHyfXZJZnHCaj",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "tool_use",
+       "id": "toolu_011EbriuDavGo5iE6DQj2MKq",
+       "name": "read_file",
+       "input": {
+        "name": "desk.py"
+       },
+       "caller": {
+        "type": "direct"
+       }
+      },
+      {
+       "type": "tool_use",
+       "id": "toolu_01PQNPpGJfdK1MsgGfDPLfpB",
+       "name": "read_file",
+       "input": {
+        "name": "retry.py"
+       },
+       "caller": {
+        "type": "direct"
+       }
+      },
+      {
+       "type": "tool_use",
+       "id": "toolu_0131j1eZohRDW3P4pmib7L3y",
+       "name": "read_file",
+       "input": {
+        "name": "ask.py"
+       },
+       "caller": {
+        "type": "direct"
+       }
+      }
+     ],
+     "container": null,
+     "stop_reason": "tool_use",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 591,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 144,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "69dafccbd8d474f3",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 4096,
+     "messages": [
+      {
+       "role": "user",
+       "content": "What happens when the API answers with a 429 rate limit error while supportdesk is drafting a reply? Answer in a short paragraph."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "id": "toolu_014wogwRZRwSLikZhEGTWQwV",
+         "caller": {
+          "type": "direct"
+         },
+         "input": {},
+         "name": "list_files",
+         "type": "tool_use"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": [
+        {
+         "type": "tool_result",
+         "tool_use_id": "toolu_014wogwRZRwSLikZhEGTWQwV",
+         "content": "__init__.py\nask.py\ndesk.py\nretry.py\ntokencost.py\ntriage.py"
+        }
+       ]
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "id": "toolu_011EbriuDavGo5iE6DQj2MKq",
+         "caller": {
+          "type": "direct"
+         },
+         "input": {
+          "name": "desk.py"
+         },
+         "name": "read_file",
+         "type": "tool_use"
+        },
+        {
+         "id": "toolu_01PQNPpGJfdK1MsgGfDPLfpB",
+         "caller": {
+          "type": "direct"
+         },
+         "input": {
+          "name": "retry.py"
+         },
+         "name": "read_file",
+         "type": "tool_use"
+        },
+        {
+         "id": "toolu_0131j1eZohRDW3P4pmib7L3y",
+         "caller": {
+          "type": "direct"
+         },
+         "input": {
+          "name": "ask.py"
+         },
+         "name": "read_file",
+         "type": "tool_use"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": [
+        {
+         "type": "tool_result",
+         "tool_use_id": "toolu_011EbriuDavGo5iE6DQj2MKq",
+         "content": "\"\"\"Answers one support ticket: sorts it into a category, drafts a reply and reports what the reply cost.\n\n    python3 -m supportdesk.desk \"My order arrived with a cracked screen.\"\n\nReads the key from the ANTHROPIC_API_KEY environment variable.\n\"\"\"\nimport sys\n\nfrom . import ask, retry, tokencost, triage\n\nSYSTEM = \"You are a support assistant for an online electronics store. Reply in two or three sentences.\"\n\n\ndef handle(client, ticket):\n    \"\"\"Triage the ticket, draft a reply with retries, and price the reply.\"\"\"\n    category = triage.triage(client, ticket)\n    request = ask.build_request(f\"Draft a reply to this {category} ticket:\\n\\n{ticket}\", system=SYSTEM)\n    message = retry.create_with_retries(client, request)\n    cost = tokencost.call_cost(message.usage, request[\"model\"])\n    return {\"category\": category, \"reply\": ask.answer_text(message), \"cost\": cost}\n\n\ndef main(argv=None):\n    import anthropic\n    ticket = \" \".join(sys.argv[1:] if argv is None else argv) or sys.stdin.read()\n    result = handle(anthropic.Anthropic(), ticket)\n    print(f\"[{result['category']}] {result['reply']}\\n(reply cost {result['cost']:.6f} dollars)\")\n    return 0\n\n\nif __name__ == \"__main__\":\n    sys.exit(main())\n"
+        },
+        {
+         "type": "tool_result",
+         "tool_use_id": "toolu_01PQNPpGJfdK1MsgGfDPLfpB",
+         "content": "import math\nimport random\nimport time\n\nimport anthropic\n\n\ndef _spend_cap_reached(error):\n    body = getattr(error, \"body\", None)\n    if not isinstance(body, dict):\n        return False\n    inner = body.get(\"error\")\n    if not isinstance(inner, dict):\n        return False\n    details = inner.get(\"details\")\n    return isinstance(details, dict) and details.get(\"error_code\") == \"enforced_spend_limit_reached\"\n\n\ndef is_retryable(error):\n    if isinstance(error, anthropic.APIConnectionError):\n        return True\n    if isinstance(error, anthropic.APIStatusError):\n        status = error.status_code\n        if status == 429 and _spend_cap_reached(error):\n            return False\n        return status in (408, 409, 429) or status >= 500\n    return False\n\n\ndef retry_after(error):\n    response = getattr(error, \"response\", None)\n    if response is None:\n        return None\n    value = response.headers.get(\"retry-after\")\n    if value is None:\n        return None\n    try:\n        seconds = float(value)\n    except (TypeError, ValueError):\n        return None\n    if not math.isfinite(seconds) or seconds < 0:\n        return None\n    return seconds\n\n\ndef backoff_delay(attempt, base=1.0, cap=30.0, rng=random.random):\n    return rng() * min(cap, base * 2 ** attempt)\n\n\ndef call_with_retries(fn, max_attempts=4, base=1.0, cap=30.0, sleep=time.sleep,\n                      rng=random.random, on_retry=None):\n    if max_attempts < 1:\n        raise ValueError(\"max_attempts must be at least 1\")\n    attempt = 0\n    while True:\n        try:\n            return fn()\n        except Exception as error:\n            if not is_retryable(error) or attempt + 1 >= max_attempts:\n                raise\n            delay = retry_after(error)\n            if delay is None:\n                delay = backoff_delay(attempt, base, cap, rng)\n            if on_retry is not None:\n                on_retry(attempt + 1, error, delay)\n            sleep(delay)\n            attempt += 1\n\n\ndef create_with_retries(client, request, **options):\n    c = client.with_options(max_retries=0)\n    return call_with_retries(lambda: c.messages.create(**request), **options)\n"
+        },
+        {
+         "type": "tool_result",
+         "tool_use_id": "toolu_0131j1eZohRDW3P4pmib7L3y",
+         "content": "import argparse\nimport sys\n\nDEFAULT_MODEL = \"claude-sonnet-5-5\"\nDEFAULT_MAX_TOKENS = 1024\n\n\ndef build_request(prompt, history=None, system=None, model=DEFAULT_MODEL,\n                  max_tokens=DEFAULT_MAX_TOKENS):\n    if not isinstance(prompt, str) or not prompt.strip():\n        raise ValueError(\"prompt is empty\")\n    if max_tokens < 1:\n        raise ValueError(\"max_tokens must be at least 1\")\n    history = list(history) if history else []\n    for i, m in enumerate(history):\n        expected = \"user\" if i % 2 == 0 else \"assistant\"\n        role = m.get(\"role\") if isinstance(m, dict) else None\n        if role != expected:\n            raise ValueError(\"invalid history\")\n    if history and history[-1][\"role\"] != \"assistant\":\n        raise ValueError(\"history must end with an assistant message\")\n    request = {\"model\": model, \"max_tokens\": max_tokens,\n               \"messages\": history + [{\"role\": \"user\", \"content\": prompt}]}\n    if system:\n        request[\"system\"] = system\n    return request\n\n\ndef answer_text(message):\n    return \"\".join(b.text for b in message.content if getattr(b, \"type\", None) == \"text\")\n\n\ndef format_usage(usage):\n    s = f\"{usage.input_tokens} tokens in, {usage.output_tokens} out\"\n    details = getattr(usage, \"output_tokens_details\", None)\n    thinking = getattr(details, \"thinking_tokens\", None) if details is not None else None\n    if thinking and thinking > 0:\n        s += f\", {thinking} of them thinking\"\n    return s\n\n\ndef chat(client, lines, out, system=None, model=DEFAULT_MODEL,\n         max_tokens=DEFAULT_MAX_TOKENS, show_usage=False, history=None):\n    history = list(history) if history else []\n    for line in lines:\n        line = line.strip()\n        if not line:\n            continue\n        if line == \"/quit\":\n            break\n        request = build_request(line, history=history, system=system, model=model,\n                                max_tokens=max_tokens)\n        message = client.messages.create(**request)\n        out.write(answer_text(message) + \"\\n\")\n        if show_usage:\n            out.write(f\"[{format_usage(message.usage)}]\\n\")\n        out.write(\"\\n\")\n        history = history + [{\"role\": \"user\", \"content\": line},\n                             {\"role\": \"assistant\", \"content\": message.content}]\n    return history\n\n\ndef main(argv=None, client=None, stdin=None, out=None):\n    parser = argparse.ArgumentParser(prog=\"ask.py\")\n    parser.add_argument(\"prompt\", nargs=\"?\")\n    parser.add_argument(\"--system\")\n    parser.add_argument(\"--model\", default=DEFAULT_MODEL)\n    parser.add_argument(\"--max-tokens\", type=int, default=DEFAULT_MAX_TOKENS)\n    parser.add_argument(\"--usage\", action=\"store_true\")\n    parser.add_argument(\"--chat\", action=\"store_true\")\n    args = parser.parse_args(argv)\n    stdin = sys.stdin if stdin is None else stdin\n    out = sys.stdout if out is None else out\n    if client is None:\n        import anthropic\n        client = anthropic.Anthropic()\n\n    if args.chat:\n        lines = stdin\n        if args.prompt:\n            lines = [args.prompt] + list(stdin)\n        chat(client, lines, out, system=args.system, model=args.model,\n             max_tokens=args.max_tokens, show_usage=args.usage)\n        return 0\n\n    question = args.prompt if args.prompt else stdin.read()\n    if not question or not question.strip():\n        print(\"ask.py: no question given\", file=sys.stderr)\n        return 2\n    message = client.messages.create(**build_request(\n        question, system=args.system, model=args.model, max_tokens=args.max_tokens))\n    out.write(answer_text(message) + \"\\n\")\n    if args.usage:\n        out.write(f\"[{format_usage(message.usage)}]\\n\")\n    return 0\n\n\nif __name__ == \"__main__\":\n    sys.exit(main())\n"
+        }
+       ]
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You answer questions about the Python package supportdesk. Use the tools to read the code before you answer, and name the functions your answer relies on.",
+     "tools": [
+      {
+       "name": "list_files",
+       "description": "List the Python files in the supportdesk package.",
+       "input_schema": {
+        "type": "object",
+        "properties": {}
+       }
+      },
+      {
+       "name": "read_file",
+       "description": "Return the text of one file in the supportdesk package, such as desk.py.",
+       "input_schema": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The file name"
+         }
+        },
+        "required": [
+         "name"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgyG6GQenk6SUGLXWbfA3",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQShQYKEAgTGAI4AUIIdGhpbmtpbmcSDJXyaaLNCRIwMEstNxoMJqgakIEt5+ZvjAi6IjCaODWfqCOtuDpVic4G6EtjzdRIWS3cQMcxEqdC9YS8GdkOwQ6T2d0dyDOc0YhfFVcqogWx5ilwjorHw5niKSV6KgwwUQWgNjPr8z3/BznDMB9Md45MTxWWRPtX1MHAc7CS1NkYIxxk/qmOTOPPe71DRILsBZqSvmuL4lTrrbK2/6pAwSII99Q1qhwOs/que9pfiCX0wXMa+dhmlWwnWoQTdD7OssnvyvO39QwNjvJK44JlZ8vzm6cnto+UTqtjp41uNxuqwD8vl6+4kBmpkfEVsUf4QBmY/92ATGseJOBoPXhzFYE62PeKRHtggSG05yJaKhguGmr17mb5t0RI5Kn8S9PIjVBV2unMRe4w2PsK9646xeuSpXyB3vRchMQ8+LKh4hOXS/dtexiLW8wIl+i7S37xLPP0jx75gJNJve86J1JP0STmBo0ysl4EyiTNf/NFz4aD/FmKE657lVJRrJssx8GPm+3IYsvyU65jL/ip+zn9M/xO0wTVNtRF8Ca+vI+jzTp1pZl8qjWX8HZGGWQTR8Srn9QYlnbQyNwYzyaLQek0wAp5k0SmaNG/rCCAYz9jbyfw2wQDMWf8iomIzWz16CiK+75NGF66363Tjgr4wWslHs2+n848ZkyMJzwr1C7/zTWlucKrQ7+xmLNHqSQAXlcVHMt1qcrZe44aVx4htEq3fU3TKxuBpodf8XNBWKkFMdDWrHs0MHaVUTKSGTDTFFkWmBMxkGhyJady5UcuGFegCLpsqgOpnbSBP0J08u2wlrkP3tx2Hjd6GYn/EIYR8l5gKbP9xN+b14GcvIzbAVpbRFL6DJ05HLWr2CZu+AThN1yF9cv5qlir4yrhU4o+zhvOLL+089puZEqvya+SlXEFmJg6wgQ1oS1SwGBbR7q7jJVnRS+TIl8Mt/8QLkjPAh61Z0VSnDn5Tj+5L26hke2+kfHyA867RXdIbvdKvvZDOgdP/BgB"
+      },
+      {
+       "type": "text",
+       "text": "When the API returns a 429 while supportdesk is drafting a reply, `desk.handle` retries the call. It sends the draft through `retry.create_with_retries`, which turns off the SDK's own retries (`with_options(max_retries=0)`) and uses `call_with_retries` instead. `is_retryable` treats a 429 as retryable, as it does 408, 409, 5xx and connection errors. The one exception is a 429 whose body has the error code `enforced_spend_limit_reached`, which means a spend cap was hit. `_spend_cap_reached` detects that case, and the error is raised immediately.\n\nFor an ordinary rate limit, `call_with_retries` waits and tries again. The wait is the server's `retry-after` header if it is present and valid (`retry_after`). Otherwise it is a random \"full jitter\" exponential backoff from `backoff_delay`, which starts at about 1 second and is capped at 30 seconds. The default is 4 attempts in total. If the 429 persists through the last attempt, the original `anthropic` exception propagates out of `handle`. `desk.main` doesn't catch it, so the command-line run ends with a traceback and no reply or cost line.\n\nI only read the reply-drafting path. The earlier `triage.triage` call in `handle` is a separate request, and I didn't open `triage.py`, so I can't say whether it has the same retry protection."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 3422,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 507,
+      "output_tokens_details": {
+       "thinking_tokens": 50
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  }
+ ]
+}

@@ -1,0 +1,1 @@
+Read spec.md, explore the package in supportdesk/, and write GUIDE.md so that every test in tests/ passes. Create GUIDE.md with the Edit tool and change no other file. You may run python3 -m pytest -q tests to check the guide, and ls and grep to look around. Do not change the tests.

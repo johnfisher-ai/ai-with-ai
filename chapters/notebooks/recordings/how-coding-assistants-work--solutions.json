@@ -1,0 +1,269 @@
+{
+ "notebook": "how-coding-assistants-work--solutions",
+ "format": 1,
+ "exchanges": [
+  {
+   "key": "d38bd09fdd2d68f8",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 4096,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Which modules in supportdesk call the Messages API directly, and which only through another module?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You answer questions about the Python package supportdesk. Use the tools to read the code before you answer, and name the functions your answer relies on.",
+     "tools": [
+      {
+       "name": "list_files",
+       "description": "List the Python files in the supportdesk package.",
+       "input_schema": {
+        "type": "object",
+        "properties": {}
+       }
+      },
+      {
+       "name": "read_file",
+       "description": "Return the text of one file in the supportdesk package, such as desk.py.",
+       "input_schema": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The file name"
+         }
+        },
+        "required": [
+         "name"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgyG7kytj2RhrDGahD1c8",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "tool_use",
+       "id": "toolu_015osmuVdWCYF92iY62WsCyg",
+       "name": "list_files",
+       "input": {},
+       "caller": {
+        "type": "direct"
+       }
+      }
+     ],
+     "container": null,
+     "stop_reason": "tool_use",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 511,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 26,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "769cfbf7e8f959b3",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 4096,
+     "messages": [
+      {
+       "role": "user",
+       "content": "Which modules in supportdesk call the Messages API directly, and which only through another module?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "id": "toolu_015osmuVdWCYF92iY62WsCyg",
+         "caller": {
+          "type": "direct"
+         },
+         "input": {},
+         "name": "list_files",
+         "type": "tool_use"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": [
+        {
+         "type": "tool_result",
+         "tool_use_id": "toolu_015osmuVdWCYF92iY62WsCyg",
+         "content": "__init__.py\nask.py\ndesk.py\nretry.py\ntokencost.py\ntriage.py"
+        }
+       ]
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You answer questions about the Python package supportdesk. Use the tools to read the code before you answer, and name the functions your answer relies on.",
+     "tools": [
+      {
+       "name": "list_files",
+       "description": "List the Python files in the supportdesk package.",
+       "input_schema": {
+        "type": "object",
+        "properties": {}
+       }
+      },
+      {
+       "name": "read_file",
+       "description": "Return the text of one file in the supportdesk package, such as desk.py.",
+       "input_schema": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "The file name"
+         }
+        },
+        "required": [
+         "name"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgyG7qpbuNTMoRCw2HNs9",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "tool_use",
+       "id": "toolu_01GYR6ZFU5WF725in9Z8qvnc",
+       "name": "read_file",
+       "input": {
+        "name": "__init__.py"
+       },
+       "caller": {
+        "type": "direct"
+       }
+      },
+      {
+       "type": "tool_use",
+       "id": "toolu_0174EhFYUUvdmqCuR6oXJAZ4",
+       "name": "read_file",
+       "input": {
+        "name": "ask.py"
+       },
+       "caller": {
+        "type": "direct"
+       }
+      },
+      {
+       "type": "tool_use",
+       "id": "toolu_01KbL5UFR6JzEjbzWfKQ8LQ3",
+       "name": "read_file",
+       "input": {
+        "name": "desk.py"
+       },
+       "caller": {
+        "type": "direct"
+       }
+      },
+      {
+       "type": "tool_use",
+       "id": "toolu_013RtNeF2v1aqbpmSAzxssF3",
+       "name": "read_file",
+       "input": {
+        "name": "retry.py"
+       },
+       "caller": {
+        "type": "direct"
+       }
+      },
+      {
+       "type": "tool_use",
+       "id": "toolu_01Ju7jrqj175xL5X6XwSSB44",
+       "name": "read_file",
+       "input": {
+        "name": "tokencost.py"
+       },
+       "caller": {
+        "type": "direct"
+       }
+      },
+      {
+       "type": "tool_use",
+       "id": "toolu_01T8FEArP2bwzbeLiFJYdfAH",
+       "name": "read_file",
+       "input": {
+        "name": "triage.py"
+       },
+       "caller": {
+        "type": "direct"
+       }
+      }
+     ],
+     "container": null,
+     "stop_reason": "tool_use",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 574,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 288,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  }
+ ]
+}

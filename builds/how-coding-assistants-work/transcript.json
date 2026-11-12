@@ -1,0 +1,239 @@
+{
+ "format": 1,
+ "slug": "how-coding-assistants-work",
+ "mode": "record",
+ "date": "2026-11-12",
+ "claude_code_version": "2.1.322",
+ "model": "claude-sonnet-5-5",
+ "permission_mode": "dontAsk",
+ "tools": [
+  "Bash",
+  "Edit",
+  "Read"
+ ],
+ "command": [
+  "claude",
+  "-p",
+  "--bare",
+  "--output-format",
+  "stream-json",
+  "--verbose",
+  "--no-session-persistence",
+  "--model",
+  "claude-sonnet-5-5",
+  "--max-budget-usd",
+  "1.0",
+  "--permission-mode",
+  "dontAsk",
+  "--tools",
+  "Read,Edit,Bash",
+  "--allowedTools",
+  "Read",
+  "Edit",
+  "Bash(python3 -m pytest *)",
+  "Bash(ls *)",
+  "Bash(grep *)"
+ ],
+ "exit_code": 0,
+ "result": {
+  "outcome": "success",
+  "is_error": false,
+  "turns": 12,
+  "cost_usd": 0.0647806,
+  "duration_ms": 22830,
+  "input_tokens": 14,
+  "output_tokens": 3176,
+  "cache_read_tokens": 31626,
+  "cache_write_tokens": 11932,
+  "final_text": "I wrote `GUIDE.md`, and all 9 tests in `tests/` pass. I changed no other file.\n\nMy first attempt to read the package with a single `cat` command was denied, so I read each source file with the Read tool instead.\n\nThe guide has the title and the four required sections: Modules, How a ticket flows, Running it, and Gaps and risks.\n\nThe gaps section lists six items, each naming a file:\n- `triage.py`: `triage.normalize_label()` is never called, and it disagrees with `triage.parse_category()` about unknown labels (`other` versus `unrecognized`).\n- `desk.py`: the triage call is not retried, only the drafting call.\n- `desk.py`: `desk.main()` does not handle an empty ticket or API errors.\n- `ask.py`: `ask.answer_text()` duplicates `triage.answer_text()` with slightly different behaviour.\n- `tokencost.py`: prices are hard-coded, and `tokencost.call_cost()` raises for any model not in the table.\n- `retry.py`: the retry loop has no time limit beyond the attempt count."
+ },
+ "generated": {
+  "GUIDE.md": "3ceb0659c70489f40323e26c922ead3bb7907cb953ad35b36862ef58ae1c93fc"
+ },
+ "tests": {
+  "command": [
+   "python3",
+   "-m",
+   "pytest",
+   "-q",
+   "-p",
+   "no:cacheprovider",
+   "tests"
+  ],
+  "exit_code": 0,
+  "passed": true,
+  "changed_by_claude": []
+ },
+ "steps": [
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t1",
+   "input": {
+    "file_path": "./spec.md"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t1",
+   "is_error": false,
+   "result": "1\t# GUIDE.md\n2\t\n3\t`supportdesk/` is a small Python package that answers support tickets. Read it and write `GUIDE.md` at the top of this folder, a guide for an engineer who joins the project tomorrow and has to change it. Change no other file.\n4\t\n5\t## What the guide covers\n6\t\n7\tThe guide starts with a `# ` title line, then has these four sections, with these headings, in this order.\n8\t\n9\t- `## Modules` describes every Python file in `supportdesk/`, one bullet per file, starting with the file name in backticks, such as `` `desk.py` ``.\n10\t- `## How a ticket flows` follows one ticket through the code, from the call that starts the work to the value it returns, naming each function in the order the code calls it.\n11\t- `## Running it` says how to run the package from a shell, with the command in a fenced code block, and which environment variable it reads the key from.\n12\t- `## Gaps and risks` lists, as bullets, at least three things a careful reviewer would want fixed or checked, each pointing to the file it concerns.\n13\t\n14\t## How to name code\n15\t\n16\tWrite every function's name in backticks with empty parentheses, such as `` `handle()` ``, and name only functions that exist in `supportdesk/`. Name a function in a module other than the one it is defined in as `module.function()`, such as `` `triage.triage()` ``, whenever the bare name would be ambiguous.\n17\t\n18\tDescribe what the code does, and keep opinions to the gaps section. Keep the whole guide under 900 words.\n19\t"
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t2",
+   "input": {
+    "command": "cd .; ls -R . | grep -v pyc | head -50; cat tests/*.py"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t2",
+   "is_error": false,
+   "result": ".:\nspec.md\nsupportdesk\ntests\n\n./supportdesk:\n__init__.py\nask.py\ndesk.py\nretry.py\ntokencost.py\ntriage.py\n\n./tests:\ntest_guide.py\nimport ast\nimport pathlib\nimport re\n\nimport pytest\n\nROOT = pathlib.Path(__file__).resolve().parent.parent\nPACKAGE = ROOT / \"supportdesk\"\nGUIDE = ROOT / \"GUIDE.md\"\nHEADINGS = [\"## Modules\", \"## How a ticket flows\", \"## Running it\", \"## Gaps and risks\"]\n\n\ndef functions():\n    \"\"\"Every top-level function in the package, as {name: module}, with duplicates kept as a set of modules.\"\"\"\n    found = {}\n    for path in PACKAGE.glob(\"*.py\"):\n        for node in ast.parse(path.read_text()).body:\n            if isinstance(node, ast.FunctionDef):\n                found.setdefault(node.name, set()).add(path.stem)\n    return found\n\n\n@pytest.fixture(scope=\"module\")\ndef guide():\n    assert GUIDE.exists(), \"GUIDE.md is missing\"\n    return GUIDE.read_text()\n\n\ndef section(text, heading):\n    \"\"\"The text between a heading and the next of the four headings.\"\"\"\n    start = text.index(heading + \"\\n\") + len(heading)\n    later = [text.find(h + \"\\n\", start) for h in HEADINGS]\n    return text[start:min([i for i in later if i != -1] + [len(text)])]\n\n\ndef named_functions(text):\n    \"\"\"Every `name()` or `module.name()` in backticks, as (module or None, name).\"\"\"\n    return [(m.group(1), m.group(2)) for m in re.finditer(r\"`(?:([a-z_]+)\\.)?([A-Za-z_][A-Za-z0-9_]*)\\(\\)`\", text)]\n\n\ndef test_title_and_sections_in_order(guide):\n    assert guide.startswith(\"# \")\n    positions = [guide.find(h + \"\\n\") for h in HEADINGS]\n    assert -1 not in positions, f\"missing a section: {HEADINGS}\"\n    assert positions == sorted(positions)\n\n\ndef test_every_module_has_a_bullet(guide):\n    modules = section(guide, \"## Modules\")\n    for path in sorted(PACKAGE.glob(\"*.py\")):\n        assert re.search(rf\"^[-*] `{re.escape(path.name)}`\", modules, re.M), f\"no bullet for {path.name}\"\n\n\ndef test_every_public_function_is_named(guide):\n    named = {name for _, name in named_functions(guide)}\n    public = {name for name in functions() if not name.startswith(\"_\")}\n    assert public - named == set()\n\n\ndef test_no_function_is_invented(guide):\n    found = functions()\n    for module, name in named_functions(guide):\n        assert name in found, f\"{name}() is not defined in supportdesk/\"\n        if module is not None:\n            assert module in found[name], f\"{module}.{name}() is not where {name}() is defined\"\n\n\ndef test_the_flow_follows_the_code(guide):\n    flow = [name for _, name in named_functions(section(guide, \"## How a ticket flows\"))]\n    order = [\"handle\", \"triage\", \"build_request\", \"create_with_retries\", \"call_cost\"]\n    firsts = [flow.index(name) for name in order if name in flow]\n    assert len(firsts) == len(order), f\"the flow should name {order}\"\n    assert firsts == sorted(firsts), \"the flow names the functions out of order\"\n\n\ndef test_running_it_gives_a_command_and_the_key(guide):\n    running = section(guide, \"## Running it\")\n    assert \"```\" in running and \"python3 -m supportdesk.desk\" in running\n    assert \"ANTHROPIC_API_KEY\" in running\n\n\ndef test_at_least_three_gaps_each_naming_a_file(guide):\n    gaps = [line for line in section(guide, \"## Gaps and risks\").splitlines() if re.match(r\"^[-*] \", line)]\n    assert len(gaps) >= 3\n    for line in gaps:\n        assert re.search(r\"[a-z_]+\\.py\", line), f\"this gap names no file: {line}\"\n\n\ndef test_the_guide_is_short(guide):\n    assert len(guide.split()) < 900\n\n\ndef test_the_package_is_unchanged():\n    # the sizes of the files the book gave, so a guide written by editing the code fails\n    sizes = {p.name: len(p.read_bytes()) for p in PACKAGE.glob(\"*.py\")}\n    assert sizes == SIZES\n\n\nSIZES = {'__init__.py': 99, 'ask.py': 3717, 'desk.py': 1209, 'retry.py': 2134, 'tokencost.py': 2360, 'triage.py': 994}"
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t3",
+   "input": {
+    "command": "cd ./supportdesk; for f in *.py; do echo \"=== $f\"; cat $f; done"
+   }
+  },
+  {
+   "role": "system",
+   "denied": "Bash",
+   "id": "t3"
+  },
+  {
+   "role": "tool",
+   "id": "t3",
+   "is_error": true,
+   "result": "Permission to use Bash has been denied because Claude Code is running in don't ask mode. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed."
+  },
+  {
+   "role": "assistant",
+   "text": "Bash was denied for that one; I'll use Read, which is the normal tool for viewing files."
+  },
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t4",
+   "input": {
+    "file_path": "./supportdesk/desk.py"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t4",
+   "is_error": false,
+   "result": "1\t\"\"\"Answers one support ticket: sorts it into a category, drafts a reply and reports what the reply cost.\n2\t\n3\t    python3 -m supportdesk.desk \"My order arrived with a cracked screen.\"\n4\t\n5\tReads the key from the ANTHROPIC_API_KEY environment variable.\n6\t\"\"\"\n7\timport sys\n8\t\n9\tfrom . import ask, retry, tokencost, triage\n10\t\n11\tSYSTEM = \"You are a support assistant for an online electronics store. Reply in two or three sentences.\"\n12\t\n13\t\n14\tdef handle(client, ticket):\n15\t    \"\"\"Triage the ticket, draft a reply with retries, and price the reply.\"\"\"\n16\t    category = triage.triage(client, ticket)\n17\t    request = ask.build_request(f\"Draft a reply to this {category} ticket:\\n\\n{ticket}\", system=SYSTEM)\n18\t    message = retry.create_with_retries(client, request)\n19\t    cost = tokencost.call_cost(message.usage, request[\"model\"])\n20\t    return {\"category\": category, \"reply\": ask.answer_text(message), \"cost\": cost}\n21\t\n22\t\n23\tdef main(argv=None):\n24\t    import anthropic\n25\t    ticket = \" \".join(sys.argv[1:] if argv is None else argv) or sys.stdin.read()\n26\t    result = handle(anthropic.Anthropic(), ticket)\n27\t    print(f\"[{result['category']}] {result['reply']}\\n(reply cost {result['cost']:.6f} dollars)\")\n28\t    return 0\n29\t\n30\t\n31\tif __name__ == \"__main__\":\n32\t    sys.exit(main())\n33\t"
+  },
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t5",
+   "input": {
+    "file_path": "./supportdesk/ask.py"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t5",
+   "is_error": false,
+   "result": "1\timport argparse\n2\timport sys\n3\t\n4\tDEFAULT_MODEL = \"claude-sonnet-5-5\"\n5\tDEFAULT_MAX_TOKENS = 1024\n6\t\n7\t\n8\tdef build_request(prompt, history=None, system=None, model=DEFAULT_MODEL,\n9\t                  max_tokens=DEFAULT_MAX_TOKENS):\n10\t    if not isinstance(prompt, str) or not prompt.strip():\n11\t        raise ValueError(\"prompt is empty\")\n12\t    if max_tokens < 1:\n13\t        raise ValueError(\"max_tokens must be at least 1\")\n14\t    history = list(history) if history else []\n15\t    for i, m in enumerate(history):\n16\t        expected = \"user\" if i % 2 == 0 else \"assistant\"\n17\t        role = m.get(\"role\") if isinstance(m, dict) else None\n18\t        if role != expected:\n19\t            raise ValueError(\"invalid history\")\n20\t    if history and history[-1][\"role\"] != \"assistant\":\n21\t        raise ValueError(\"history must end with an assistant message\")\n22\t    request = {\"model\": model, \"max_tokens\": max_tokens,\n23\t               \"messages\": history + [{\"role\": \"user\", \"content\": prompt}]}\n24\t    if system:\n25\t        request[\"system\"] = system\n26\t    return request\n27\t\n28\t\n29\tdef answer_text(message):\n30\t    return \"\".join(b.text for b in message.content if getattr(b, \"type\", None) == \"text\")\n31\t\n32\t\n33\tdef format_usage(usage):\n34\t    s = f\"{usage.input_tokens} tokens in, {usage.output_tokens} out\"\n35\t    details = getattr(usage, \"output_tokens_details\", None)\n36\t    thinking = getattr(details, \"thinking_tokens\", None) if details is not None else None\n37\t    if thinking and thinking > 0:\n38\t        s += f\", {thinking} of them thinking\"\n39\t    return s\n40\t\n41\t\n42\tdef chat(client, lines, out, system=None, model=DEFAULT_MODEL,\n43\t         max_tokens=DEFAULT_MAX_TOKENS, show_usage=False, history=None):\n44\t    history = list(history) if history else []\n45\t    for line in lines:\n46\t        line = line.strip()\n47\t        if not line:\n48\t            continue\n49\t        if line == \"/quit\":\n50\t            break\n51\t        request = build_request(line, history=history, system=system, model=model,\n52\t                                max_tokens=max_tokens)\n53\t        message = client.messages.create(**request)\n54\t        out.write(answer_text(message) + \"\\n\")\n55\t        if show_usage:\n56\t            out.write(f\"[{format_usage(message.usage)}]\\n\")\n57\t        out.write(\"\\n\")\n58\t        history = history + [{\"role\": \"user\", \"content\": line},\n59\t                             {\"role\": \"assistant\", \"content\": message.content}]\n60\t    return history\n61\t\n62\t\n63\tdef main(argv=None, client=None, stdin=None, out=None):\n64\t    parser = argparse.ArgumentParser(prog=\"ask.py\")\n65\t    parser.add_argument(\"prompt\", nargs=\"?\")\n66\t    parser.add_argument(\"--system\")\n67\t    parser.add_argument(\"--model\", default=DEFAULT_MODEL)\n68\t    parser.add_argument(\"--max-tokens\", type=int, default=DEFAULT_MAX_TOKENS)\n69\t    parser.add_argument(\"--usage\", action=\"store_true\")\n70\t    parser.add_argument(\"--chat\", action=\"store_true\")\n71\t    args = parser.parse_args(argv)\n72\t    stdin = sys.stdin if stdin is None else stdin\n73\t    out = sys.stdout if out is None else out\n74\t    if client is None:\n75\t        import anthropic\n76\t        client = anthropic.Anthropic()\n77\t\n78\t    if args.chat:\n79\t        lines = stdin\n80\t        if args.prompt:\n81\t            lines = [args.prompt] + list(stdin)\n82\t        chat(client, lines, out, system=args.system, model=args.model,\n83\t             max_tokens=args.max_tokens, show_usage=args.usage)\n84\t        return 0\n85\t\n86\t    question = args.prompt if args.prompt else stdin.read()\n87\t    if not question or not question.strip():\n88\t        print(\"ask.py: no question given\", file=sys.stderr)\n89\t        return 2\n90\t    message = client.messages.create(**build_request(\n91\t        question, system=args.system, model=args.model, max_tokens=args.max_tokens))\n92\t    out.write(answer_text(message) + \"\\n\")\n93\t    if args.usage:\n94\t        out.write(f\"[{format_usage(message.usage)}]\\n\")\n95\t    return 0\n96\t\n97\t\n98\tif __name__ == \"__main__\":\n99\t    sys.exit(main())\n100\t"
+  },
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t6",
+   "input": {
+    "file_path": "./supportdesk/retry.py"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t6",
+   "is_error": false,
+   "result": "1\timport math\n2\timport random\n3\timport time\n4\t\n5\timport anthropic\n6\t\n7\t\n8\tdef _spend_cap_reached(error):\n9\t    body = getattr(error, \"body\", None)\n10\t    if not isinstance(body, dict):\n11\t        return False\n12\t    inner = body.get(\"error\")\n13\t    if not isinstance(inner, dict):\n14\t        return False\n15\t    details = inner.get(\"details\")\n16\t    return isinstance(details, dict) and details.get(\"error_code\") == \"enforced_spend_limit_reached\"\n17\t\n18\t\n19\tdef is_retryable(error):\n20\t    if isinstance(error, anthropic.APIConnectionError):\n21\t        return True\n22\t    if isinstance(error, anthropic.APIStatusError):\n23\t        status = error.status_code\n24\t        if status == 429 and _spend_cap_reached(error):\n25\t            return False\n26\t        return status in (408, 409, 429) or status >= 500\n27\t    return False\n28\t\n29\t\n30\tdef retry_after(error):\n31\t    response = getattr(error, \"response\", None)\n32\t    if response is None:\n33\t        return None\n34\t    value = response.headers.get(\"retry-after\")\n35\t    if value is None:\n36\t        return None\n37\t    try:\n38\t        seconds = float(value)\n39\t    except (TypeError, ValueError):\n40\t        return None\n41\t    if not math.isfinite(seconds) or seconds < 0:\n42\t        return None\n43\t    return seconds\n44\t\n45\t\n46\tdef backoff_delay(attempt, base=1.0, cap=30.0, rng=random.random):\n47\t    return rng() * min(cap, base * 2 ** attempt)\n48\t\n49\t\n50\tdef call_with_retries(fn, max_attempts=4, base=1.0, cap=30.0, sleep=time.sleep,\n51\t                      rng=random.random, on_retry=None):\n52\t    if max_attempts < 1:\n53\t        raise ValueError(\"max_attempts must be at least 1\")\n54\t    attempt = 0\n55\t    while True:\n56\t        try:\n57\t            return fn()\n58\t        except Exception as error:\n59\t            if not is_retryable(error) or attempt + 1 >= max_attempts:\n60\t                raise\n61\t            delay = retry_after(error)\n62\t            if delay is None:\n63\t                delay = backoff_delay(attempt, base, cap, rng)\n64\t            if on_retry is not None:\n65\t                on_retry(attempt + 1, error, delay)\n66\t            sleep(delay)\n67\t            attempt += 1\n68\t\n69\t\n70\tdef create_with_retries(client, request, **options):\n71\t    c = client.with_options(max_retries=0)\n72\t    return call_with_retries(lambda: c.messages.create(**request), **options)\n73\t"
+  },
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t7",
+   "input": {
+    "file_path": "./supportdesk/tokencost.py"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t7",
+   "is_error": false,
+   "result": "1\tPRICES_AS_OF = \"2026-11\"\n2\t\n3\tPRICES = {\n4\t    \"claude-haiku-5-5\": {\"input\": 0.10, \"cache_write\": 0.125, \"cache_read\": 0.01, \"output\": 0.50},\n5\t    \"claude-sonnet-5-5\": {\"input\": 2.00, \"cache_write\": 2.50, \"cache_read\": 0.10, \"output\": 10.00},\n6\t    \"claude-opus-5-5\": {\"input\": 4.00, \"cache_write\": 5.00, \"cache_read\": 0.20, \"output\": 20.00},\n7\t}\n8\t\n9\tLONG_PROMPT_PRICES = {\n10\t    \"claude-haiku-5-5\": (\n11\t        100_000,\n12\t        {\"input\": 0.50, \"cache_write\": 0.625, \"cache_read\": 0.05, \"output\": 2.50},\n13\t    ),\n14\t}\n15\t\n16\t_FIELDS = (\"input_tokens\", \"output_tokens\", \"cache_read_input_tokens\", \"cache_creation_input_tokens\")\n17\t\n18\t\n19\tdef _counts(usage):\n20\t    out = {}\n21\t    for f in _FIELDS:\n22\t        if isinstance(usage, dict) or hasattr(usage, \"get\") and not hasattr(usage, f):\n23\t            v = usage.get(f)\n24\t        else:\n25\t            v = getattr(usage, f, None)\n26\t        v = 0 if v is None else v\n27\t        if v < 0:\n28\t            raise ValueError(f\"{f} must not be negative\")\n29\t        out[f] = v\n30\t    return out\n31\t\n32\t\n33\tdef prompt_tokens(usage):\n34\t    c = _counts(usage)\n35\t    return c[\"input_tokens\"] + c[\"cache_read_input_tokens\"] + c[\"cache_creation_input_tokens\"]\n36\t\n37\t\n38\tdef call_cost(usage, model):\n39\t    if model not in PRICES:\n40\t        raise ValueError(f\"unknown model: {model}\")\n41\t    c = _counts(usage)\n42\t    rates = PRICES[model]\n43\t    if model in LONG_PROMPT_PRICES:\n44\t        threshold, long_rates = LONG_PROMPT_PRICES[model]\n45\t        if prompt_tokens(usage) > threshold:\n46\t            rates = long_rates\n47\t    total = (\n48\t        c[\"input_tokens\"] * rates[\"input\"]\n49\t        + c[\"cache_creation_input_tokens\"] * rates[\"cache_write\"]\n50\t        + c[\"cache_read_input_tokens\"] * rates[\"cache_read\"]\n51\t        + c[\"output_tokens\"] * rates[\"output\"]\n52\t    )\n53\t    return total / 1_000_000\n54\t\n55\t\n56\tdef context_check(prompt, max_tokens, window=1_000_000):\n57\t    if prompt < 0 or max_tokens < 0 or window <= 0:\n58\t        raise ValueError(\"invalid arguments\")\n59\t    if prompt > window:\n60\t        return \"too long\"\n61\t    if prompt + max_tokens <= window:\n62\t        return \"fits\"\n63\t    return \"may stop early\"\n64\t\n65\t\n66\tdef project_conversation(first_prompt, added_per_turn, output_per_turn, turns):\n67\t    if turns < 1 or first_prompt < 0 or added_per_turn < 0 or output_per_turn < 0:\n68\t        raise ValueError(\"invalid arguments\")\n69\t    return [\n70\t        {\"input_tokens\": first_prompt + k * added_per_turn, \"output_tokens\": output_per_turn}\n71\t        for k in range(turns)\n72\t    ]\n73\t"
+  },
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t8",
+   "input": {
+    "file_path": "./supportdesk/triage.py"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t8",
+   "is_error": false,
+   "result": "1\timport string\n2\t\n3\tCATEGORIES = (\"billing\", \"login\", \"shipping\", \"other\")\n4\tMODEL = \"claude-sonnet-5-5\"\n5\tSYSTEM_PROMPT = (\n6\t    \"You sort customer support tickets for an online store. \"\n7\t    \"Reply with exactly one word from this list: billing, login, shipping, other.\"\n8\t)\n9\t\n10\t\n11\tdef answer_text(reply):\n12\t    return \"\".join(\n13\t        getattr(b, \"text\", \"\") for b in reply.content if b.type == \"text\"\n14\t    )\n15\t\n16\t\n17\tdef parse_category(text):\n18\t    t = text.strip().lower()\n19\t    return t if t in CATEGORIES else \"unrecognized\"\n20\t\n21\t\n22\tdef normalize_label(raw):\n23\t    t = raw.lower().strip(string.whitespace + string.punctuation)\n24\t    return t if t in CATEGORIES else \"other\"\n25\t\n26\t\n27\tdef triage(client, ticket, model=MODEL):\n28\t    if not ticket or not ticket.strip():\n29\t        raise ValueError(\"ticket must not be empty\")\n30\t    reply = client.messages.create(\n31\t        model=model,\n32\t        max_tokens=1024,\n33\t        system=SYSTEM_PROMPT,\n34\t        messages=[{\"role\": \"user\", \"content\": ticket}],\n35\t    )\n36\t    return parse_category(answer_text(reply))\n37\t"
+  },
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t9",
+   "input": {
+    "file_path": "./supportdesk/__init__.py"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t9",
+   "is_error": false,
+   "result": "1\t\"\"\"A small support desk built from the modules Claude Code generated in Chapters 1, 3, 4 and 5.\"\"\"\n2\t"
+  },
+  {
+   "role": "assistant",
+   "tool": "Edit",
+   "id": "t10",
+   "input": {
+    "replace_all": false,
+    "file_path": "./GUIDE.md",
+    "old_string": "",
+    "new_string": "# supportdesk guide\n\n`supportdesk/` answers a support ticket in three steps: it sorts the ticket into a category, drafts a reply, and prices that reply.\n\n## Modules\n\n- `__init__.py` holds only a docstring; the package has no import-time code.\n- `desk.py` is the entry point. `handle()` runs one ticket end to end and `main()` is the command line wrapper. It also holds the `SYSTEM` prompt for replies.\n- `triage.py` sorts a ticket into one of `CATEGORIES` (billing, login, shipping, other). It defines `triage.triage()`, `triage.parse_category()`, `triage.normalize_label()` and its own `triage.answer_text()`.\n- `ask.py` builds and sends plain requests. `ask.build_request()` validates the prompt, history and token limit and returns the request dict. `ask.answer_text()` joins the text blocks of a message, `ask.format_usage()` renders token counts, `ask.chat()` runs a multi-turn loop, and `ask.main()` is its own command line.\n- `retry.py` wraps calls in retries. `retry.is_retryable()` decides whether an error is worth retrying, `retry.retry_after()` reads the `retry-after` header, `retry.backoff_delay()` computes a jittered exponential wait, `retry.call_with_retries()` is the loop, and `retry.create_with_retries()` applies it to `messages.create`.\n- `tokencost.py` prices usage from the `PRICES` table. `tokencost.call_cost()` returns dollars, `tokencost.prompt_tokens()` totals the input side, `tokencost.context_check()` compares a prompt with the context window, and `tokencost.project_conversation()` lists usage for a growing conversation.\n\n## How a ticket flows\n\n1. `desk.handle()` receives the client and the ticket text.\n2. It calls `triage.triage()`, which rejects an empty ticket, sends one `messages.create` request with the triage system prompt, and turns the reply into a category through `triage.answer_text()` and `triage.parse_category()`. The category is one of the four labels, or `unrecognized`.\n3. `ask.build_request()` builds the drafting request from a prompt containing the category and ticket, with the `SYSTEM` prompt and the default model.\n4. `retry.create_with_retries()` sends it using a client with the SDK's own retries turned off, and passes the call to `retry.call_with_retries()`, which retries errors that `retry.is_retryable()` accepts.\n5. `tokencost.call_cost()` prices the message's usage for the request's model.\n6. `ask.answer_text()` extracts the reply text, and `desk.handle()` returns a dict with `category`, `reply` and `cost`.\n\n## Running it\n\n```\nexport ANTHROPIC_API_KEY=your-key\npython3 -m supportdesk.desk \"My order arrived with a cracked screen.\"\n```\n\nThe `anthropic` client reads the key from the `ANTHROPIC_API_KEY` environment variable. If no ticket is given as an argument, `desk.main()` reads it from standard input. It prints the category, the reply and the cost in dollars.\n\n## Gaps and risks\n\n- `triage.py`: `triage.normalize_label()` is never called, and it maps unknown labels to `other` while `triage.parse_category()` returns `unrecognized`. The two disagree, and `desk.py` puts `unrecognized` into the drafting prompt.\n- `desk.py`: the triage call is not retried; only the drafting call goes through `retry.py`, so a transient error during triage fails the ticket.\n- `desk.py`: `desk.main()` has no handling for an empty ticket or API errors, and the ticket text is placed directly into the prompt.\n- `ask.py`: `ask.answer_text()` duplicates `triage.answer_text()` with slightly different behaviour, and the model name is repeated in `ask.py` and `triage.py`.\n- `tokencost.py`: prices are hard-coded (`PRICES_AS_OF` is 2026-11) and only some models have long-prompt rates; `tokencost.call_cost()` raises for any model not in the table.\n- `retry.py`: the retry loop sleeps in-process with no overall time limit beyond the attempt count.\n"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t10",
+   "is_error": false,
+   "result": "The file ./GUIDE.md has been updated successfully. (file state is current in your context — no need to Read it back)"
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t11",
+   "input": {
+    "command": "cd .; python3 -m pytest -q tests 2>&1 | tail -15"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t11",
+   "is_error": false,
+   "result": ".........                                                                [100%]\n9 passed in 0.02s"
+  },
+  {
+   "role": "assistant",
+   "text": "I wrote `GUIDE.md`, and all 9 tests in `tests/` pass. I changed no other file.\n\nMy first attempt to read the package with a single `cat` command was denied, so I read each source file with the Read tool instead.\n\nThe guide has the title and the four required sections: Modules, How a ticket flows, Running it, and Gaps and risks.\n\nThe gaps section lists six items, each naming a file:\n- `triage.py`: `triage.normalize_label()` is never called, and it disagrees with `triage.parse_category()` about unknown labels (`other` versus `unrecognized`).\n- `desk.py`: the triage call is not retried, only the drafting call.\n- `desk.py`: `desk.main()` does not handle an empty ticket or API errors.\n- `ask.py`: `ask.answer_text()` duplicates `triage.answer_text()` with slightly different behaviour.\n- `tokencost.py`: prices are hard-coded, and `tokencost.call_cost()` raises for any model not in the table.\n- `retry.py`: the retry loop has no time limit beyond the attempt count."
+  }
+ ]
+}

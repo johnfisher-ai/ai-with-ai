@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 6 · How coding assistants work · Building AI with AI</title>
+  <meta name="description" content="A coding assistant as a language model in a loop with tools: a loop built by hand, what an assistant can and can't see, Claude Code's tools and permissions, and six builds read from their transcripts, with a repository guide Claude Code wrote.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/how-coding-assistants-work.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="How coding assistants work · Chapter 6">
+  <meta property="og:description" content="A model in a loop with tools, what it can and can't see, and Claude Code's tools and permissions, read from real transcripts.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/how-coding-assistants-work.html">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How coding assistants work · Chapter 6">
+  <meta name="twitter:description" content="A model in a loop with tools, what it can and can't see, and Claude Code's tools and permissions, read from real transcripts.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/book.css">
+  <link rel="stylesheet" href="../assets/css/chapter.css">
+  <link rel="stylesheet" href="../assets/css/challenges.css">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <script src="../assets/js/theme.js"></script>
+  <style>
+    .disp-table { width:100%; border-collapse:collapse; margin:0; font-size:0.84rem;
+                  border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .disp-table th,.disp-table td { padding:0.55rem 0.75rem; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+    .disp-table th { background:var(--panel-2); color:var(--ink); font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; }
+    .disp-table td { color:var(--ink-soft); } .disp-table tr:last-child td { border-bottom:none; }
+    .codebox { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--panel-2); margin:1rem 0; }
+    .codebox .cbh { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:0.4rem 0.85rem; color:#fff; background:#6d28d9; }
+    .codebox pre { margin:0; padding:0.85rem; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; line-height:1.55; overflow-x:auto; color:var(--ink); white-space:pre; }
+    .nb-fig { margin:1.4rem 0; border:1px solid var(--line); border-radius:14px; padding:0.8rem; background:var(--p-bg-ffffff, #ffffff); }
+    .nb-fig img { display:block; width:100%; height:auto; }
+    .nb-fig figcaption { font-size:0.8rem; color:var(--p-fg-4a5578, #4a5578); margin-top:0.5rem; }
+    .build-steps { margin:0.6rem 0 1rem 1.2rem; } .build-steps li { margin:0.25rem 0; }
+    .codebox.wrap pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+    .fig-narrow { max-width:520px; margin-left:auto !important; margin-right:auto !important; }
+    @media (max-width: 480px) { .fig-narrow { padding:0.8rem 0.5rem !important; } }
+  </style>
+</head>
+<body class="chapter">
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../toc.html">Contents</a>
+    <a href="notebooks/html/how-coding-assistants-work.html" class="btn btn-primary" style="padding:0.4rem 1rem;font-size:0.8rem">🐍 Notebook</a>
+  </div>
+</nav>
+<div class="read-progress" id="readProgress"></div>
+
+<header class="chapter-hero">
+  <div class="chapter-hero-inner">
+    <div class="crumb">
+      <a href="../toc.html">Contents</a><span class="sep">/</span>
+      <span>Part 2 · Building with Claude Code</span><span class="sep">/</span>
+      <span>Chapter 6</span>
+    </div>
+    <h1>How coding assistants <span class="accent">work</span></h1>
+    <p class="dek">A coding assistant is a language model given tools to read, edit and run code, in a loop that ends
+       when the model answers. This chapter builds that loop by hand, measures what it sees, reads the book's six Claude
+       Code builds from their transcripts, and has Claude Code explain a repository it has never seen.</p>
+    <div class="hero-meta">
+      <div class="m">⏱️ <b>~15 min</b>&nbsp;read</div>
+      <div class="m">🐍 <b>Notebook</b>&nbsp;included</div>
+      <div class="m">📊 <b>Chapter 6</b></div>
+    </div>
+  </div>
+</header>
+
+<main class="reading">
+
+  <section id="intro">
+    <p class="lead">A coding assistant is an ordinary language model whose replies can ask for
+       <span class="term">tools</span>, inside a program that runs those tools and feeds the results back. Anthropic
+       describes Claude Code's work as three phases that blend together, gathering context, taking action and verifying
+       results. What the assistant gets right depends on <span class="hl">what it has read</span>, and what it may do
+       depends on the permissions the program enforces.</p>
+
+    <div class="def-card">
+      <div class="sigma">AI</div>
+      <div class="def-body">
+        <span class="def-kw">A tool</span> is a function the program offers the model, described by a name, a sentence
+        and a JSON schema for its input. The model asks for it in a <code>tool_use</code> block, and the program runs it
+        and returns a <code>tool_result</code>. The model never runs anything itself.
+      </div>
+    </div>
+
+    <div class="callout key">
+      <div class="cico">🤖</div>
+      <div><div class="ctitle">The chapter in one line</div>
+        <p>An assistant knows what its tools have put in its context and nothing else, so read its transcript before trusting its summary.</p></div>
+    </div>
+  </section>
+
+  <section id="loop">
+    <div class="section-eyebrow"><div class="num">1</div><h2>A model, a loop and two tools</h2></div>
+    <p>The notebook builds the loop in a few dozen lines. It gives Claude Sonnet 5.5 two tools over the chapter's
+       <code>supportdesk</code> package, <code>list_files</code> and <code>read_file</code>, which can reach that
+       package's six files and nothing else, and asks what happens when the API answers with a 429 while the package is
+       drafting a reply.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 420" width="100%" font-family="Inter, sans-serif" role="img" aria-label="A loop between the model and the program around it. The program sends the conversation and the tool definitions to the model. The model replies with a tool_use block, or with its answer. For a tool_use block the program runs the tool and sends the result back as a tool_result, and the loop repeats. An answer with stop_reason end_turn ends the loop."><defs><marker id="a6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4a5578"/></marker></defs><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">A coding assistant</text><text x="240" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">is a model in a loop</text><rect x="6" y="70" width="180" height="120" rx="12" fill="#fff1ec" stroke="#ffc9b8"/><text x="96.0" y="102" text-anchor="middle" font-size="18" font-weight="800" fill="#9a3412">The model</text><text x="96.0" y="128" text-anchor="middle" font-size="15" fill="#4a5578">reads its context,</text><text x="96.0" y="149" text-anchor="middle" font-size="15" fill="#4a5578">asks for a tool</text><rect x="294" y="70" width="180" height="120" rx="12" fill="#eef2ff" stroke="#c7d2fe"/><text x="384.0" y="102" text-anchor="middle" font-size="18" font-weight="800" fill="#3730a3">The program</text><text x="384.0" y="128" text-anchor="middle" font-size="15" fill="#4a5578">runs the tool, if</text><text x="384.0" y="149" text-anchor="middle" font-size="15" fill="#4a5578">permissions allow</text><line x1="188" y1="112" x2="291" y2="112" stroke="#4a5578" stroke-width="2.4" marker-end="url(#a6)"/><text x="240" y="104" text-anchor="middle" font-size="13" fill="#1a2138">tool_use</text><line x1="292" y1="152" x2="189" y2="152" stroke="#4a5578" stroke-width="2.4" marker-end="url(#a6)"/><text x="240" y="172" text-anchor="middle" font-size="13" fill="#1a2138">tool_result</text><line x1="96" y1="192" x2="96" y2="250" stroke="#4a5578" stroke-width="2.4" marker-end="url(#a6)"/><rect x="6" y="254" width="180" height="92" rx="12" fill="#ecfdf5" stroke="#a7f3d0"/><text x="96.0" y="286" text-anchor="middle" font-size="18" font-weight="800" fill="#047857">The answer</text><text x="96.0" y="312" text-anchor="middle" font-size="15" fill="#4a5578">stop_reason end_turn</text><rect x="294" y="254" width="180" height="92" rx="12" fill="#f8fafc" stroke="#cbd5e1"/><text x="384.0" y="286" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">The tools</text><text x="384.0" y="312" text-anchor="middle" font-size="15" fill="#4a5578">read, edit, run,</text><text x="384.0" y="333" text-anchor="middle" font-size="15" fill="#4a5578">search</text><line x1="384" y1="192" x2="384" y2="250" stroke="#4a5578" stroke-width="2.4" marker-end="url(#a6)"/><text x="240" y="384" text-anchor="middle" font-size="15" fill="#4a5578">Each result joins the context,</text><text x="240" y="406" text-anchor="middle" font-size="15" fill="#4a5578">so every later turn reads it again.</text></svg>
+    </figure>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="The three requests of the hand-built loop">
+      <table class="disp-table">
+        <thead><tr><th>Request</th><th>stop_reason</th><th>Tools asked for</th><th>Input tokens</th><th>Output tokens</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code>tool_use</code></td><td>list_files</td><td>528</td><td>26</td></tr>
+          <tr><td>2</td><td><code>tool_use</code></td><td>read_file desk.py, retry.py, ask.py</td><td>591</td><td>144</td></tr>
+          <tr><td>3</td><td><code>end_turn</code></td><td>none, the answer</td><td>3,422</td><td>507</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The model listed the files, then asked for three of them in one reply, and answered on the third request. Its
+       input jumped from 591 to 3,422 tokens, because the three files it read travel with every later turn. The answer
+       traced the retry path through <code>retry.create_with_retries</code>, <code>is_retryable</code> and
+       <code>retry_after</code> to the exception that escapes <code>desk.main</code>. Part 7 builds tools and agents
+       properly, and this loop is the whole mechanism behind them.</p>
+  </section>
+
+  <section id="sees">
+    <div class="section-eyebrow"><div class="num">2</div><h2>An assistant sees only what it reads</h2></div>
+    <p>The model read <code>desk.py</code>, <code>retry.py</code> and <code>ask.py</code>, and never opened
+       <code>__init__.py</code>, <code>tokencost.py</code> or <code>triage.py</code>. Its answer said so itself:</p>
+    <div class="codebox wrap"><div class="cbh">from the recorded answer</div><pre tabindex="0">I only read the reply-drafting path. The earlier `triage.triage` call in `handle` is a separate request, and I didn&#x27;t open `triage.py`, so I can&#x27;t say whether it has the same retry protection.</pre></div>
+    <p>That limit was stated, which is the better case. An assistant's picture of a repository is the files and command
+       output it has pulled into its context, and a confident summary can rest on a partial reading.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 380" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Inside the context: the system prompt and CLAUDE.md, your request, files it has read, command output and its own earlier turns. Outside, unless a tool brings them in: files it never opened, your running app, your browser, earlier sessions, and the web without a web tool."><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">An assistant knows</text><text x="240" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">what its context holds</text><rect x="6" y="66" width="226" height="296" rx="12" fill="#ecfdf5" stroke="#6ee7b7"/><text x="119" y="96" text-anchor="middle" font-size="17" font-weight="800" fill="#047857">In the context</text><rect x="248" y="66" width="226" height="296" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="6 4"/><text x="361" y="96" text-anchor="middle" font-size="17" font-weight="800" fill="#4a5578">Outside it</text><text x="119" y="136" text-anchor="middle" font-size="15" fill="#1a2138">System prompt, CLAUDE.md</text><text x="361" y="136" text-anchor="middle" font-size="15" fill="#4a5578">Files it never opened</text><text x="119" y="184" text-anchor="middle" font-size="15" fill="#1a2138">Your request</text><text x="361" y="184" text-anchor="middle" font-size="15" fill="#4a5578">Your running app</text><text x="119" y="232" text-anchor="middle" font-size="15" fill="#1a2138">Files it has read</text><text x="361" y="232" text-anchor="middle" font-size="15" fill="#4a5578">Your browser</text><text x="119" y="280" text-anchor="middle" font-size="15" fill="#1a2138">Command output</text><text x="361" y="280" text-anchor="middle" font-size="15" fill="#4a5578">Earlier sessions</text><text x="119" y="328" text-anchor="middle" font-size="15" fill="#1a2138">Its own earlier turns</text><text x="361" y="328" text-anchor="middle" font-size="15" fill="#4a5578">The web, without a tool</text></svg>
+    </figure>
+    <p>Claude Code works the same way at a larger scale. As of November 2026 its documentation says a session can reach
+       the files in the folder it starts in and below, with permission for files elsewhere, the terminal and the git
+       state. At the start it loads <code>CLAUDE.md</code> from that folder and every folder above it, and a new session
+       starts with a fresh context window and none of the previous session's conversation. When the window fills, Claude
+       Code compacts the conversation into a summary, and detailed instructions from early on can be lost.</p>
+  </section>
+
+  <section id="tools">
+    <div class="section-eyebrow"><div class="num">3</div><h2>Claude Code's tools and permissions</h2></div>
+    <p>Claude Code offers the model many more tools than the notebook's two. As of November 2026 its tools reference
+       lists, among others:</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Some of Claude Code's built-in tools">
+      <table class="disp-table">
+        <thead><tr><th>Tool</th><th>What it does</th><th>Needs permission</th></tr></thead>
+        <tbody>
+          <tr><td><code>Read</code></td><td>Reads the contents of files</td><td>No</td></tr>
+          <tr><td><code>Glob</code>, <code>Grep</code></td><td>Find files by pattern, search file contents</td><td>No</td></tr>
+          <tr><td><code>Edit</code></td><td>Makes targeted edits to specific files</td><td>Yes</td></tr>
+          <tr><td><code>Write</code></td><td>Creates or overwrites files</td><td>Yes</td></tr>
+          <tr><td><code>Bash</code></td><td>Executes shell commands, with a built-in set of read-only commands allowed without asking</td><td>Yes</td></tr>
+          <tr><td><code>WebFetch</code>, <code>WebSearch</code></td><td>Fetch a URL, search the web</td><td>Yes</td></tr>
+          <tr><td><code>Agent</code></td><td>Spawns a subagent with its own context window</td><td>No</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>A permission mode decides what runs without asking. The documentation lists <code>default</code>, which allows
+       reads only, <code>acceptEdits</code>, <code>plan</code>, <code>auto</code>, <code>dontAsk</code>, which allows
+       reads and pre-approved tools and denies everything else, and <code>bypassPermissions</code>, meant only for
+       isolated containers. The book's builds run headless with <code>--bare</code>, which offers only the shell, file
+       read and file edit tools and skips <code>CLAUDE.md</code>, in <code>dontAsk</code> mode with a short list of
+       allowed commands. This chapter's build shows the boundary at work. Claude Code's first shell command was allowed,
+       and its second, a loop over every file, was refused, so it read the files one by one with Read.</p>
+  </section>
+
+  <section id="builds">
+    <div class="section-eyebrow"><div class="num">4</div><h2>Six builds, read from their transcripts</h2></div>
+    <p>Every build in the book keeps a transcript of its steps, so the loop can be measured across all of them.</p>
+    <figure class="nb-fig">
+      <img src="../assets/img/how-coding-assistants-work-builds.png" width="1200" height="540" loading="lazy"
+           alt="Stacked bars of tool calls per build. Chapters 1 to 3 made 4 calls each, Chapters 4 and 5 made 5, and Chapter 6 made 11, 7 of them Read. The costs above the bars are 0.014, 0.020, 0.029, 0.036, 0.032 and 0.065 dollars.">
+      <figcaption>From the notebook. Tool calls in each build by tool, with each build's cost in dollars.</figcaption>
+    </figure>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="The six builds">
+      <table class="disp-table">
+        <thead><tr><th>Chapter</th><th>Tool calls</th><th>Refused</th><th>Turns</th><th>Output tokens</th><th>Dollars</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>4</td><td>0</td><td>5</td><td>777</td><td>0.0140</td></tr>
+          <tr><td>2</td><td>4</td><td>0</td><td>5</td><td>1,049</td><td>0.0205</td></tr>
+          <tr><td>3</td><td>4</td><td>0</td><td>5</td><td>1,501</td><td>0.0285</td></tr>
+          <tr><td>4</td><td>5</td><td>0</td><td>6</td><td>1,843</td><td>0.0357</td></tr>
+          <tr><td>5</td><td>5</td><td>0</td><td>6</td><td>1,337</td><td>0.0323</td></tr>
+          <tr><td>6</td><td>11</td><td>1</td><td>12</td><td>3,176</td><td>0.0648</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The first five builds wrote a module from a spec and tests in 4 or 5 tool calls, read the spec, run or read the
+       tests, write with Edit, run the tests. Chapter 6's build explained a package, and took 11, seven of them Read. It
+       also wrote the most, 3,176 output tokens, and cost the most, 0.0648 dollars, because explaining code means reading
+       all of it and every file read is carried through the turns that follow.</p>
+  </section>
+
+  <section id="goes-wrong">
+    <div class="section-eyebrow"><div class="num">5</div><h2>Where working with a coding assistant goes wrong</h2></div>
+    <ul>
+      <li><strong>A partial reading</strong> produces a summary that sounds as sure as one from a full reading. The notebook's
+          model answered after reading half the package, and only its own caveat showed it.</li>
+      <li><strong>Small factual slips</strong> hide in correct answers. The answer said backoff &#8220;starts at about 1
+          second&#8221;, and the first wait is a random fraction of a second.</li>
+      <li><strong>Context that grows unnoticed</strong> costs on every turn. One request that read three files raised
+          the input nearly sixfold for the request after it.</li>
+      <li><strong>Broad permissions</strong> let a session do more than the task needs. The builds allow one or three
+          commands, and a refused command shows up in the transcript.</li>
+      <li><strong>A transcript left unread</strong> hides how the work was done. Only the transcripts show that two of
+          the six builds wrote their file before running the tests.</li>
+    </ul>
+  </section>
+
+  <section id="build">
+    <div class="section-eyebrow"><div class="num">6</div><h2>Build it with Claude Code</h2></div>
+    <p>This chapter's build generates no code. The book gave Claude Code the <code>supportdesk</code> package, the
+       modules generated in Chapters 1, 3, 4 and 5 plus a <code>desk.py</code> the book wrote to join them, and asked
+       for a guide for a new engineer. The spec says what the guide must contain.</p>
+    <div class="codebox wrap"><div class="cbh">spec.md</div><pre tabindex="0"># GUIDE.md
+
+`supportdesk/` is a small Python package that answers support tickets. Read it and write `GUIDE.md` at the top of this folder, a guide for an engineer who joins the project tomorrow and has to change it. Change no other file.
+
+## What the guide covers
+
+The guide starts with a `# ` title line, then has these four sections, with these headings, in this order.
+
+- `## Modules` describes every Python file in `supportdesk/`, one bullet per file, starting with the file name in backticks, such as `` `desk.py` ``.
+- `## How a ticket flows` follows one ticket through the code, from the call that starts the work to the value it returns, naming each function in the order the code calls it.
+- `## Running it` says how to run the package from a shell, with the command in a fenced code block, and which environment variable it reads the key from.
+- `## Gaps and risks` lists, as bullets, at least three things a careful reviewer would want fixed or checked, each pointing to the file it concerns.
+
+## How to name code
+
+Write every function&#x27;s name in backticks with empty parentheses, such as `` `handle()` ``, and name only functions that exist in `supportdesk/`. Name a function in a module other than the one it is defined in as `module.function()`, such as `` `triage.triage()` ``, whenever the bare name would be ambiguous.
+
+Describe what the code does, and keep opinions to the gaps section. Keep the whole guide under 900 words.</pre></div>
+    <p>A guide is prose, so the spec makes every part of it checkable. Fixed headings let a test find each section. One
+       bullet per file, in backticks, lets a test confirm that no module was skipped. The naming rule, backticks and
+       empty parentheses with the module where a name is ambiguous, turns every function the guide mentions into a
+       claim a test can check against the code. The gaps section must name a file in each bullet, so each claim points
+       somewhere a reviewer can look, and the word limit keeps the guide readable in one sitting.</p>
+    <div class="codebox"><div class="cbh">tests/test_guide.py, three of its tests</div><pre tabindex="0">def test_no_function_is_invented(guide):
+    found = functions()
+    for module, name in named_functions(guide):
+        assert name in found, f&quot;{name}() is not defined in supportdesk/&quot;
+        if module is not None:
+            assert module in found[name], f&quot;{module}.{name}() is not where {name}() is defined&quot;
+
+
+def test_the_flow_follows_the_code(guide):
+    flow = [name for _, name in named_functions(section(guide, &quot;## How a ticket flows&quot;))]
+    order = [&quot;handle&quot;, &quot;triage&quot;, &quot;build_request&quot;, &quot;create_with_retries&quot;, &quot;call_cost&quot;]
+    firsts = [flow.index(name) for name in order if name in flow]
+    assert len(firsts) == len(order), f&quot;the flow should name {order}&quot;
+    assert firsts == sorted(firsts), &quot;the flow names the functions out of order&quot;
+
+
+def test_the_package_is_unchanged():
+    # the sizes of the files the book gave, so a guide written by editing the code fails
+    sizes = {p.name: len(p.read_bytes()) for p in PACKAGE.glob(&quot;*.py&quot;)}
+    assert sizes == SIZES</pre></div>
+    <p>The first parses the package with <code>ast</code> and fails on any function the guide names that the code doesn't
+       define, or names in the wrong module, which is the test that catches an invented function. The second checks that
+       the flow section names the five functions <code>handle()</code> calls in the order it calls them. The third
+       compares the package's file sizes with the ones the book gave, so a guide that passed by editing the code
+       fails.</p>
+    <p>The prompt differs from the earlier builds' in what it allows. It names the folder to explore, says to change only
+       <code>GUIDE.md</code>, and permits <code>ls</code> and <code>grep</code> beside the test command, which
+       <code>build.json</code> passes to Claude Code as its allowed commands.</p>
+    <div class="codebox wrap"><div class="cbh">prompt.md</div><pre tabindex="0">Read spec.md, explore the package in supportdesk/, and write GUIDE.md so that every test in tests/ passes. Create GUIDE.md with the Edit tool and change no other file. You may run python3 -m pytest -q tests to check the guide, and ls and grep to look around. Do not change the tests.</pre></div>
+    <div class="codebox wrap"><div class="cbh">build.json, allowed_commands</div><pre tabindex="0">[&quot;python3 -m pytest *&quot;, &quot;ls *&quot;, &quot;grep *&quot;]</pre></div>
+    <p>The book ran it with Claude Code 2.1.322 and Claude Sonnet 5.5, headless, with
+       <code>BOOK_MODE=record python3 scripts/claude_build.py how-coding-assistants-work</code>. The transcript shows these steps:</p>
+    <ol class="build-steps">
+      <li>Claude Code read <code>spec.md</code>.</li>
+      <li>It ran <code>cd .; ls -R . | grep -v pyc | head -50; cat tests/*.py</code>, which listed the folders and printed the tests.</li>
+      <li>It tried <code>cd ./supportdesk; for f in *.py; do echo &quot;=== $f&quot;; cat $f; done</code>, and <code>dontAsk</code> mode refused it. It said it would use
+          Read instead.</li>
+      <li>It read the six files of the package one at a time, starting with <code>desk.py</code>.</li>
+      <li>It wrote <code>GUIDE.md</code> with one Edit, ran the tests, and all 9 passed.</li>
+    </ol>
+    <div class="codebox wrap"><div class="cbh">GUIDE.md, written by Claude Code</div><pre tabindex="0"># supportdesk guide
+
+`supportdesk/` answers a support ticket in three steps: it sorts the ticket into a category, drafts a reply, and prices that reply.
+
+## Modules
+
+- `__init__.py` holds only a docstring; the package has no import-time code.
+- `desk.py` is the entry point. `handle()` runs one ticket end to end and `main()` is the command line wrapper. It also holds the `SYSTEM` prompt for replies.
+- `triage.py` sorts a ticket into one of `CATEGORIES` (billing, login, shipping, other). It defines `triage.triage()`, `triage.parse_category()`, `triage.normalize_label()` and its own `triage.answer_text()`.
+- `ask.py` builds and sends plain requests. `ask.build_request()` validates the prompt, history and token limit and returns the request dict. `ask.answer_text()` joins the text blocks of a message, `ask.format_usage()` renders token counts, `ask.chat()` runs a multi-turn loop, and `ask.main()` is its own command line.
+- `retry.py` wraps calls in retries. `retry.is_retryable()` decides whether an error is worth retrying, `retry.retry_after()` reads the `retry-after` header, `retry.backoff_delay()` computes a jittered exponential wait, `retry.call_with_retries()` is the loop, and `retry.create_with_retries()` applies it to `messages.create`.
+- `tokencost.py` prices usage from the `PRICES` table. `tokencost.call_cost()` returns dollars, `tokencost.prompt_tokens()` totals the input side, `tokencost.context_check()` compares a prompt with the context window, and `tokencost.project_conversation()` lists usage for a growing conversation.
+
+## How a ticket flows
+
+1. `desk.handle()` receives the client and the ticket text.
+2. It calls `triage.triage()`, which rejects an empty ticket, sends one `messages.create` request with the triage system prompt, and turns the reply into a category through `triage.answer_text()` and `triage.parse_category()`. The category is one of the four labels, or `unrecognized`.
+3. `ask.build_request()` builds the drafting request from a prompt containing the category and ticket, with the `SYSTEM` prompt and the default model.
+4. `retry.create_with_retries()` sends it using a client with the SDK&#x27;s own retries turned off, and passes the call to `retry.call_with_retries()`, which retries errors that `retry.is_retryable()` accepts.
+5. `tokencost.call_cost()` prices the message&#x27;s usage for the request&#x27;s model.
+6. `ask.answer_text()` extracts the reply text, and `desk.handle()` returns a dict with `category`, `reply` and `cost`.
+
+## Running it
+
+```
+export ANTHROPIC_API_KEY=your-key
+python3 -m supportdesk.desk &quot;My order arrived with a cracked screen.&quot;
+```
+
+The `anthropic` client reads the key from the `ANTHROPIC_API_KEY` environment variable. If no ticket is given as an argument, `desk.main()` reads it from standard input. It prints the category, the reply and the cost in dollars.
+
+## Gaps and risks
+
+- `triage.py`: `triage.normalize_label()` is never called, and it maps unknown labels to `other` while `triage.parse_category()` returns `unrecognized`. The two disagree, and `desk.py` puts `unrecognized` into the drafting prompt.
+- `desk.py`: the triage call is not retried; only the drafting call goes through `retry.py`, so a transient error during triage fails the ticket.
+- `desk.py`: `desk.main()` has no handling for an empty ticket or API errors, and the ticket text is placed directly into the prompt.
+- `ask.py`: `ask.answer_text()` duplicates `triage.answer_text()` with slightly different behaviour, and the model name is repeated in `ask.py` and `triage.py`.
+- `tokencost.py`: prices are hard-coded (`PRICES_AS_OF` is 2026-11) and only some models have long-prompt rates; `tokencost.call_cost()` raises for any model not in the table.
+- `retry.py`: the retry loop sleeps in-process with no overall time limit beyond the attempt count.</pre></div>
+    <p>The build took 12 turns and cost 0.0648 dollars. The tests confirm the guide's
+       structure and its function names, and the notebook confirms the names again, 18 distinct functions, every one
+       defined where the guide says. The prose needed review, and the notebook ran the claims it could. The first gap is
+       real. <code>triage()</code> parses the reply with <code>parse_category()</code>, which returns
+       <code>unrecognized</code> for <code>Billing.</code>, while <code>normalize_label()</code>, which would return
+       <code>billing</code>, is never called. It sits in the module Chapter 1's build produced, because that spec asked
+       for both functions. The second, third and fourth gaps also hold, since the triage call bypasses
+       <code>retry.py</code>, <code>desk.main()</code> catches nothing, and the two <code>answer_text()</code> functions
+       differ in how they read a block. The guide also wrote the British spelling &#8220;behaviour&#8221;, which the spec
+       didn't rule out. The package, spec, tests, transcript and guide are in the repository's
+       <a href="https://github.com/johnfisher-ai/ai-with-ai/tree/main/builds/how-coding-assistants-work">builds folder</a>.</p>
+  </section>
+
+  <section id="notebook">
+    <div class="nb-cta" style="display:block">
+      <div style="display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.3rem">
+        <div class="nb-ic">🐍</div>
+        <div class="nb-body">
+          <h3>Run the notebook</h3>
+          <p>Builds an assistant's loop by hand with two tools over the support-desk package, reads the six build
+             transcripts, and checks the guide Claude Code wrote against the code.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+        <a class="btn btn-primary" href="notebooks/html/how-coding-assistants-work.html">📓 View notebook (code and outputs)</a>
+        <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+           href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/how-coding-assistants-work.ipynb"
+           target="_blank" rel="noopener">▶ Open in Colab</a>
+        <a class="btn btn-ghost" style="background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)"
+           href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/how-coding-assistants-work.ipynb"
+           target="_blank" rel="noopener">⬇ View or download on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="takeaways">
+    <div class="takeaways">
+      <h3>🎓 In brief</h3>
+      <ul>
+        <li><span class="ck">✓</span><span>A coding assistant is a model that asks for tools, in a program that runs them and returns the results until the model answers.</span></li>
+        <li><span class="ck">✓</span><span>The hand-built loop answered after reading three of six files, and said which file it had not opened.</span></li>
+        <li><span class="ck">✓</span><span>Every file read stays in the context, so one turn of reading raised the next request's input from 591 to 3,422 tokens.</span></li>
+        <li><span class="ck">✓</span><span>Claude Code's permission mode decides what runs unasked, and the book's builds allow only a few commands, so a refused loop showed up in the transcript.</span></li>
+        <li><span class="ck">✓</span><span>Claude Code's guide named only functions that exist, and its first gap reproduced when the notebook ran it.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="challenges">
+    <div class="section-eyebrow"><div class="num">7</div><h2>Practice challenges</h2></div>
+    <p>The first challenge runs the hand-built loop, and the other two read the transcripts and the package.</p>
+    <div class="challenges">
+      <div class="challenge"><div class="cnum">1</div><div class="cbody">
+        <h3>A loop on a budget</h3>
+        <p>Run the loop with a limit of two requests and a question that needs most of the package read, and see what
+           comes back.</p>
+        <div class="chint">Hint: check whether the last reply has any text before printing an answer.</div></div></div>
+      <div class="challenge"><div class="cnum">2</div><div class="cbody">
+        <h3>How each build started</h3>
+        <p>From the six transcripts, find each build's first two tool calls and whether it ran the tests before writing
+           anything.</p>
+        <div class="chint">Hint: a Bash step whose command contains pytest is a test run.</div></div></div>
+      <div class="challenge"><div class="cnum">3</div><div class="cbody">
+        <h3>Pin the gap with a test</h3>
+        <p>Write a test that calls <code>triage()</code> with a stand-in client that replies <code>Billing.</code>, and
+           expects <code>billing</code>.</p>
+        <div class="chint">Hint: the stand-in needs only a messages.create that returns an object with content.</div></div></div>
+    </div>
+    <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:0.4rem">
+      <a class="btn btn-primary" href="notebooks/html/how-coding-assistants-work--solutions.html">📓 View solutions</a>
+      <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+         href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/how-coding-assistants-work--solutions.ipynb"
+         target="_blank" rel="noopener">▶ Open solutions in Colab</a>
+    </div>
+  </section>
+
+
+  <div class="callout key" style="margin-top:2rem">
+    <div class="cico">➡️</div>
+    <div><div class="ctitle">Up next</div>
+      <p><strong>Chapter 7 · Setting up Claude Code for a project</strong> installs Claude Code, writes a project's
+         instruction file, sets its permissions and starts the book's starter project.</p></div>
+  </div>
+
+  <nav class="chapter-nav" aria-label="Previous and next chapter">
+    <a class="cn-btn prev" href="reading-a-response.html">
+      <span style="font-size:1.3rem">←</span>
+      <span><span class="cn-dir">Chapter 5 · Previous</span><br><span class="cn-title">Reading a response</span></span>
+    </a>
+    <a class="cn-btn next" href="../toc.html">
+      <span><span class="cn-dir">Chapter 7 · Coming soon</span><br><span class="cn-title">Setting up Claude Code for a project</span></span>
+      <span style="font-size:1.3rem">→</span>
+    </a>
+  </nav>
+
+</main>
+
+<footer class="book-footer" style="background:#0a1230;color:#8892b0;border-top:none">
+  <strong style="color:#cbd5e1">Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  Chapter 6 &nbsp;·&nbsp; © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+const bar = document.getElementById('readProgress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = ((h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100) + '%';
+});
+</script>
+
+</body>
+</html>

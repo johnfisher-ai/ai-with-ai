@@ -329,8 +329,7 @@ def test_main_chat_sends_the_prompt_first():
       <li>It read <code>spec.md</code> and ran the tests in the same step, and the tests failed to load because
           <code>ask.py</code> didn't exist.</li>
       <li>It ran <code>head -60 tests/test_ask.py</code> to read the test file. The prompt names pytest as the only
-          command, and Claude Code's <code>dontAsk</code> mode still allows read-only commands, as it did in Chapter 1's
-          build.</li>
+          command, and Claude Code's <code>dontAsk</code> mode still allows read-only commands.</li>
       <li>It wrote the module with one Edit.</li>
       <li>It ran the tests, and all 23 passed.</li>
       <li>It reported that the tests use a stand-in client, so it hadn't run the client against the real API.</li>

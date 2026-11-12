@@ -56,6 +56,10 @@ MAP = {
         ("../../reading-a-response.html#notebook", "Back to the book", "Chapter 5 · Reading a response"),
     "reading-a-response--solutions.html":
         ("../../reading-a-response.html#challenges", "Back to the book", "Chapter 5 · Practice challenges"),
+    "how-coding-assistants-work.html":
+        ("../../how-coding-assistants-work.html#notebook", "Back to the book", "Chapter 6 · How coding assistants work"),
+    "how-coding-assistants-work--solutions.html":
+        ("../../how-coding-assistants-work.html#challenges", "Back to the book", "Chapter 6 · Practice challenges"),
 }
 
 BOOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
