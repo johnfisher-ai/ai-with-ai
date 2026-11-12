@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 3 · Tokens, context and cost · Building AI with AI</title>
+  <meta name="description" content="Counting tokens before a request is sent, what fills a model's context window, and what a call and a conversation cost, with a calculator Claude Code generated from a spec and tests.">
+  <meta name="author" content="John Fisher">
+  <link rel="canonical" href="https://johnfisher-ai.github.io/ai-with-ai/chapters/tokens-context-and-cost.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Building AI with AI: A Visual Handbook">
+  <meta property="og:title" content="Tokens, context and cost · Chapter 3">
+  <meta property="og:description" content="Counting tokens with count_tokens, the 1,000,000-token context window, and why a conversation's cost grows with every turn.">
+  <meta property="og:url" content="https://johnfisher-ai.github.io/ai-with-ai/chapters/tokens-context-and-cost.html">
+  <meta property="og:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tokens, context and cost · Chapter 3">
+  <meta name="twitter:description" content="Counting tokens with count_tokens, the 1,000,000-token context window, and why a conversation's cost grows with every turn.">
+  <meta name="twitter:image" content="https://johnfisher-ai.github.io/ai-with-ai/assets/img/social-card.png">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/book.css">
+  <link rel="stylesheet" href="../assets/css/chapter.css">
+  <link rel="stylesheet" href="../assets/css/challenges.css">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <script src="../assets/js/theme.js"></script>
+  <style>
+    .disp-table { width:100%; border-collapse:collapse; margin:0; font-size:0.84rem;
+                  border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .disp-table th,.disp-table td { padding:0.55rem 0.75rem; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+    .disp-table th { background:var(--panel-2); color:var(--ink); font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; }
+    .disp-table td { color:var(--ink-soft); } .disp-table tr:last-child td { border-bottom:none; }
+    .codebox { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--panel-2); margin:1rem 0; }
+    .codebox .cbh { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:0.4rem 0.85rem; color:#fff; background:#6d28d9; }
+    .codebox pre { margin:0; padding:0.85rem; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; line-height:1.55; overflow-x:auto; color:var(--ink); white-space:pre; }
+    .nb-fig { margin:1.4rem 0; border:1px solid var(--line); border-radius:14px; padding:0.8rem; background:var(--p-bg-ffffff, #ffffff); }
+    .nb-fig img { display:block; width:100%; height:auto; }
+    .nb-fig figcaption { font-size:0.8rem; color:var(--p-fg-4a5578, #4a5578); margin-top:0.5rem; }
+    .build-steps { margin:0.6rem 0 1rem 1.2rem; } .build-steps li { margin:0.25rem 0; }
+    .codebox.wrap pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+    .fig-narrow { max-width:520px; margin-left:auto !important; margin-right:auto !important; }
+    @media (max-width: 480px) { .fig-narrow { padding:0.8rem 0.5rem !important; } }
+  </style>
+</head>
+<body class="chapter">
+
+<nav class="topnav" aria-label="Book">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="10" stroke="#ff7a59" stroke-width="1.5"/>
+      <path d="M5 14 Q8 7 11 11 Q14 15 17 8" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Building AI with <span class="ai">AI</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../toc.html">Contents</a>
+    <a href="notebooks/html/tokens-context-and-cost.html" class="btn btn-primary" style="padding:0.4rem 1rem;font-size:0.8rem">🐍 Notebook</a>
+  </div>
+</nav>
+<div class="read-progress" id="readProgress"></div>
+
+<header class="chapter-hero">
+  <div class="chapter-hero-inner">
+    <div class="crumb">
+      <a href="../toc.html">Contents</a><span class="sep">/</span>
+      <span>Part 1 · Working with a model</span><span class="sep">/</span>
+      <span>Chapter 3</span>
+    </div>
+    <h1>Tokens, context <span class="accent">and cost</span></h1>
+    <p class="dek">Every limit and price that applies to a model call is stated in tokens. This chapter counts a request
+       before it is sent, takes apart what fills a model's context window, and prices a conversation turn by turn, with
+       a calculator Claude Code generated from a spec and tests.</p>
+    <div class="hero-meta">
+      <div class="m">⏱️ <b>~15 min</b>&nbsp;read</div>
+      <div class="m">🐍 <b>Notebook</b>&nbsp;included</div>
+      <div class="m">📊 <b>Chapter 3</b></div>
+    </div>
+  </div>
+</header>
+
+<main class="reading">
+
+  <section id="intro">
+    <p class="lead">A language model reads and writes tokens, and the API states its limits and its prices in the same
+       unit. The <span class="term">context window</span> caps how many tokens one request and its reply can hold, and
+       the bill multiplies each kind of token by its own rate. Character and word counts predict neither with any
+       precision, so a budget starts from the counts the API reports, <span class="hl">before the call with
+       count_tokens and after it in usage</span>.</p>
+
+    <div class="def-card">
+      <div class="sigma">AI</div>
+      <div class="def-body">
+        <span class="def-kw">The context window</span> is the most tokens one request can hold. It covers the system
+        prompt, the tool definitions, every message in the conversation and the reply the model generates, thinking
+        included.
+      </div>
+    </div>
+
+    <div class="callout key">
+      <div class="cico">🤖</div>
+      <div><div class="ctitle">The chapter in one line</div>
+        <p>Count a request before it is sent, read its usage after, and budget a conversation for its whole history on every turn.</p></div>
+    </div>
+  </section>
+
+  <section id="counting">
+    <div class="section-eyebrow"><div class="num">1</div><h2>Counting a request before it is sent</h2></div>
+    <p>The <code>count_tokens</code> endpoint takes the same model, messages, system prompt and tools as
+       <code>messages.create</code> and returns the number of input tokens the request would use, without running the
+       model. As of November 2026 it is free to call. The notebook counted one support request written six ways, on
+       Claude Haiku 5.5, Sonnet 5.5 and Opus 5.5, next to a one-character request that counts 9 tokens, the fixed
+       overhead of a request's format.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Token counts for one request written six ways">
+      <table class="disp-table">
+        <thead><tr><th>Payload</th><th>Characters</th><th>Input tokens</th><th>Beyond the overhead</th><th>Characters per token</th></tr></thead>
+        <tbody>
+          <tr><td>English</td><td>96</td><td>38</td><td>29</td><td>3.31</td></tr>
+          <tr><td>JSON</td><td>89</td><td>47</td><td>38</td><td>2.34</td></tr>
+          <tr><td>CSV</td><td>95</td><td>50</td><td>41</td><td>2.32</td></tr>
+          <tr><td>Python</td><td>125</td><td>48</td><td>39</td><td>3.21</td></tr>
+          <tr><td>German</td><td>103</td><td>61</td><td>52</td><td>1.98</td></tr>
+          <tr><td>Japanese</td><td>36</td><td>39</td><td>30</td><td>1.20</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The English ticket packs 3.31 characters into each token and the Python function 3.21. Written as JSON or CSV,
+       the same facts drop to about 2.3 characters per token, because quotes, braces, commas and field names are tokens
+       too. The German ticket takes 52 tokens for 103 characters and the Japanese one 30 tokens for 36 characters, so a
+       budget measured on English text undercounts other languages. All three models returned the same count for every
+       payload, so a count taken on one of them holds for the others.</p>
+    <p>What the user types is only one component of the request. Adding the support assistant's system prompt, 16 words,
+       raised the ticket's count from 38 to 65 tokens, and adding one tool definition with a one-field schema raised it
+       to 439. Anthropic's pricing page lists 286 tokens for the instructions the API adds to any request that carries
+       tools, on all three models as of November 2026, and the definition itself took about 88. Both are sent and billed
+       on every call.</p>
+  </section>
+
+  <section id="window">
+    <div class="section-eyebrow"><div class="num">2</div><h2>The window holds the prompt and the reply</h2></div>
+    <p>The Models API describes each model, including <code>max_input_tokens</code>, its context window, and
+       <code>max_tokens</code>, the longest reply one request may generate. As of November 2026 all three models report a
+       window of 1,000,000 tokens and a longest reply of 128,000. The window covers the prompt and the reply together,
+       and the thinking a model does before its answer is part of the reply.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 470" width="100%" font-family="Inter, sans-serif" role="img" aria-label="One column stands for the context window, 1,000,000 tokens on all three models. From the top it holds the system prompt and tools, the earlier messages and the new message, which together are the prompt that count_tokens measures, then the thinking and the reply text, which together are at most max_tokens, then the room left. A prompt larger than the window is rejected. A reply that reaches the end of the window stops early."><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">What one request</text><text x="240" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">puts in the context window</text><rect x="20" y="70" width="190" height="70" rx="6" fill="#eef2ff" stroke="#c7d2fe"/><text x="115.0" y="111.0" text-anchor="middle" font-size="16" font-weight="700" fill="#3730a3">System prompt and tools</text><rect x="20" y="144" width="190" height="110" rx="6" fill="#eef2ff" stroke="#c7d2fe"/><text x="115.0" y="205.0" text-anchor="middle" font-size="16" font-weight="700" fill="#3730a3">Earlier messages</text><rect x="20" y="258" width="190" height="44" rx="6" fill="#e0e7ff" stroke="#a5b4fc"/><text x="115.0" y="286.0" text-anchor="middle" font-size="16" font-weight="700" fill="#3730a3">The new message</text><rect x="20" y="306" width="190" height="44" rx="6" fill="#fff1ec" stroke="#ffc9b8"/><text x="115.0" y="334.0" text-anchor="middle" font-size="16" font-weight="700" fill="#9a3412">Thinking</text><rect x="20" y="354" width="190" height="54" rx="6" fill="#fff1ec" stroke="#ffc9b8"/><text x="115.0" y="387.0" text-anchor="middle" font-size="16" font-weight="700" fill="#9a3412">The reply's text</text><rect x="20" y="412" width="190" height="48" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="5 4"/><text x="115.0" y="442.0" text-anchor="middle" font-size="16" font-weight="700" fill="#4a5578">Room left</text><path d="M224 70 h8 V302 h-8" fill="none" stroke="#3730a3" stroke-width="2"/><text x="242" y="170.0" font-size="16" font-weight="800" fill="#3730a3">The prompt,</text><text x="242" y="192.0" font-size="16" font-weight="400" fill="#3730a3">what count_tokens</text><text x="242" y="214.0" font-size="16" font-weight="400" fill="#3730a3">measures</text><path d="M224 306 h8 V408 h-8" fill="none" stroke="#9a3412" stroke-width="2"/><text x="242" y="352.0" font-size="16" font-weight="800" fill="#9a3412">The reply, at most</text><text x="242" y="374.0" font-size="16" font-weight="400" fill="#9a3412">max_tokens</text><text x="240" y="490" text-anchor="middle" font-size="15" fill="#4a5578">A prompt over the window is rejected.</text><text x="240" y="512" text-anchor="middle" font-size="15" fill="#4a5578">A reply that fills it stops early.</text></svg>
+    </figure>
+    <p>The API applies two rules at the edge of the window, as of November 2026. A prompt larger than the window is
+       rejected with a 400 error that says the prompt is too long. A prompt that fits, but leaves less room than
+       <code>max_tokens</code> asks for, is accepted, and the reply stops early if it reaches the end of the window. The
+       chapter's calculator applies both rules in <code>context_check</code>.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="context_check on four requests">
+      <table class="disp-table">
+        <thead><tr><th>Prompt tokens</th><th>max_tokens</th><th>context_check</th></tr></thead>
+        <tbody>
+          <tr><td>439</td><td>1,024</td><td><code>fits</code></td></tr>
+          <tr><td>900,000</td><td>64,000</td><td><code>fits</code></td></tr>
+          <tr><td>950,000</td><td>64,000</td><td><code>may stop early</code></td></tr>
+          <tr><td>1,000,001</td><td>1,024</td><td><code>too long</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>A window of a million tokens rarely binds a single question. It binds the requests that carry whole documents,
+       long tool results or a long conversation, and the next section shows how quickly a conversation grows.</p>
+  </section>
+
+  <section id="conversation">
+    <div class="section-eyebrow"><div class="num">3</div><h2>A conversation pays for its history</h2></div>
+    <p>The Messages API keeps no state between calls, so a conversation is a list the application sends again in full on
+       every turn. The notebook ran six turns of a support conversation on Claude Sonnet 5.5, counting each request with
+       <code>count_tokens</code> before sending it and reading the <code>usage</code> the response reported.</p>
+    <figure class="fig-narrow" style="margin:1.4rem 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.1rem">
+      <svg viewBox="0 0 480 360" width="100%" font-family="Inter, sans-serif" role="img" aria-label="Four rows, one per turn. Turn 1 sends the first question and gets a reply. Turn 2 sends the first question, the first reply and the second question. Each later turn sends everything before it plus one new question, so the measured prompt grew from 53 input tokens on turn 1 to 166, 432 and 617 on turns 2 to 4."><text x="240" y="24" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">Each turn sends</text><text x="240" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="#1a2138">every earlier message again</text><text x="10" y="103" font-size="16" font-weight="700" fill="#1a2138">turn 1</text><rect x="64" y="78" width="34" height="36" rx="4" fill="#e0e7ff" stroke="#6366f1"/><text x="81.0" y="102" text-anchor="middle" font-size="14" font-weight="700" fill="#3730a3">Q1</text><text x="106" y="103" font-size="16" fill="#4a5578">&#8594;</text><rect x="126" y="78" width="34" height="36" rx="4" fill="#fff1ec" stroke="#e5603f"/><text x="143.0" y="102" text-anchor="middle" font-size="14" font-weight="700" fill="#9a3412">R1</text><text x="470" y="103" text-anchor="end" font-size="15" font-weight="700" fill="#0f6b74">53</text><text x="10" y="165" font-size="16" font-weight="700" fill="#1a2138">turn 2</text><rect x="64" y="140" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="81.0" y="164" text-anchor="middle" font-size="14" fill="#4a5578">Q1</text><rect x="101" y="140" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="118.0" y="164" text-anchor="middle" font-size="14" fill="#4a5578">R1</text><rect x="138" y="140" width="34" height="36" rx="4" fill="#e0e7ff" stroke="#6366f1"/><text x="155.0" y="164" text-anchor="middle" font-size="14" font-weight="700" fill="#3730a3">Q2</text><text x="180" y="165" font-size="16" fill="#4a5578">&#8594;</text><rect x="200" y="140" width="34" height="36" rx="4" fill="#fff1ec" stroke="#e5603f"/><text x="217.0" y="164" text-anchor="middle" font-size="14" font-weight="700" fill="#9a3412">R2</text><text x="470" y="165" text-anchor="end" font-size="15" font-weight="700" fill="#0f6b74">166</text><text x="10" y="227" font-size="16" font-weight="700" fill="#1a2138">turn 3</text><rect x="64" y="202" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="81.0" y="226" text-anchor="middle" font-size="14" fill="#4a5578">Q1</text><rect x="101" y="202" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="118.0" y="226" text-anchor="middle" font-size="14" fill="#4a5578">R1</text><rect x="138" y="202" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="155.0" y="226" text-anchor="middle" font-size="14" fill="#4a5578">Q2</text><rect x="175" y="202" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="192.0" y="226" text-anchor="middle" font-size="14" fill="#4a5578">R2</text><rect x="212" y="202" width="34" height="36" rx="4" fill="#e0e7ff" stroke="#6366f1"/><text x="229.0" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#3730a3">Q3</text><text x="254" y="227" font-size="16" fill="#4a5578">&#8594;</text><rect x="274" y="202" width="34" height="36" rx="4" fill="#fff1ec" stroke="#e5603f"/><text x="291.0" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#9a3412">R3</text><text x="470" y="227" text-anchor="end" font-size="15" font-weight="700" fill="#0f6b74">432</text><text x="10" y="289" font-size="16" font-weight="700" fill="#1a2138">turn 4</text><rect x="64" y="264" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="81.0" y="288" text-anchor="middle" font-size="14" fill="#4a5578">Q1</text><rect x="101" y="264" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="118.0" y="288" text-anchor="middle" font-size="14" fill="#4a5578">R1</text><rect x="138" y="264" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="155.0" y="288" text-anchor="middle" font-size="14" fill="#4a5578">Q2</text><rect x="175" y="264" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="192.0" y="288" text-anchor="middle" font-size="14" fill="#4a5578">R2</text><rect x="212" y="264" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="229.0" y="288" text-anchor="middle" font-size="14" fill="#4a5578">Q3</text><rect x="249" y="264" width="34" height="36" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="266.0" y="288" text-anchor="middle" font-size="14" fill="#4a5578">R3</text><rect x="286" y="264" width="34" height="36" rx="4" fill="#e0e7ff" stroke="#6366f1"/><text x="303.0" y="288" text-anchor="middle" font-size="14" font-weight="700" fill="#3730a3">Q4</text><text x="328" y="289" font-size="16" fill="#4a5578">&#8594;</text><rect x="348" y="264" width="34" height="36" rx="4" fill="#fff1ec" stroke="#e5603f"/><text x="365.0" y="288" text-anchor="middle" font-size="14" font-weight="700" fill="#9a3412">R4</text><text x="470" y="289" text-anchor="end" font-size="15" font-weight="700" fill="#0f6b74">617</text><text x="470" y="68" text-anchor="end" font-size="13" fill="#4a5578">input tokens</text><text x="240" y="340" text-anchor="middle" font-size="15" fill="#4a5578">Q is a question, R a reply. Grey blocks are resent.</text></svg>
+    </figure>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Tokens per turn of the conversation">
+      <table class="disp-table">
+        <thead><tr><th>Turn</th><th>Counted before</th><th>Input billed</th><th>Output</th><th>Of it thinking</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>53</td><td>53</td><td>88</td><td>0</td></tr>
+          <tr><td>2</td><td>166</td><td>166</td><td>249</td><td>103</td></tr>
+          <tr><td>3</td><td>432</td><td>432</td><td>154</td><td>38</td></tr>
+          <tr><td>4</td><td>617</td><td>617</td><td>115</td><td>0</td></tr>
+          <tr><td>5</td><td>750</td><td>750</td><td>149</td><td>44</td></tr>
+          <tr><td>6</td><td>919</td><td>919</td><td>200</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The count matched the billed input exactly on all six turns. Turn 2's prompt was 113 tokens larger than turn 1's,
+       the first reply's 88 tokens plus 25 for the second question. The second reply wrote 249 output tokens, 103 of
+       them thinking, and the next prompt grew by 266, so the thinking came back as input on the following turn although
+       the reply showed none of its text. The notebook passes each reply back whole, thinking block included, as the API
+       expects.</p>
+    <figure class="nb-fig">
+      <img src="../assets/img/tokens-context-and-cost-conversation.png" width="1200" height="570" loading="lazy"
+           alt="Bar chart of input tokens per turn, 53, 166, 432, 617, 750 and 919, with the count taken before each call on top of every bar, and a line of the money spent so far rising to about 15.4 thousandths of a dollar after six turns.">
+      <figcaption>From the notebook. The bars are the input billed on each turn, the dots the count taken before sending, and the line the money spent so far.</figcaption>
+    </figure>
+    <p>Six turns read 2,937 input tokens and wrote 955, for 0.015424 dollars at Claude Sonnet 5.5's prices as of
+       November 2026. The calculator's <code>project_conversation</code> extends the pattern, about 173 tokens added a
+       turn and 159 written. Twelve turns come to 12,054 input tokens and 0.0432 dollars, nearly three times the cost of
+       six, and thirty turns to 76,845 input tokens and 0.2014 dollars. Total input grows with the square of the number of
+       turns, which is why long-running agents summarize or trim their history, the subject of Part 8, Memory and
+       state.</p>
+  </section>
+
+  <section id="prices">
+    <div class="section-eyebrow"><div class="num">4</div><h2>Prices turn usage into dollars</h2></div>
+    <p>A response's <code>usage</code> splits the input into three counts, tokens read normally, tokens read from the
+       prompt cache and tokens written to it, and reports the output, thinking included, as one more. Each has its own
+       rate. These are Anthropic's published prices per million tokens as of November 2026, the table the calculator
+       holds.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Prices per million tokens as of November 2026">
+      <table class="disp-table">
+        <thead><tr><th>Model</th><th>Input</th><th>Cache write, 5 minutes</th><th>Cache read</th><th>Output</th></tr></thead>
+        <tbody>
+          <tr><td>Claude Haiku 5.5</td><td>0.10</td><td>0.125</td><td>0.01</td><td>0.50</td></tr>
+          <tr><td>Claude Haiku 5.5, prompt over 100,000 tokens</td><td>0.50</td><td>0.625</td><td>0.05</td><td>2.50</td></tr>
+          <tr><td>Claude Sonnet 5.5</td><td>2.00</td><td>2.50</td><td>0.10</td><td>10.00</td></tr>
+          <tr><td>Claude Opus 5.5</td><td>4.00</td><td>5.00</td><td>0.20</td><td>20.00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Output costs five times as much as input on all three models, so a short exchange spends most of its money on
+       the reply, and a long conversation shifts the weight to its resent history. Prompt caching charges a fraction of
+       the input rate for a prefix the API has seen within the last few minutes, which Chapter 118, Caching and batching,
+       measures. A thousand of the notebook's six-turn conversations a day for thirty days come to these totals, with the
+       token counts held fixed.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="A month of conversations on each model">
+      <table class="disp-table">
+        <thead><tr><th>Model</th><th>Dollars a month</th></tr></thead>
+        <tbody>
+          <tr><td>Claude Haiku 5.5</td><td>23.14</td></tr>
+          <tr><td>Claude Sonnet 5.5</td><td>462.72</td></tr>
+          <tr><td>Claude Opus 5.5</td><td>925.44</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The input counts carry over, since the three models counted every payload alike. The output is Sonnet's, so the
+       Haiku and Opus figures hold only if those models write replies of the same length, which Chapter 117, Choosing a
+       model, measures. Claude Haiku 5.5 also prices by prompt size. Once a prompt passes 100,000 tokens, every token of
+       that request is charged at five times the standard rate, so one token more takes a call with 1,000 output tokens
+       from 0.0105 to 0.0525 dollars.</p>
+  </section>
+
+  <section id="goes-wrong">
+    <div class="section-eyebrow"><div class="num">5</div><h2>Where token budgets go wrong</h2></div>
+    <ul>
+      <li><strong>Estimates from characters</strong> carry a different error for every kind of text. English ran at
+          3.31 characters per token and Japanese at 1.20, so count with <code>count_tokens</code>, which matched the
+          billed input on every turn the notebook sent.</li>
+      <li><strong>The fixed parts of a request</strong> are easy to leave out. A system prompt and one tool definition
+          added 401 tokens to a 38-token ticket, on every call.</li>
+      <li><strong>A conversation's history</strong> is billed again on each turn. Twelve turns cost nearly three times
+          as much as six, so budget per conversation, not per message.</li>
+      <li><strong>Thinking tokens</strong> are billed as output when they are written and, passed back with the reply,
+          as input on the next turn, even when the reply shows none of their text.</li>
+      <li><strong>A price table</strong> goes stale. Keep the prices in one place with the month they were read, as
+          the calculator's <code>PRICES_AS_OF</code> does, and check them before a budget is approved.</li>
+    </ul>
+  </section>
+
+  <section id="build">
+    <div class="section-eyebrow"><div class="num">6</div><h2>Build it with Claude Code</h2></div>
+    <p>Every price and projection in the notebook runs through <code>tokencost.py</code>, a module Claude Code generated
+       from a spec and a test file the book wrote first. The spec is the contract, so it comes first here, in full.</p>
+    <div class="codebox wrap"><div class="cbh">spec.md</div><pre tabindex="0"># tokencost.py
+
+A small module for budgeting calls to a language model. It turns the token counts a response reports into dollars, says whether a request fits a model&#x27;s context window, and projects how the input of a conversation grows when every turn resends the history. Use only the Python standard library.
+
+## PRICES, LONG_PROMPT_PRICES and PRICES_AS_OF
+
+`PRICES_AS_OF` is the string `&quot;2026-11&quot;`, the month the prices were read from Anthropic&#x27;s pricing page.
+
+`PRICES` is a dict from model ID to a dict of rates in dollars per million tokens, with the keys `input`, `cache_write`, `cache_read` and `output`. `cache_write` is the price of a five-minute cache write.
+
+| Model ID | input | cache_write | cache_read | output |
+|---|---|---|---|---|
+| `claude-haiku-5-5` | 0.10 | 0.125 | 0.01 | 0.50 |
+| `claude-sonnet-5-5` | 2.00 | 2.50 | 0.10 | 10.00 |
+| `claude-opus-5-5` | 4.00 | 5.00 | 0.20 | 20.00 |
+
+Claude Haiku 5.5 charges more for a request whose prompt is over 100,000 tokens. `LONG_PROMPT_PRICES` is a dict from model ID to a pair `(threshold, rates)`, and holds one entry, `&quot;claude-haiku-5-5&quot;: (100_000, {&quot;input&quot;: 0.50, &quot;cache_write&quot;: 0.625, &quot;cache_read&quot;: 0.05, &quot;output&quot;: 2.50})`.
+
+## prompt_tokens(usage)
+
+`usage` describes one response&#x27;s token counts. It is either a mapping or an object with attributes, such as the `usage` of an Anthropic SDK response, and it may have the fields `input_tokens`, `output_tokens`, `cache_read_input_tokens` and `cache_creation_input_tokens`. A missing field, or one that is `None`, counts as 0.
+
+Return the size of the prompt, which is `input_tokens + cache_read_input_tokens + cache_creation_input_tokens`. Raise `ValueError` if any field is negative.
+
+## call_cost(usage, model)
+
+Return the cost of one call in dollars, as a float that is not rounded. Multiply `input_tokens` by the `input` rate, `cache_creation_input_tokens` by `cache_write`, `cache_read_input_tokens` by `cache_read` and `output_tokens` by `output`, add the four, and divide by 1,000,000.
+
+Use the rates in `PRICES`, unless the model is in `LONG_PROMPT_PRICES` and `prompt_tokens(usage)` is greater than its threshold. Then every one of the four counts is charged at the long-prompt rates, output included.
+
+Raise `ValueError` if the model is not in `PRICES`, with the model ID in the message, and if any count is negative.
+
+## context_check(prompt, max_tokens, window=1_000_000)
+
+`prompt` is the number of tokens a request sends, `max_tokens` the most it may generate, and `window` the model&#x27;s context window. Return one of three strings:
+
+- `&quot;fits&quot;` when `prompt + max_tokens` is at most `window`
+- `&quot;may stop early&quot;` when `prompt` is at most `window` but `prompt + max_tokens` is more, because the API accepts the request and stops the reply when the window is full
+- `&quot;too long&quot;` when `prompt` is more than `window`, because the API rejects the request
+
+Raise `ValueError` if `prompt` or `max_tokens` is negative, or `window` is not greater than 0.
+
+## project_conversation(first_prompt, added_per_turn, output_per_turn, turns)
+
+A conversation sends its whole history on every turn, so each turn&#x27;s prompt is the previous turn&#x27;s prompt plus the new user message and the previous reply. Return a list of `turns` dicts, one per turn, each with the keys `input_tokens` and `output_tokens`. Turn `k`, counting from 0, has `input_tokens` equal to `first_prompt + k * added_per_turn` and `output_tokens` equal to `output_per_turn`. Each dict can be passed to `call_cost` as a usage.
+
+Raise `ValueError` if `turns` is less than 1 or any other argument is negative.</pre></div>
+    <p>The opening paragraph names the three jobs and limits the module to the standard library, so it runs in Colab with
+       nothing to install. The price section copies Anthropic's table into the spec with its month, which keeps the
+       prices in one dated place, and gives Haiku's long-prompt rates a dict of their own because only one model has
+       them. <code>prompt_tokens</code> defines the size of a prompt as all three input counts, since cache reads and
+       writes fill the window and count toward Haiku's threshold, and it accepts a dict or the SDK's own
+       <code>usage</code> object, so the notebook can pass a response's usage straight in. <code>call_cost</code> says
+       which rate applies to which count and settles the one rule a reader of the price table could get wrong, that a
+       long prompt raises the rate on every token of the request, output included. <code>context_check</code> turns the
+       API's two overflow rules into three answers, and <code>project_conversation</code> fixes the growth model the
+       notebook's projection relies on.</p>
+    <p>The test file holds 34 cases once each parametrized input is counted. These three check the rules a quick reading
+       of the spec is most likely to miss.</p>
+    <div class="codebox"><div class="cbh">tests/test_tokencost.py, three of its tests</div><pre tabindex="0">def test_haiku_over_the_threshold_charges_everything_at_the_long_rates():
+    usage = {&quot;input_tokens&quot;: 100_001, &quot;output_tokens&quot;: 1_000}
+    assert call_cost(usage, &quot;claude-haiku-5-5&quot;) == pytest.approx((100_001 * 0.50 + 1_000 * 2.50) / 1_000_000)
+
+
+def test_cache_reads_count_toward_the_haiku_threshold():
+    usage = {&quot;input_tokens&quot;: 99_000, &quot;cache_read_input_tokens&quot;: 2_000, &quot;output_tokens&quot;: 0}
+    assert call_cost(usage, &quot;claude-haiku-5-5&quot;) == pytest.approx((99_000 * 0.50 + 2_000 * 0.05) / 1_000_000)
+
+
+@pytest.mark.parametrize(&quot;prompt, max_tokens, window, expected&quot;, [
+    (50_000, 1_024, 1_000_000, &quot;fits&quot;),
+    (998_976, 1_024, 1_000_000, &quot;fits&quot;),
+    (998_977, 1_024, 1_000_000, &quot;may stop early&quot;),
+    (1_000_000, 0, 1_000_000, &quot;fits&quot;),
+    (1_000_000, 1, 1_000_000, &quot;may stop early&quot;),
+    (1_000_001, 0, 1_000_000, &quot;too long&quot;),
+    (150_000, 64_000, 200_000, &quot;may stop early&quot;),</pre></div>
+    <p>The first puts a Haiku prompt one token over the threshold and expects the output to be charged at the long rate
+       as well. The second reaches the threshold only by adding a cache read to the input, which fails if cache reads are
+       left out of the prompt size. The third walks <code>context_check</code> across both edges of a million-token
+       window, at exactly full and one token over, and once with a 200,000-token window, where the same arithmetic gives
+       a different answer.</p>
+    <p>The prompt is the one Chapters 1 and 2 used, with the module's name changed. It names the two files to read and
+       the file to write, tells Claude Code to write with the Edit tool, which is all the headless run offers for files,
+       names the one shell command it may run, and forbids changing the tests that judge the result.</p>
+    <div class="codebox wrap"><div class="cbh">prompt.md</div><pre tabindex="0">Read spec.md and write tokencost.py so that every test in tests/ passes. Create and change files with the Edit tool. The only shell command you may run is python3 -m pytest -q tests, which runs the tests. Do not change the tests.</pre></div>
+    <p>The book ran it with Claude Code 2.1.322 and Claude Sonnet 5.5, headless, in a clean folder
+       holding only the spec and the tests:</p>
+    <div class="codebox wrap"><div class="cbh">command</div><pre tabindex="0">BOOK_MODE=record python3 scripts/claude_build.py tokens-context-and-cost</pre></div>
+    <p>The kept transcript records what Claude Code did, in order:</p>
+    <ol class="build-steps">
+      <li>In its first step Claude Code read <code>spec.md</code> and ran the tests together. The tests failed to load,
+          because <code>tokencost.py</code> didn't exist.</li>
+      <li>It wrote the whole module with one Edit.</li>
+      <li>It ran the tests, and all 34 passed.</li>
+      <li>It reported that the module accepts a dict, another mapping or an object with attributes, with a missing or
+          <code>None</code> count read as 0.</li>
+    </ol>
+    <div class="codebox"><div class="cbh">generated by Claude Code</div><pre tabindex="0">PRICES_AS_OF = &quot;2026-11&quot;
+
+PRICES = {
+    &quot;claude-haiku-5-5&quot;: {&quot;input&quot;: 0.10, &quot;cache_write&quot;: 0.125, &quot;cache_read&quot;: 0.01, &quot;output&quot;: 0.50},
+    &quot;claude-sonnet-5-5&quot;: {&quot;input&quot;: 2.00, &quot;cache_write&quot;: 2.50, &quot;cache_read&quot;: 0.10, &quot;output&quot;: 10.00},
+    &quot;claude-opus-5-5&quot;: {&quot;input&quot;: 4.00, &quot;cache_write&quot;: 5.00, &quot;cache_read&quot;: 0.20, &quot;output&quot;: 20.00},
+}
+
+LONG_PROMPT_PRICES = {
+    &quot;claude-haiku-5-5&quot;: (
+        100_000,
+        {&quot;input&quot;: 0.50, &quot;cache_write&quot;: 0.625, &quot;cache_read&quot;: 0.05, &quot;output&quot;: 2.50},
+    ),
+}
+
+_FIELDS = (&quot;input_tokens&quot;, &quot;output_tokens&quot;, &quot;cache_read_input_tokens&quot;, &quot;cache_creation_input_tokens&quot;)
+
+
+def _counts(usage):
+    out = {}
+    for f in _FIELDS:
+        if isinstance(usage, dict) or hasattr(usage, &quot;get&quot;) and not hasattr(usage, f):
+            v = usage.get(f)
+        else:
+            v = getattr(usage, f, None)
+        v = 0 if v is None else v
+        if v &lt; 0:
+            raise ValueError(f&quot;{f} must not be negative&quot;)
+        out[f] = v
+    return out
+
+
+def prompt_tokens(usage):
+    c = _counts(usage)
+    return c[&quot;input_tokens&quot;] + c[&quot;cache_read_input_tokens&quot;] + c[&quot;cache_creation_input_tokens&quot;]
+
+
+def call_cost(usage, model):
+    if model not in PRICES:
+        raise ValueError(f&quot;unknown model: {model}&quot;)
+    c = _counts(usage)
+    rates = PRICES[model]
+    if model in LONG_PROMPT_PRICES:
+        threshold, long_rates = LONG_PROMPT_PRICES[model]
+        if prompt_tokens(usage) &gt; threshold:
+            rates = long_rates
+    total = (
+        c[&quot;input_tokens&quot;] * rates[&quot;input&quot;]
+        + c[&quot;cache_creation_input_tokens&quot;] * rates[&quot;cache_write&quot;]
+        + c[&quot;cache_read_input_tokens&quot;] * rates[&quot;cache_read&quot;]
+        + c[&quot;output_tokens&quot;] * rates[&quot;output&quot;]
+    )
+    return total / 1_000_000
+
+
+def context_check(prompt, max_tokens, window=1_000_000):
+    if prompt &lt; 0 or max_tokens &lt; 0 or window &lt;= 0:
+        raise ValueError(&quot;invalid arguments&quot;)
+    if prompt &gt; window:
+        return &quot;too long&quot;
+    if prompt + max_tokens &lt;= window:
+        return &quot;fits&quot;
+    return &quot;may stop early&quot;
+
+
+def project_conversation(first_prompt, added_per_turn, output_per_turn, turns):
+    if turns &lt; 1 or first_prompt &lt; 0 or added_per_turn &lt; 0 or output_per_turn &lt; 0:
+        raise ValueError(&quot;invalid arguments&quot;)
+    return [
+        {&quot;input_tokens&quot;: first_prompt + k * added_per_turn, &quot;output_tokens&quot;: output_per_turn}
+        for k in range(turns)
+    ]</pre></div>
+    <p>The build took 5 turns and cost 0.0285 dollars on the book's key, and the build
+       script's own run of the tests afterward passed as well. Review accepted the module unchanged, with three notes.
+       <code>_counts</code> decides between a mapping and an object with
+       <code>isinstance(usage, dict) or hasattr(usage, "get") and not hasattr(usage, f)</code>, which Python reads as
+       <em>A or (B and C)</em>. It handles a dict, the SDK's usage object and other mappings, but a check against
+       <code>collections.abc.Mapping</code> would say the same thing more plainly. The errors from
+       <code>context_check</code> and <code>project_conversation</code> say only &#8220;invalid arguments&#8221;, which
+       the spec allowed. And the spec prices every cache write at the five-minute rate, so a one-hour cache write, 4.00
+       dollars per million on Claude Sonnet 5.5 against 2.50, is undercharged, a limit to lift when Chapter 118 needs
+       it. The spec, tests, transcript and generated file are in the repository's
+       <a href="https://github.com/johnfisher-ai/ai-with-ai/tree/main/builds/tokens-context-and-cost">builds folder</a>, and
+       <code>python3 scripts/claude_build.py tokens-context-and-cost --out my-build</code> repeats the build with your own Claude Code
+       account. <em>Python, Visually</em>'s <a href="https://johnfisher-ai.github.io/Python-Visual-Guides/testing-and-packaging.html">Testing and Packaging</a> covers
+       the pytest features the tests use, parametrize among them.</p>
+  </section>
+
+  <section id="notebook">
+    <div class="nb-cta" style="display:block">
+      <div style="display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.3rem">
+        <div class="nb-ic">🐍</div>
+        <div class="nb-body">
+          <h3>Run the notebook</h3>
+          <p>Counts one request written six ways on three models, reads each model's context window, and prices a
+             six-turn conversation and a month of them with the calculator from the chapter's Claude Code build.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+        <a class="btn btn-primary" href="notebooks/html/tokens-context-and-cost.html">📓 View notebook (code and outputs)</a>
+        <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+           href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/tokens-context-and-cost.ipynb"
+           target="_blank" rel="noopener">▶ Open in Colab</a>
+        <a class="btn btn-ghost" style="background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)"
+           href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/tokens-context-and-cost.ipynb"
+           target="_blank" rel="noopener">⬇ View or download on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="takeaways">
+    <div class="takeaways">
+      <h3>🎓 In brief</h3>
+      <ul>
+        <li><span class="ck">✓</span><span><code>count_tokens</code> predicts a request's input before it is sent, and it matched the billed input on all six turns of the notebook's conversation.</span></li>
+        <li><span class="ck">✓</span><span>Characters per token ranged from 3.31 for English to 1.20 for Japanese, and JSON cost more tokens than prose for the same facts.</span></li>
+        <li><span class="ck">✓</span><span>As of November 2026, Claude Haiku 5.5, Sonnet 5.5 and Opus 5.5 each hold 1,000,000 tokens of prompt and reply, with replies capped at 128,000.</span></li>
+        <li><span class="ck">✓</span><span>Every turn of a conversation resends its history, thinking included, so total input grows with the square of the number of turns.</span></li>
+        <li><span class="ck">✓</span><span>The prices and projections came from a calculator Claude Code generated against 34 tests written first, which caught the rules a quick reading of the price table misses.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="challenges">
+    <div class="section-eyebrow"><div class="num">7</div><h2>Practice challenges</h2></div>
+    <p>The first challenge counts tokens with the API, and the other two use only <code>tokencost.py</code>.</p>
+    <div class="challenges">
+      <div class="challenge"><div class="cnum">1</div><div class="cbody">
+        <h3>Separate the overhead from the text</h3>
+        <p>Count the English ticket once, ten times and a hundred times, one copy per line, and work out what each copy
+           adds and what the request costs before any text.</p>
+        <div class="chint">Hint: the difference between a hundred copies and ten, divided by ninety, is one copy.</div></div></div>
+      <div class="challenge"><div class="cnum">2</div><div class="cbody">
+        <h3>When the history costs more than the reply</h3>
+        <p>With the conversation's measured pattern, find the first turn whose input costs more than its output on
+           Claude Sonnet 5.5.</p>
+        <div class="chint">Hint: project_conversation(53, 173, 159, 30) and the rates in PRICES are all you need.</div></div></div>
+      <div class="challenge"><div class="cnum">3</div><div class="cbody">
+        <h3>Price a batch job</h3>
+        <p>The Batch API charges half the standard price on input and output, as of November 2026. Write
+           <code>batch_cost</code> on top of <code>call_cost</code>, with a test that checks it.</p>
+        <div class="chint">Hint: the discount scales the whole cost, so batch_cost needs no rates of its own.</div></div></div>
+    </div>
+    <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:0.4rem">
+      <a class="btn btn-primary" href="notebooks/html/tokens-context-and-cost--solutions.html">📓 View solutions</a>
+      <a class="btn" style="background:#f9ab00;color:#1a2138;font-weight:700"
+         href="https://colab.research.google.com/github/johnfisher-ai/ai-with-ai/blob/main/chapters/notebooks/tokens-context-and-cost--solutions.ipynb"
+         target="_blank" rel="noopener">▶ Open solutions in Colab</a>
+    </div>
+  </section>
+
+
+  <div class="callout key" style="margin-top:2rem">
+    <div class="cico">➡️</div>
+    <div><div class="ctitle">Up next</div>
+      <p><strong>Chapter 4 · Your first model call</strong> walks through the Messages API in the SDK, the roles in a
+         request, the system prompt, and the replay switch every notebook in the book uses.</p></div>
+  </div>
+
+  <nav class="chapter-nav" aria-label="Previous and next chapter">
+    <a class="cn-btn prev" href="how-a-language-model-produces-text.html">
+      <span style="font-size:1.3rem">←</span>
+      <span><span class="cn-dir">Chapter 2 · Previous</span><br><span class="cn-title">How a language model produces text</span></span>
+    </a>
+    <a class="cn-btn next" href="../toc.html">
+      <span><span class="cn-dir">Chapter 4 · Coming soon</span><br><span class="cn-title">Your first model call</span></span>
+      <span style="font-size:1.3rem">→</span>
+    </a>
+  </nav>
+
+</main>
+
+<footer class="book-footer" style="background:#0a1230;color:#8892b0;border-top:none">
+  <strong style="color:#cbd5e1">Building AI with AI: A Visual Handbook</strong> &nbsp;·&nbsp;
+  Chapter 3 &nbsp;·&nbsp; © 2026 John Fisher &nbsp;·&nbsp; <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, code <a href="https://github.com/johnfisher-ai/ai-with-ai/blob/main/LICENSE-CODE">MIT</a>
+</footer>
+
+<script>
+const bar = document.getElementById('readProgress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = ((h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100) + '%';
+});
+</script>
+
+</body>
+</html>

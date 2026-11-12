@@ -1,0 +1,130 @@
+{
+ "format": 1,
+ "slug": "tokens-context-and-cost",
+ "mode": "record",
+ "date": "2026-11-12",
+ "claude_code_version": "2.1.322",
+ "model": "claude-sonnet-5-5",
+ "permission_mode": "dontAsk",
+ "tools": [
+  "Bash",
+  "Edit",
+  "Read"
+ ],
+ "command": [
+  "claude",
+  "-p",
+  "--bare",
+  "--output-format",
+  "stream-json",
+  "--verbose",
+  "--no-session-persistence",
+  "--model",
+  "claude-sonnet-5-5",
+  "--max-budget-usd",
+  "1.0",
+  "--permission-mode",
+  "dontAsk",
+  "--tools",
+  "Read,Edit,Bash",
+  "--allowedTools",
+  "Read",
+  "Edit",
+  "Bash(python3 -m pytest *)"
+ ],
+ "exit_code": 0,
+ "result": {
+  "outcome": "success",
+  "is_error": false,
+  "turns": 5,
+  "cost_usd": 0.0285451,
+  "duration_ms": 10857,
+  "input_tokens": 8,
+  "output_tokens": 1501,
+  "cache_read_tokens": 5491,
+  "cache_write_tokens": 5188,
+  "final_text": "I wrote `tokencost.py` to match the spec, and all 34 tests in `tests/` now pass.\n\nI ran the test command in the same step as the file edit, and it passed. I didn't re-run it afterward.\n\n`usage` can be a dict, another mapping, or an object with attributes, such as an Anthropic SDK response's `usage`. A missing or `None` field counts as 0."
+ },
+ "generated": {
+  "tokencost.py": "8890b8c34cff8847016ae7a769caab127dfb87c357b22f10454fa49094531ae9"
+ },
+ "tests": {
+  "command": [
+   "python3",
+   "-m",
+   "pytest",
+   "-q",
+   "-p",
+   "no:cacheprovider",
+   "tests"
+  ],
+  "exit_code": 0,
+  "passed": true,
+  "changed_by_claude": []
+ },
+ "steps": [
+  {
+   "role": "assistant",
+   "tool": "Read",
+   "id": "t1",
+   "input": {
+    "file_path": "./spec.md"
+   }
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t2",
+   "input": {
+    "command": "python3 -m pytest -q tests"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t1",
+   "is_error": false,
+   "result": "1\t# tokencost.py\n2\t\n3\tA small module for budgeting calls to a language model. It turns the token counts a response reports into dollars, says whether a request fits a model's context window, and projects how the input of a conversation grows when every turn resends the history. Use only the Python standard library.\n4\t\n5\t## PRICES, LONG_PROMPT_PRICES and PRICES_AS_OF\n6\t\n7\t`PRICES_AS_OF` is the string `\"2026-11\"`, the month the prices were read from Anthropic's pricing page.\n8\t\n9\t`PRICES` is a dict from model ID to a dict of rates in dollars per million tokens, with the keys `input`, `cache_write`, `cache_read` and `output`. `cache_write` is the price of a five-minute cache write.\n10\t\n11\t| Model ID | input | cache_write | cache_read | output |\n12\t|---|---|---|---|---|\n13\t| `claude-haiku-5-5` | 0.10 | 0.125 | 0.01 | 0.50 |\n14\t| `claude-sonnet-5-5` | 2.00 | 2.50 | 0.10 | 10.00 |\n15\t| `claude-opus-5-5` | 4.00 | 5.00 | 0.20 | 20.00 |\n16\t\n17\tClaude Haiku 5.5 charges more for a request whose prompt is over 100,000 tokens. `LONG_PROMPT_PRICES` is a dict from model ID to a pair `(threshold, rates)`, and holds one entry, `\"claude-haiku-5-5\": (100_000, {\"input\": 0.50, \"cache_write\": 0.625, \"cache_read\": 0.05, \"output\": 2.50})`.\n18\t\n19\t## prompt_tokens(usage)\n20\t\n21\t`usage` describes one response's token counts. It is either a mapping or an object with attributes, such as the `usage` of an Anthropic SDK response, and it may have the fields `input_tokens`, `output_tokens`, `cache_read_input_tokens` and `cache_creation_input_tokens`. A missing field, or one that is `None`, counts as 0.\n22\t\n23\tReturn the size of the prompt, which is `input_tokens + cache_read_input_tokens + cache_creation_input_tokens`. Raise `ValueError` if any field is negative.\n24\t\n25\t## call_cost(usage, model)\n26\t\n27\tReturn the cost of one call in dollars, as a float that is not rounded. Multiply `input_tokens` by the `input` rate, `cache_creation_input_tokens` by `cache_write`, `cache_read_input_tokens` by `cache_read` and `output_tokens` by `output`, add the four, and divide by 1,000,000.\n28\t\n29\tUse the rates in `PRICES`, unless the model is in `LONG_PROMPT_PRICES` and `prompt_tokens(usage)` is greater than its threshold. Then every one of the four counts is charged at the long-prompt rates, output included.\n30\t\n31\tRaise `ValueError` if the model is not in `PRICES`, with the model ID in the message, and if any count is negative.\n32\t\n33\t## context_check(prompt, max_tokens, window=1_000_000)\n34\t\n35\t`prompt` is the number of tokens a request sends, `max_tokens` the most it may generate, and `window` the model's context window. Return one of three strings:\n36\t\n37\t- `\"fits\"` when `prompt + max_tokens` is at most `window`\n38\t- `\"may stop early\"` when `prompt` is at most `window` but `prompt + max_tokens` is more, because the API accepts the request and stops the reply when the window is full\n39\t- `\"too long\"` when `prompt` is more than `window`, because the API rejects the request\n40\t\n41\tRaise `ValueError` if `prompt` or `max_tokens` is negative, or `window` is not greater than 0.\n42\t\n43\t## project_conversation(first_prompt, added_per_turn, output_per_turn, turns)\n44\t\n45\tA conversation sends its whole history on every turn, so each turn's prompt is the previous turn's prompt plus the new user message and the previous reply. Return a list of `turns` dicts, one per turn, each with the keys `input_tokens` and `output_tokens`. Turn `k`, counting from 0, has `input_tokens` equal to `first_prompt + k * added_per_turn` and `output_tokens` equal to `output_per_turn`. Each dict can be passed to `call_cost` as a usage.\n46\t\n47\tRaise `ValueError` if `turns` is less than 1 or any other argument is negative.\n48\t"
+  },
+  {
+   "role": "tool",
+   "id": "t2",
+   "is_error": true,
+   "result": "Exit code 2\n\n==================================== ERRORS ====================================\n___________________ ERROR collecting tests/test_tokencost.py ___________________\nImportError while importing test module './tests/test_tokencost.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n/usr/local/lib/python3.13/importlib/__init__.py:88: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntests/test_tokencost.py:5: in <module>\n    from tokencost import (LONG_PROMPT_PRICES, PRICES, PRICES_AS_OF, call_cost, context_check, project_conversation,\nE   ModuleNotFoundError: No module named 'tokencost'\n=========================== short test summary info ============================\nERROR tests/test_tokencost.py\n!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n1 error in 0.06s"
+  },
+  {
+   "role": "assistant",
+   "tool": "Edit",
+   "id": "t3",
+   "input": {
+    "replace_all": false,
+    "file_path": "./tokencost.py",
+    "old_string": "",
+    "new_string": "PRICES_AS_OF = \"2026-11\"\n\nPRICES = {\n    \"claude-haiku-5-5\": {\"input\": 0.10, \"cache_write\": 0.125, \"cache_read\": 0.01, \"output\": 0.50},\n    \"claude-sonnet-5-5\": {\"input\": 2.00, \"cache_write\": 2.50, \"cache_read\": 0.10, \"output\": 10.00},\n    \"claude-opus-5-5\": {\"input\": 4.00, \"cache_write\": 5.00, \"cache_read\": 0.20, \"output\": 20.00},\n}\n\nLONG_PROMPT_PRICES = {\n    \"claude-haiku-5-5\": (\n        100_000,\n        {\"input\": 0.50, \"cache_write\": 0.625, \"cache_read\": 0.05, \"output\": 2.50},\n    ),\n}\n\n_FIELDS = (\"input_tokens\", \"output_tokens\", \"cache_read_input_tokens\", \"cache_creation_input_tokens\")\n\n\ndef _counts(usage):\n    out = {}\n    for f in _FIELDS:\n        if isinstance(usage, dict) or hasattr(usage, \"get\") and not hasattr(usage, f):\n            v = usage.get(f)\n        else:\n            v = getattr(usage, f, None)\n        v = 0 if v is None else v\n        if v < 0:\n            raise ValueError(f\"{f} must not be negative\")\n        out[f] = v\n    return out\n\n\ndef prompt_tokens(usage):\n    c = _counts(usage)\n    return c[\"input_tokens\"] + c[\"cache_read_input_tokens\"] + c[\"cache_creation_input_tokens\"]\n\n\ndef call_cost(usage, model):\n    if model not in PRICES:\n        raise ValueError(f\"unknown model: {model}\")\n    c = _counts(usage)\n    rates = PRICES[model]\n    if model in LONG_PROMPT_PRICES:\n        threshold, long_rates = LONG_PROMPT_PRICES[model]\n        if prompt_tokens(usage) > threshold:\n            rates = long_rates\n    total = (\n        c[\"input_tokens\"] * rates[\"input\"]\n        + c[\"cache_creation_input_tokens\"] * rates[\"cache_write\"]\n        + c[\"cache_read_input_tokens\"] * rates[\"cache_read\"]\n        + c[\"output_tokens\"] * rates[\"output\"]\n    )\n    return total / 1_000_000\n\n\ndef context_check(prompt, max_tokens, window=1_000_000):\n    if prompt < 0 or max_tokens < 0 or window <= 0:\n        raise ValueError(\"invalid arguments\")\n    if prompt > window:\n        return \"too long\"\n    if prompt + max_tokens <= window:\n        return \"fits\"\n    return \"may stop early\"\n\n\ndef project_conversation(first_prompt, added_per_turn, output_per_turn, turns):\n    if turns < 1 or first_prompt < 0 or added_per_turn < 0 or output_per_turn < 0:\n        raise ValueError(\"invalid arguments\")\n    return [\n        {\"input_tokens\": first_prompt + k * added_per_turn, \"output_tokens\": output_per_turn}\n        for k in range(turns)\n    ]\n"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t3",
+   "is_error": false,
+   "result": "The file ./tokencost.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+  },
+  {
+   "role": "assistant",
+   "tool": "Bash",
+   "id": "t4",
+   "input": {
+    "command": "python3 -m pytest -q tests"
+   }
+  },
+  {
+   "role": "tool",
+   "id": "t4",
+   "is_error": false,
+   "result": "..................................                                       [100%]\n34 passed in 0.02s"
+  },
+  {
+   "role": "assistant",
+   "text": "I wrote `tokencost.py` to match the spec, and all 34 tests in `tests/` now pass.\n\nI ran the test command in the same step as the file edit, and it passed. I didn't re-run it afterward.\n\n`usage` can be a dict, another mapping, or an object with attributes, such as an Anthropic SDK response's `usage`. A missing or `None` field counts as 0."
+  }
+ ]
+}

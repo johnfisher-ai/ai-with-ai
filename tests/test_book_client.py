@@ -115,6 +115,17 @@ def test_a_recording_names_its_model_date_and_sdk(folder):
     assert exchange["key"] == book_client.request_key(req["method"], req["path"], req["query"], req["body"])
 
 
+def test_a_model_description_is_recorded_under_its_own_model(folder):
+    described = {"type": "model", "id": MODEL, "display_name": "Fixture model description",
+                 "max_input_tokens": 1000, "max_tokens": 100}
+    _, saved = record(folder, [(200, described)], [lambda c: c.models.retrieve(MODEL)])
+    (exchange,) = saved["exchanges"]
+    assert exchange["request"]["method"] == "GET" and exchange["request"]["body"] is None
+    assert exchange["model"] == MODEL
+    replayed = book_client.make_client("demo", folder=folder, quiet=True).models.retrieve(MODEL)
+    assert replayed.max_input_tokens == 1000
+
+
 def test_a_request_that_was_never_recorded_fails_with_a_clear_message(folder):
     record(folder, [(200, message())], [ask])
     client = book_client.make_client("demo", folder=folder, quiet=True)

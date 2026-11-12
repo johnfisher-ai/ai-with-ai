@@ -44,6 +44,10 @@ MAP = {
         ("../../how-a-language-model-produces-text.html#notebook", "Back to the book", "Chapter 2 · How a language model produces text"),
     "how-a-language-model-produces-text--solutions.html":
         ("../../how-a-language-model-produces-text.html#challenges", "Back to the book", "Chapter 2 · Practice challenges"),
+    "tokens-context-and-cost.html":
+        ("../../tokens-context-and-cost.html#notebook", "Back to the book", "Chapter 3 · Tokens, context and cost"),
+    "tokens-context-and-cost--solutions.html":
+        ("../../tokens-context-and-cost.html#challenges", "Back to the book", "Chapter 3 · Practice challenges"),
 }
 
 BOOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

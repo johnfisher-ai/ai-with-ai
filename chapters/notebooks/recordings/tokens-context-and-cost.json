@@ -1,0 +1,2136 @@
+{
+ "notebook": "tokens-context-and-cost",
+ "format": 1,
+ "exchanges": [
+  {
+   "key": "78f7e42622e4a716",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "."
+      }
+     ],
+     "model": "claude-haiku-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 9
+    }
+   },
+   "model": "claude-haiku-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "c795ad07cf968d32",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 9
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "aee25fea4777e046",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "."
+      }
+     ],
+     "model": "claude-opus-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 9
+    }
+   },
+   "model": "claude-opus-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "539145ba903fa704",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. I'd like a replacement sent to the same address, please."
+      }
+     ],
+     "model": "claude-haiku-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 38
+    }
+   },
+   "model": "claude-haiku-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "2d9443d25018055e",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. I'd like a replacement sent to the same address, please."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 38
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "ee802215b810ce95",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. I'd like a replacement sent to the same address, please."
+      }
+     ],
+     "model": "claude-opus-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 38
+    }
+   },
+   "model": "claude-opus-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "14dc624ffacce6c9",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "{\"ticket_id\": 48213, \"channel\": \"email\", \"subject\": \"Cracked screen\", \"priority\": \"high\"}"
+      }
+     ],
+     "model": "claude-haiku-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 47
+    }
+   },
+   "model": "claude-haiku-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "4791eec247f7ad9c",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "{\"ticket_id\": 48213, \"channel\": \"email\", \"subject\": \"Cracked screen\", \"priority\": \"high\"}"
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 47
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "e236ed653eecb088",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "{\"ticket_id\": 48213, \"channel\": \"email\", \"subject\": \"Cracked screen\", \"priority\": \"high\"}"
+      }
+     ],
+     "model": "claude-opus-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 47
+    }
+   },
+   "model": "claude-opus-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "f07b89cc2f51e797",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "ticket_id,channel,subject,priority\n48213,email,Cracked screen,high\n48214,chat,Late delivery,low"
+      }
+     ],
+     "model": "claude-haiku-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 50
+    }
+   },
+   "model": "claude-haiku-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "929562d5249e894b",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "ticket_id,channel,subject,priority\n48213,email,Cracked screen,high\n48214,chat,Late delivery,low"
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 50
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "c1cfbe6476ab93d3",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "ticket_id,channel,subject,priority\n48213,email,Cracked screen,high\n48214,chat,Late delivery,low"
+      }
+     ],
+     "model": "claude-opus-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 50
+    }
+   },
+   "model": "claude-opus-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "2aba1631dc73e41e",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "def refund(order, amount):\n    if amount > order.total:\n        raise ValueError('too much')\n    return order.total - amount\n"
+      }
+     ],
+     "model": "claude-haiku-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 48
+    }
+   },
+   "model": "claude-haiku-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "a6f5326043ffb309",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "def refund(order, amount):\n    if amount > order.total:\n        raise ValueError('too much')\n    return order.total - amount\n"
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 48
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "bdd05239c9db59ec",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "def refund(order, amount):\n    if amount > order.total:\n        raise ValueError('too much')\n    return order.total - amount\n"
+      }
+     ],
+     "model": "claude-opus-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 48
+    }
+   },
+   "model": "claude-opus-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "8d44d27de8790ed7",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "Meine Bestellung kam mit einem gesprungenen Bildschirm an. Bitte senden Sie Ersatz an dieselbe Adresse."
+      }
+     ],
+     "model": "claude-haiku-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 61
+    }
+   },
+   "model": "claude-haiku-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "a1f3123dd27f0319",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "Meine Bestellung kam mit einem gesprungenen Bildschirm an. Bitte senden Sie Ersatz an dieselbe Adresse."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 61
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "48efb4335daf01bf",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "Meine Bestellung kam mit einem gesprungenen Bildschirm an. Bitte senden Sie Ersatz an dieselbe Adresse."
+      }
+     ],
+     "model": "claude-opus-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 61
+    }
+   },
+   "model": "claude-opus-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "a11cbc4e2e2480f9",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "注文した商品の画面が割れて届きました。同じ住所に交換品を送ってください。"
+      }
+     ],
+     "model": "claude-haiku-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 39
+    }
+   },
+   "model": "claude-haiku-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "c717b9c634e293d1",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "注文した商品の画面が割れて届きました。同じ住所に交換品を送ってください。"
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 39
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "533ccf0c47cf3955",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "注文した商品の画面が割れて届きました。同じ住所に交換品を送ってください。"
+      }
+     ],
+     "model": "claude-opus-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 39
+    }
+   },
+   "model": "claude-opus-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "2d9443d25018055e",
+   "call": 2,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. I'd like a replacement sent to the same address, please."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 38
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "852fce4c5c7d4690",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. I'd like a replacement sent to the same address, please."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 65
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "f185d9e91df5a656",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. I'd like a replacement sent to the same address, please."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences.",
+     "tools": [
+      {
+       "name": "lookup_order",
+       "description": "Look up an order by its number and return its items, status and delivery address.",
+       "input_schema": {
+        "type": "object",
+        "properties": {
+         "order_id": {
+          "type": "integer"
+         }
+        },
+        "required": [
+         "order_id"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 439
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "bea6d2b0408dfc76",
+   "call": 1,
+   "request": {
+    "method": "GET",
+    "path": "/v1/models/claude-haiku-5-5",
+    "query": "",
+    "body": null
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "type": "model",
+     "id": "claude-haiku-5-5",
+     "display_name": "Claude Haiku 5.5",
+     "created_at": "2026-10-07T18:00:00Z",
+     "line": "haiku",
+     "max_input_tokens": 1000000,
+     "max_tokens": 128000,
+     "capabilities": {
+      "batch": {
+       "supported": true
+      },
+      "citations": {
+       "supported": true
+      },
+      "code_execution": {
+       "supported": true
+      },
+      "context_management": {
+       "supported": true,
+       "clear_tool_uses_20250919": {
+        "supported": true
+       },
+       "clear_thinking_20251015": {
+        "supported": true
+       },
+       "compact_20260112": {
+        "supported": true
+       }
+      },
+      "effort": {
+       "supported": true,
+       "low": {
+        "supported": true
+       },
+       "medium": {
+        "supported": true
+       },
+       "high": {
+        "supported": true
+       },
+       "xhigh": {
+        "supported": true
+       },
+       "max": {
+        "supported": true
+       }
+      },
+      "image_input": {
+       "supported": true
+      },
+      "pdf_input": {
+       "supported": true
+      },
+      "server_tools": {
+       "supported": true,
+       "code_execution": {
+        "supported": true
+       },
+       "web_search": {
+        "supported": true
+       }
+      },
+      "structured_outputs": {
+       "supported": true
+      },
+      "thinking": {
+       "supported": true,
+       "types": {
+        "enabled": {
+         "supported": false
+        },
+        "adaptive": {
+         "supported": true
+        },
+        "disabled": {
+         "supported": true
+        },
+        "between_tools": {
+         "supported": false
+        }
+       }
+      }
+     },
+     "lifecycle": "active",
+     "deprecated_at": null,
+     "retires_at": null
+    }
+   },
+   "model": "claude-haiku-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "af043900fed1c3d5",
+   "call": 1,
+   "request": {
+    "method": "GET",
+    "path": "/v1/models/claude-sonnet-5-5",
+    "query": "",
+    "body": null
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "type": "model",
+     "id": "claude-sonnet-5-5",
+     "display_name": "Claude Sonnet 5.5",
+     "created_at": "2026-09-28T00:00:00Z",
+     "line": "sonnet",
+     "max_input_tokens": 1000000,
+     "max_tokens": 128000,
+     "capabilities": {
+      "batch": {
+       "supported": true
+      },
+      "citations": {
+       "supported": true
+      },
+      "code_execution": {
+       "supported": true
+      },
+      "context_management": {
+       "supported": true,
+       "clear_tool_uses_20250919": {
+        "supported": true
+       },
+       "clear_thinking_20251015": {
+        "supported": true
+       },
+       "compact_20260112": {
+        "supported": true
+       }
+      },
+      "effort": {
+       "supported": true,
+       "low": {
+        "supported": true
+       },
+       "medium": {
+        "supported": true
+       },
+       "high": {
+        "supported": true
+       },
+       "xhigh": {
+        "supported": true
+       },
+       "max": {
+        "supported": true
+       }
+      },
+      "image_input": {
+       "supported": true
+      },
+      "pdf_input": {
+       "supported": true
+      },
+      "server_tools": {
+       "supported": true,
+       "code_execution": {
+        "supported": true
+       },
+       "web_search": {
+        "supported": true
+       }
+      },
+      "structured_outputs": {
+       "supported": true
+      },
+      "thinking": {
+       "supported": true,
+       "types": {
+        "enabled": {
+         "supported": false
+        },
+        "adaptive": {
+         "supported": true
+        },
+        "disabled": {
+         "supported": false
+        },
+        "between_tools": {
+         "supported": true
+        }
+       }
+      }
+     },
+     "lifecycle": "active",
+     "deprecated_at": null,
+     "retires_at": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "cc4f136ac71057d7",
+   "call": 1,
+   "request": {
+    "method": "GET",
+    "path": "/v1/models/claude-opus-5-5",
+    "query": "",
+    "body": null
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "type": "model",
+     "id": "claude-opus-5-5",
+     "display_name": "Claude Opus 5.5",
+     "created_at": "2026-09-21T16:24:00Z",
+     "line": "opus",
+     "max_input_tokens": 1000000,
+     "max_tokens": 128000,
+     "capabilities": {
+      "batch": {
+       "supported": true
+      },
+      "citations": {
+       "supported": true
+      },
+      "code_execution": {
+       "supported": true
+      },
+      "context_management": {
+       "supported": true,
+       "clear_tool_uses_20250919": {
+        "supported": true
+       },
+       "clear_thinking_20251015": {
+        "supported": true
+       },
+       "compact_20260112": {
+        "supported": true
+       }
+      },
+      "effort": {
+       "supported": true,
+       "low": {
+        "supported": true
+       },
+       "medium": {
+        "supported": true
+       },
+       "high": {
+        "supported": true
+       },
+       "xhigh": {
+        "supported": true
+       },
+       "max": {
+        "supported": true
+       }
+      },
+      "image_input": {
+       "supported": true
+      },
+      "pdf_input": {
+       "supported": true
+      },
+      "server_tools": {
+       "supported": true,
+       "code_execution": {
+        "supported": true
+       },
+       "web_search": {
+        "supported": true
+       }
+      },
+      "structured_outputs": {
+       "supported": true
+      },
+      "thinking": {
+       "supported": true,
+       "types": {
+        "enabled": {
+         "supported": false
+        },
+        "adaptive": {
+         "supported": true
+        },
+        "disabled": {
+         "supported": false
+        },
+        "between_tools": {
+         "supported": false
+        }
+       }
+      }
+     },
+     "lifecycle": "active",
+     "deprecated_at": null,
+     "retires_at": null
+    }
+   },
+   "model": "claude-opus-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "af043900fed1c3d5",
+   "call": 2,
+   "request": {
+    "method": "GET",
+    "path": "/v1/models/claude-sonnet-5-5",
+    "query": "",
+    "body": null
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "type": "model",
+     "id": "claude-sonnet-5-5",
+     "display_name": "Claude Sonnet 5.5",
+     "created_at": "2026-09-28T00:00:00Z",
+     "line": "sonnet",
+     "max_input_tokens": 1000000,
+     "max_tokens": 128000,
+     "capabilities": {
+      "batch": {
+       "supported": true
+      },
+      "citations": {
+       "supported": true
+      },
+      "code_execution": {
+       "supported": true
+      },
+      "context_management": {
+       "supported": true,
+       "clear_tool_uses_20250919": {
+        "supported": true
+       },
+       "clear_thinking_20251015": {
+        "supported": true
+       },
+       "compact_20260112": {
+        "supported": true
+       }
+      },
+      "effort": {
+       "supported": true,
+       "low": {
+        "supported": true
+       },
+       "medium": {
+        "supported": true
+       },
+       "high": {
+        "supported": true
+       },
+       "xhigh": {
+        "supported": true
+       },
+       "max": {
+        "supported": true
+       }
+      },
+      "image_input": {
+       "supported": true
+      },
+      "pdf_input": {
+       "supported": true
+      },
+      "server_tools": {
+       "supported": true,
+       "code_execution": {
+        "supported": true
+       },
+       "web_search": {
+        "supported": true
+       }
+      },
+      "structured_outputs": {
+       "supported": true
+      },
+      "thinking": {
+       "supported": true,
+       "types": {
+        "enabled": {
+         "supported": false
+        },
+        "adaptive": {
+         "supported": true
+        },
+        "disabled": {
+         "supported": false
+        },
+        "between_tools": {
+         "supported": true
+        }
+       }
+      }
+     },
+     "lifecycle": "active",
+     "deprecated_at": null,
+     "retires_at": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "6182d41a0f0bd85d",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 53
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "eff7a484f636aaea",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxD4icphsN4dXRfXvKZP",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 53,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 88,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "35788a9cebf344cb",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 166
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "f7047c7c4c37889e",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxD4riyWSJsYyoMHszJ5",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSpwcKEAgTGAI4AUIIdGhpbmtpbmcSDNRJEAS6Bgy7S85/kRoMdA/mvBVcPDmhMkTfIjC1adhH67vZbWpWuDOympfi97R5p30qe+kwlUPbpCCskwdko2ay5C577s3gxzcLVrYqxAZbnv5DPnPdIazM7rcAyPp5f5CN1XqaOEZAvE2sLNjbthr+WrrW9pgTAVDelK7WGPuxZVvhYlpWpMONISmzpl9x84kswW/JZyojTu18QAuOjDRp7Mrl7sNxyyay1qK7JlaFvkQ4vOJqXx4sDI1IxaNR0txa7YC5zE1s+m72bdgfcS8Z33AofXlLvPbbsG7iesgcKKzvXmOA7vz19chE35Nksz5BGqhbxWVl4mJxjUyad2+S7xaUhE3sEG0Ao83w4GVJXn+iuWAjPZsVL4g55jQa5TMuxudAr7qKwTNyLyzfwjGzNWv269FnCBRT6x5/Gayw6RUPhwKfAjnOUUfeRERvKestMnUq5jLLKoKRVMvNXDmwEgu+N7/bNKebOdjUNf6i/BrC1nz9Y2eCi8kI4BR7zElFuuWcGJLDKV80BzqvrHASqddyqQzgvRfPfLgRbswSC6Mc26wxGEmXo+jZOgKNXQXcavrxJg/bVteGv1slbeGv/uvfQJK5+VYsYILTIvjronf5fbM2u5UmVIXQjuaHoZBPDo4Epaar7njZXw9m9eZnDOm1npnCOX3ZXQq1H+cLZoPqc+8TldlGntGcHCn/WHp6eFw8koTcT1Z56kjP8/vpDIN1Jb9x9plrE7z5JB5XaMQDpjzgVNlyaFvXUfi8nBoO8zAqckoScsCHD1elSWkUUEhZF0FyHqOt9TN8dySm+bAsmz+p4OujCuPB1b1JACML98VdJpQRIo7pES01Xwb5/kjniKzRYjO6936SA1vkWmzsjW/b+LyBy3rouMguQsfVBoOmLdaLTcw0CXqmxKHqy/AC4eTUNveXzxeyMu5ifaWlrPd6cA9cbIIN59hJaeYXVYWbAhOwLNn4LVw7yDGEO6OkQy/OAqbbMaO41g28O1J/CUba9Msv9gN4cvWvSzMBGKf8dYoMAOqAfQisPjsZQJ8dLg8q81x5b9pj1zr6acsBLayZ1K8IQzqLcOIyYv86O7vhtmOq9CAGlLfXzTQ0UpSY7FEXvfYpQznM9HSmm4ENi8N+ZfftPPGgExBM+CgO6fwcD6oEYesnhIax3SOzpLMD6jrphrVaAKeEzw2mLiXrhTZsiDSY4KJYsH8+st0wCRgB"
+      },
+      {
+       "type": "text",
+       "text": "Thanks for the order number, and I'm sorry for the hassle. I can't access order details or issue the replacement from this chat, so please send your photos of the screen and packaging, along with order #48213 and a note that you'd like a replacement, to our support team through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Keep the box and packing materials until the replacement is arranged, since the carrier may need them for pickup or inspection."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 166,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 249,
+      "output_tokens_details": {
+       "thinking_tokens": 103
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "80f450d2e7e4202f",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSpwcKEAgTGAI4AUIIdGhpbmtpbmcSDNRJEAS6Bgy7S85/kRoMdA/mvBVcPDmhMkTfIjC1adhH67vZbWpWuDOympfi97R5p30qe+kwlUPbpCCskwdko2ay5C577s3gxzcLVrYqxAZbnv5DPnPdIazM7rcAyPp5f5CN1XqaOEZAvE2sLNjbthr+WrrW9pgTAVDelK7WGPuxZVvhYlpWpMONISmzpl9x84kswW/JZyojTu18QAuOjDRp7Mrl7sNxyyay1qK7JlaFvkQ4vOJqXx4sDI1IxaNR0txa7YC5zE1s+m72bdgfcS8Z33AofXlLvPbbsG7iesgcKKzvXmOA7vz19chE35Nksz5BGqhbxWVl4mJxjUyad2+S7xaUhE3sEG0Ao83w4GVJXn+iuWAjPZsVL4g55jQa5TMuxudAr7qKwTNyLyzfwjGzNWv269FnCBRT6x5/Gayw6RUPhwKfAjnOUUfeRERvKestMnUq5jLLKoKRVMvNXDmwEgu+N7/bNKebOdjUNf6i/BrC1nz9Y2eCi8kI4BR7zElFuuWcGJLDKV80BzqvrHASqddyqQzgvRfPfLgRbswSC6Mc26wxGEmXo+jZOgKNXQXcavrxJg/bVteGv1slbeGv/uvfQJK5+VYsYILTIvjronf5fbM2u5UmVIXQjuaHoZBPDo4Epaar7njZXw9m9eZnDOm1npnCOX3ZXQq1H+cLZoPqc+8TldlGntGcHCn/WHp6eFw8koTcT1Z56kjP8/vpDIN1Jb9x9plrE7z5JB5XaMQDpjzgVNlyaFvXUfi8nBoO8zAqckoScsCHD1elSWkUUEhZF0FyHqOt9TN8dySm+bAsmz+p4OujCuPB1b1JACML98VdJpQRIo7pES01Xwb5/kjniKzRYjO6936SA1vkWmzsjW/b+LyBy3rouMguQsfVBoOmLdaLTcw0CXqmxKHqy/AC4eTUNveXzxeyMu5ifaWlrPd6cA9cbIIN59hJaeYXVYWbAhOwLNn4LVw7yDGEO6OkQy/OAqbbMaO41g28O1J/CUba9Msv9gN4cvWvSzMBGKf8dYoMAOqAfQisPjsZQJ8dLg8q81x5b9pj1zr6acsBLayZ1K8IQzqLcOIyYv86O7vhtmOq9CAGlLfXzTQ0UpSY7FEXvfYpQznM9HSmm4ENi8N+ZfftPPGgExBM+CgO6fwcD6oEYesnhIax3SOzpLMD6jrphrVaAKeEzw2mLiXrhTZsiDSY4KJYsH8+st0wCRgB",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "Thanks for the order number, and I'm sorry for the hassle. I can't access order details or issue the replacement from this chat, so please send your photos of the screen and packaging, along with order #48213 and a note that you'd like a replacement, to our support team through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Keep the box and packing materials until the replacement is arranged, since the carrier may need them for pickup or inspection.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "How long will the replacement take to arrive?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 432
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "03c7e1fe5d25639f",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSpwcKEAgTGAI4AUIIdGhpbmtpbmcSDNRJEAS6Bgy7S85/kRoMdA/mvBVcPDmhMkTfIjC1adhH67vZbWpWuDOympfi97R5p30qe+kwlUPbpCCskwdko2ay5C577s3gxzcLVrYqxAZbnv5DPnPdIazM7rcAyPp5f5CN1XqaOEZAvE2sLNjbthr+WrrW9pgTAVDelK7WGPuxZVvhYlpWpMONISmzpl9x84kswW/JZyojTu18QAuOjDRp7Mrl7sNxyyay1qK7JlaFvkQ4vOJqXx4sDI1IxaNR0txa7YC5zE1s+m72bdgfcS8Z33AofXlLvPbbsG7iesgcKKzvXmOA7vz19chE35Nksz5BGqhbxWVl4mJxjUyad2+S7xaUhE3sEG0Ao83w4GVJXn+iuWAjPZsVL4g55jQa5TMuxudAr7qKwTNyLyzfwjGzNWv269FnCBRT6x5/Gayw6RUPhwKfAjnOUUfeRERvKestMnUq5jLLKoKRVMvNXDmwEgu+N7/bNKebOdjUNf6i/BrC1nz9Y2eCi8kI4BR7zElFuuWcGJLDKV80BzqvrHASqddyqQzgvRfPfLgRbswSC6Mc26wxGEmXo+jZOgKNXQXcavrxJg/bVteGv1slbeGv/uvfQJK5+VYsYILTIvjronf5fbM2u5UmVIXQjuaHoZBPDo4Epaar7njZXw9m9eZnDOm1npnCOX3ZXQq1H+cLZoPqc+8TldlGntGcHCn/WHp6eFw8koTcT1Z56kjP8/vpDIN1Jb9x9plrE7z5JB5XaMQDpjzgVNlyaFvXUfi8nBoO8zAqckoScsCHD1elSWkUUEhZF0FyHqOt9TN8dySm+bAsmz+p4OujCuPB1b1JACML98VdJpQRIo7pES01Xwb5/kjniKzRYjO6936SA1vkWmzsjW/b+LyBy3rouMguQsfVBoOmLdaLTcw0CXqmxKHqy/AC4eTUNveXzxeyMu5ifaWlrPd6cA9cbIIN59hJaeYXVYWbAhOwLNn4LVw7yDGEO6OkQy/OAqbbMaO41g28O1J/CUba9Msv9gN4cvWvSzMBGKf8dYoMAOqAfQisPjsZQJ8dLg8q81x5b9pj1zr6acsBLayZ1K8IQzqLcOIyYv86O7vhtmOq9CAGlLfXzTQ0UpSY7FEXvfYpQznM9HSmm4ENi8N+ZfftPPGgExBM+CgO6fwcD6oEYesnhIax3SOzpLMD6jrphrVaAKeEzw2mLiXrhTZsiDSY4KJYsH8+st0wCRgB",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "Thanks for the order number, and I'm sorry for the hassle. I can't access order details or issue the replacement from this chat, so please send your photos of the screen and packaging, along with order #48213 and a note that you'd like a replacement, to our support team through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Keep the box and packing materials until the replacement is arranged, since the carrier may need them for pickup or inspection.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "How long will the replacement take to arrive?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxD55sFmeGwGGiQwxyKQ",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQSqAYKEAgTGAI4AUIIdGhpbmtpbmcSDDYquSLyNN+U0JaiJhoMKdj7G3J30+KdS8AYIjD5jM3odcGhDNTmbNZcbUpogOv0Poe30g9m7GIQhPcClkHYGN1z/EaggYv0iIKvsd0qxQVr4g6wv4Wn2v7ac701qf9IYhsC96mK3gzUL62RbhF+Yll8KytIBoupeg+/jYKNBoAeVjeI8ScwFJoVDK8NFXhrPDun0/UXM7NyTDcoFNdmYjYuNQ360lG5a1ErHBtjgYWvT6oLiUJTfJsPGGMGnSt+5CI467wn59m37zdmcQ/B4wQ97Eq/1hGtkuhKBln1bllWzBwjzW93fjQFc6pvWUFQZdK4BYk1mYLkSSGOrVEr9TL3BnXt/XOAfcvQWZSIkE1NRFeOH97K5QGeuyocEs9OrW8nJtSzLdl6+9qjLupDL3Iy2ovHy8Gx7YyrrGJ5OwreIRXPzHfBaNc2WD3QDIckxxWVV6t+SkuE380f7jQ5jVJ4k3dOBUCpBIvqMVye3FPC3yblgMDAUbANtLvnALJpYwrw9Yn/4I0Tgfg0ghQO14FP/BRnXa0/0B+BL4C8NbXN2OKPF/fvlHqvb4XS/e8CN1KhUdVpB5czC0Bmzw1ZkfbfguqgIEpNEZewFeRiYRRxl5hTEkvmYhNU6rVbpD8J3Yxg5Sti3jaw2MM5IIxltxhRIw5EB/b1e1FSEIb5qhuC8eYYu6uQ0Ittl/+vvMWwANffAeyPG8IpGh+cLAd2k8tWATySW5iEyDPnyh2JZ+gORefEuFo+594e0o+T/UjJy5Dc09WVEiHFIOmBb5L8iY82ry7jPsQDiQcw/5mWR+uwdXOrLtS2iYRY7AlEvKpL5RUe3vIxeoxD+8dq9LP5fvxW4ipVTK1N+rFTUYGp7NlzpL8uYzQs/nvqQQgUgAxajqpyrqKNgTXnT6kOykHfHr4xcbL+Yzbn1FHJPKtNCU2cZMal9T1t5Fw0hijYMMwGZCvP45BycXo/zFx6ifQpVukFl8VTWtFRIW5sd9apdgaYmogzRk1aKnh51EGEE45K+Y4I32geKMZgj/c/XUf1auXe0K6AGAE="
+      },
+      {
+       "type": "text",
+       "text": "I can't give you an exact date, since I don't have access to our replacement timelines or your order's details. Typically, a claim is reviewed first, and then the replacement ships, so the total time depends on how quickly the review is completed and on stock availability and shipping method. The support team can confirm a specific estimate when they approve your claim, so I'd ask for that in your request."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 432,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 154,
+      "output_tokens_details": {
+       "thinking_tokens": 38
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "54ad2f0f01727767",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSpwcKEAgTGAI4AUIIdGhpbmtpbmcSDNRJEAS6Bgy7S85/kRoMdA/mvBVcPDmhMkTfIjC1adhH67vZbWpWuDOympfi97R5p30qe+kwlUPbpCCskwdko2ay5C577s3gxzcLVrYqxAZbnv5DPnPdIazM7rcAyPp5f5CN1XqaOEZAvE2sLNjbthr+WrrW9pgTAVDelK7WGPuxZVvhYlpWpMONISmzpl9x84kswW/JZyojTu18QAuOjDRp7Mrl7sNxyyay1qK7JlaFvkQ4vOJqXx4sDI1IxaNR0txa7YC5zE1s+m72bdgfcS8Z33AofXlLvPbbsG7iesgcKKzvXmOA7vz19chE35Nksz5BGqhbxWVl4mJxjUyad2+S7xaUhE3sEG0Ao83w4GVJXn+iuWAjPZsVL4g55jQa5TMuxudAr7qKwTNyLyzfwjGzNWv269FnCBRT6x5/Gayw6RUPhwKfAjnOUUfeRERvKestMnUq5jLLKoKRVMvNXDmwEgu+N7/bNKebOdjUNf6i/BrC1nz9Y2eCi8kI4BR7zElFuuWcGJLDKV80BzqvrHASqddyqQzgvRfPfLgRbswSC6Mc26wxGEmXo+jZOgKNXQXcavrxJg/bVteGv1slbeGv/uvfQJK5+VYsYILTIvjronf5fbM2u5UmVIXQjuaHoZBPDo4Epaar7njZXw9m9eZnDOm1npnCOX3ZXQq1H+cLZoPqc+8TldlGntGcHCn/WHp6eFw8koTcT1Z56kjP8/vpDIN1Jb9x9plrE7z5JB5XaMQDpjzgVNlyaFvXUfi8nBoO8zAqckoScsCHD1elSWkUUEhZF0FyHqOt9TN8dySm+bAsmz+p4OujCuPB1b1JACML98VdJpQRIo7pES01Xwb5/kjniKzRYjO6936SA1vkWmzsjW/b+LyBy3rouMguQsfVBoOmLdaLTcw0CXqmxKHqy/AC4eTUNveXzxeyMu5ifaWlrPd6cA9cbIIN59hJaeYXVYWbAhOwLNn4LVw7yDGEO6OkQy/OAqbbMaO41g28O1J/CUba9Msv9gN4cvWvSzMBGKf8dYoMAOqAfQisPjsZQJ8dLg8q81x5b9pj1zr6acsBLayZ1K8IQzqLcOIyYv86O7vhtmOq9CAGlLfXzTQ0UpSY7FEXvfYpQznM9HSmm4ENi8N+ZfftPPGgExBM+CgO6fwcD6oEYesnhIax3SOzpLMD6jrphrVaAKeEzw2mLiXrhTZsiDSY4KJYsH8+st0wCRgB",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "Thanks for the order number, and I'm sorry for the hassle. I can't access order details or issue the replacement from this chat, so please send your photos of the screen and packaging, along with order #48213 and a note that you'd like a replacement, to our support team through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Keep the box and packing materials until the replacement is arranged, since the carrier may need them for pickup or inspection.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "How long will the replacement take to arrive?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSqAYKEAgTGAI4AUIIdGhpbmtpbmcSDDYquSLyNN+U0JaiJhoMKdj7G3J30+KdS8AYIjD5jM3odcGhDNTmbNZcbUpogOv0Poe30g9m7GIQhPcClkHYGN1z/EaggYv0iIKvsd0qxQVr4g6wv4Wn2v7ac701qf9IYhsC96mK3gzUL62RbhF+Yll8KytIBoupeg+/jYKNBoAeVjeI8ScwFJoVDK8NFXhrPDun0/UXM7NyTDcoFNdmYjYuNQ360lG5a1ErHBtjgYWvT6oLiUJTfJsPGGMGnSt+5CI467wn59m37zdmcQ/B4wQ97Eq/1hGtkuhKBln1bllWzBwjzW93fjQFc6pvWUFQZdK4BYk1mYLkSSGOrVEr9TL3BnXt/XOAfcvQWZSIkE1NRFeOH97K5QGeuyocEs9OrW8nJtSzLdl6+9qjLupDL3Iy2ovHy8Gx7YyrrGJ5OwreIRXPzHfBaNc2WD3QDIckxxWVV6t+SkuE380f7jQ5jVJ4k3dOBUCpBIvqMVye3FPC3yblgMDAUbANtLvnALJpYwrw9Yn/4I0Tgfg0ghQO14FP/BRnXa0/0B+BL4C8NbXN2OKPF/fvlHqvb4XS/e8CN1KhUdVpB5czC0Bmzw1ZkfbfguqgIEpNEZewFeRiYRRxl5hTEkvmYhNU6rVbpD8J3Yxg5Sti3jaw2MM5IIxltxhRIw5EB/b1e1FSEIb5qhuC8eYYu6uQ0Ittl/+vvMWwANffAeyPG8IpGh+cLAd2k8tWATySW5iEyDPnyh2JZ+gORefEuFo+594e0o+T/UjJy5Dc09WVEiHFIOmBb5L8iY82ry7jPsQDiQcw/5mWR+uwdXOrLtS2iYRY7AlEvKpL5RUe3vIxeoxD+8dq9LP5fvxW4ipVTK1N+rFTUYGp7NlzpL8uYzQs/nvqQQgUgAxajqpyrqKNgTXnT6kOykHfHr4xcbL+Yzbn1FHJPKtNCU2cZMal9T1t5Fw0hijYMMwGZCvP45BycXo/zFx6ifQpVukFl8VTWtFRIW5sd9apdgaYmogzRk1aKnh51EGEE45K+Y4I32geKMZgj/c/XUf1auXe0K6AGAE=",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I can't give you an exact date, since I don't have access to our replacement timelines or your order's details. Typically, a claim is reviewed first, and then the replacement ships, so the total time depends on how quickly the review is completed and on stock availability and shipping method. The support team can confirm a specific estimate when they approve your claim, so I'd ask for that in your request.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Can you send it to my office instead? It's 200 Market Street, Suite 4."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 617
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "2aa9302f67d522e1",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSpwcKEAgTGAI4AUIIdGhpbmtpbmcSDNRJEAS6Bgy7S85/kRoMdA/mvBVcPDmhMkTfIjC1adhH67vZbWpWuDOympfi97R5p30qe+kwlUPbpCCskwdko2ay5C577s3gxzcLVrYqxAZbnv5DPnPdIazM7rcAyPp5f5CN1XqaOEZAvE2sLNjbthr+WrrW9pgTAVDelK7WGPuxZVvhYlpWpMONISmzpl9x84kswW/JZyojTu18QAuOjDRp7Mrl7sNxyyay1qK7JlaFvkQ4vOJqXx4sDI1IxaNR0txa7YC5zE1s+m72bdgfcS8Z33AofXlLvPbbsG7iesgcKKzvXmOA7vz19chE35Nksz5BGqhbxWVl4mJxjUyad2+S7xaUhE3sEG0Ao83w4GVJXn+iuWAjPZsVL4g55jQa5TMuxudAr7qKwTNyLyzfwjGzNWv269FnCBRT6x5/Gayw6RUPhwKfAjnOUUfeRERvKestMnUq5jLLKoKRVMvNXDmwEgu+N7/bNKebOdjUNf6i/BrC1nz9Y2eCi8kI4BR7zElFuuWcGJLDKV80BzqvrHASqddyqQzgvRfPfLgRbswSC6Mc26wxGEmXo+jZOgKNXQXcavrxJg/bVteGv1slbeGv/uvfQJK5+VYsYILTIvjronf5fbM2u5UmVIXQjuaHoZBPDo4Epaar7njZXw9m9eZnDOm1npnCOX3ZXQq1H+cLZoPqc+8TldlGntGcHCn/WHp6eFw8koTcT1Z56kjP8/vpDIN1Jb9x9plrE7z5JB5XaMQDpjzgVNlyaFvXUfi8nBoO8zAqckoScsCHD1elSWkUUEhZF0FyHqOt9TN8dySm+bAsmz+p4OujCuPB1b1JACML98VdJpQRIo7pES01Xwb5/kjniKzRYjO6936SA1vkWmzsjW/b+LyBy3rouMguQsfVBoOmLdaLTcw0CXqmxKHqy/AC4eTUNveXzxeyMu5ifaWlrPd6cA9cbIIN59hJaeYXVYWbAhOwLNn4LVw7yDGEO6OkQy/OAqbbMaO41g28O1J/CUba9Msv9gN4cvWvSzMBGKf8dYoMAOqAfQisPjsZQJ8dLg8q81x5b9pj1zr6acsBLayZ1K8IQzqLcOIyYv86O7vhtmOq9CAGlLfXzTQ0UpSY7FEXvfYpQznM9HSmm4ENi8N+ZfftPPGgExBM+CgO6fwcD6oEYesnhIax3SOzpLMD6jrphrVaAKeEzw2mLiXrhTZsiDSY4KJYsH8+st0wCRgB",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "Thanks for the order number, and I'm sorry for the hassle. I can't access order details or issue the replacement from this chat, so please send your photos of the screen and packaging, along with order #48213 and a note that you'd like a replacement, to our support team through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Keep the box and packing materials until the replacement is arranged, since the carrier may need them for pickup or inspection.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "How long will the replacement take to arrive?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSqAYKEAgTGAI4AUIIdGhpbmtpbmcSDDYquSLyNN+U0JaiJhoMKdj7G3J30+KdS8AYIjD5jM3odcGhDNTmbNZcbUpogOv0Poe30g9m7GIQhPcClkHYGN1z/EaggYv0iIKvsd0qxQVr4g6wv4Wn2v7ac701qf9IYhsC96mK3gzUL62RbhF+Yll8KytIBoupeg+/jYKNBoAeVjeI8ScwFJoVDK8NFXhrPDun0/UXM7NyTDcoFNdmYjYuNQ360lG5a1ErHBtjgYWvT6oLiUJTfJsPGGMGnSt+5CI467wn59m37zdmcQ/B4wQ97Eq/1hGtkuhKBln1bllWzBwjzW93fjQFc6pvWUFQZdK4BYk1mYLkSSGOrVEr9TL3BnXt/XOAfcvQWZSIkE1NRFeOH97K5QGeuyocEs9OrW8nJtSzLdl6+9qjLupDL3Iy2ovHy8Gx7YyrrGJ5OwreIRXPzHfBaNc2WD3QDIckxxWVV6t+SkuE380f7jQ5jVJ4k3dOBUCpBIvqMVye3FPC3yblgMDAUbANtLvnALJpYwrw9Yn/4I0Tgfg0ghQO14FP/BRnXa0/0B+BL4C8NbXN2OKPF/fvlHqvb4XS/e8CN1KhUdVpB5czC0Bmzw1ZkfbfguqgIEpNEZewFeRiYRRxl5hTEkvmYhNU6rVbpD8J3Yxg5Sti3jaw2MM5IIxltxhRIw5EB/b1e1FSEIb5qhuC8eYYu6uQ0Ittl/+vvMWwANffAeyPG8IpGh+cLAd2k8tWATySW5iEyDPnyh2JZ+gORefEuFo+594e0o+T/UjJy5Dc09WVEiHFIOmBb5L8iY82ry7jPsQDiQcw/5mWR+uwdXOrLtS2iYRY7AlEvKpL5RUe3vIxeoxD+8dq9LP5fvxW4ipVTK1N+rFTUYGp7NlzpL8uYzQs/nvqQQgUgAxajqpyrqKNgTXnT6kOykHfHr4xcbL+Yzbn1FHJPKtNCU2cZMal9T1t5Fw0hijYMMwGZCvP45BycXo/zFx6ifQpVukFl8VTWtFRIW5sd9apdgaYmogzRk1aKnh51EGEE45K+Y4I32geKMZgj/c/XUf1auXe0K6AGAE=",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I can't give you an exact date, since I don't have access to our replacement timelines or your order's details. Typically, a claim is reviewed first, and then the replacement ships, so the total time depends on how quickly the review is completed and on stock availability and shipping method. The support team can confirm a specific estimate when they approve your claim, so I'd ask for that in your request.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Can you send it to my office instead? It's 200 Market Street, Suite 4."
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxD5HDdSz5KKUv9piTPW",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "I can't change the shipping address from this chat, and I'm not able to confirm whether an address change is allowed for a replacement. Please include the new address (200 Market Street, Suite 4) in your claim request for order #48213 and ask the support team to confirm it before they ship. It's also worth including a contact phone number and checking that someone can receive the package at the office."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 617,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 115,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "b59fd1ac0e547000",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSpwcKEAgTGAI4AUIIdGhpbmtpbmcSDNRJEAS6Bgy7S85/kRoMdA/mvBVcPDmhMkTfIjC1adhH67vZbWpWuDOympfi97R5p30qe+kwlUPbpCCskwdko2ay5C577s3gxzcLVrYqxAZbnv5DPnPdIazM7rcAyPp5f5CN1XqaOEZAvE2sLNjbthr+WrrW9pgTAVDelK7WGPuxZVvhYlpWpMONISmzpl9x84kswW/JZyojTu18QAuOjDRp7Mrl7sNxyyay1qK7JlaFvkQ4vOJqXx4sDI1IxaNR0txa7YC5zE1s+m72bdgfcS8Z33AofXlLvPbbsG7iesgcKKzvXmOA7vz19chE35Nksz5BGqhbxWVl4mJxjUyad2+S7xaUhE3sEG0Ao83w4GVJXn+iuWAjPZsVL4g55jQa5TMuxudAr7qKwTNyLyzfwjGzNWv269FnCBRT6x5/Gayw6RUPhwKfAjnOUUfeRERvKestMnUq5jLLKoKRVMvNXDmwEgu+N7/bNKebOdjUNf6i/BrC1nz9Y2eCi8kI4BR7zElFuuWcGJLDKV80BzqvrHASqddyqQzgvRfPfLgRbswSC6Mc26wxGEmXo+jZOgKNXQXcavrxJg/bVteGv1slbeGv/uvfQJK5+VYsYILTIvjronf5fbM2u5UmVIXQjuaHoZBPDo4Epaar7njZXw9m9eZnDOm1npnCOX3ZXQq1H+cLZoPqc+8TldlGntGcHCn/WHp6eFw8koTcT1Z56kjP8/vpDIN1Jb9x9plrE7z5JB5XaMQDpjzgVNlyaFvXUfi8nBoO8zAqckoScsCHD1elSWkUUEhZF0FyHqOt9TN8dySm+bAsmz+p4OujCuPB1b1JACML98VdJpQRIo7pES01Xwb5/kjniKzRYjO6936SA1vkWmzsjW/b+LyBy3rouMguQsfVBoOmLdaLTcw0CXqmxKHqy/AC4eTUNveXzxeyMu5ifaWlrPd6cA9cbIIN59hJaeYXVYWbAhOwLNn4LVw7yDGEO6OkQy/OAqbbMaO41g28O1J/CUba9Msv9gN4cvWvSzMBGKf8dYoMAOqAfQisPjsZQJ8dLg8q81x5b9pj1zr6acsBLayZ1K8IQzqLcOIyYv86O7vhtmOq9CAGlLfXzTQ0UpSY7FEXvfYpQznM9HSmm4ENi8N+ZfftPPGgExBM+CgO6fwcD6oEYesnhIax3SOzpLMD6jrphrVaAKeEzw2mLiXrhTZsiDSY4KJYsH8+st0wCRgB",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "Thanks for the order number, and I'm sorry for the hassle. I can't access order details or issue the replacement from this chat, so please send your photos of the screen and packaging, along with order #48213 and a note that you'd like a replacement, to our support team through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Keep the box and packing materials until the replacement is arranged, since the carrier may need them for pickup or inspection.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "How long will the replacement take to arrive?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSqAYKEAgTGAI4AUIIdGhpbmtpbmcSDDYquSLyNN+U0JaiJhoMKdj7G3J30+KdS8AYIjD5jM3odcGhDNTmbNZcbUpogOv0Poe30g9m7GIQhPcClkHYGN1z/EaggYv0iIKvsd0qxQVr4g6wv4Wn2v7ac701qf9IYhsC96mK3gzUL62RbhF+Yll8KytIBoupeg+/jYKNBoAeVjeI8ScwFJoVDK8NFXhrPDun0/UXM7NyTDcoFNdmYjYuNQ360lG5a1ErHBtjgYWvT6oLiUJTfJsPGGMGnSt+5CI467wn59m37zdmcQ/B4wQ97Eq/1hGtkuhKBln1bllWzBwjzW93fjQFc6pvWUFQZdK4BYk1mYLkSSGOrVEr9TL3BnXt/XOAfcvQWZSIkE1NRFeOH97K5QGeuyocEs9OrW8nJtSzLdl6+9qjLupDL3Iy2ovHy8Gx7YyrrGJ5OwreIRXPzHfBaNc2WD3QDIckxxWVV6t+SkuE380f7jQ5jVJ4k3dOBUCpBIvqMVye3FPC3yblgMDAUbANtLvnALJpYwrw9Yn/4I0Tgfg0ghQO14FP/BRnXa0/0B+BL4C8NbXN2OKPF/fvlHqvb4XS/e8CN1KhUdVpB5czC0Bmzw1ZkfbfguqgIEpNEZewFeRiYRRxl5hTEkvmYhNU6rVbpD8J3Yxg5Sti3jaw2MM5IIxltxhRIw5EB/b1e1FSEIb5qhuC8eYYu6uQ0Ittl/+vvMWwANffAeyPG8IpGh+cLAd2k8tWATySW5iEyDPnyh2JZ+gORefEuFo+594e0o+T/UjJy5Dc09WVEiHFIOmBb5L8iY82ry7jPsQDiQcw/5mWR+uwdXOrLtS2iYRY7AlEvKpL5RUe3vIxeoxD+8dq9LP5fvxW4ipVTK1N+rFTUYGp7NlzpL8uYzQs/nvqQQgUgAxajqpyrqKNgTXnT6kOykHfHr4xcbL+Yzbn1FHJPKtNCU2cZMal9T1t5Fw0hijYMMwGZCvP45BycXo/zFx6ifQpVukFl8VTWtFRIW5sd9apdgaYmogzRk1aKnh51EGEE45K+Y4I32geKMZgj/c/XUf1auXe0K6AGAE=",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I can't give you an exact date, since I don't have access to our replacement timelines or your order's details. Typically, a claim is reviewed first, and then the replacement ships, so the total time depends on how quickly the review is completed and on stock availability and shipping method. The support team can confirm a specific estimate when they approve your claim, so I'd ask for that in your request.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Can you send it to my office instead? It's 200 Market Street, Suite 4."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I can't change the shipping address from this chat, and I'm not able to confirm whether an address change is allowed for a replacement. Please include the new address (200 Market Street, Suite 4) in your claim request for order #48213 and ask the support team to confirm it before they ship. It's also worth including a contact phone number and checking that someone can receive the package at the office.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Do I need to send the cracked one back first?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 750
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "f5cd26c29cc92ed4",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSpwcKEAgTGAI4AUIIdGhpbmtpbmcSDNRJEAS6Bgy7S85/kRoMdA/mvBVcPDmhMkTfIjC1adhH67vZbWpWuDOympfi97R5p30qe+kwlUPbpCCskwdko2ay5C577s3gxzcLVrYqxAZbnv5DPnPdIazM7rcAyPp5f5CN1XqaOEZAvE2sLNjbthr+WrrW9pgTAVDelK7WGPuxZVvhYlpWpMONISmzpl9x84kswW/JZyojTu18QAuOjDRp7Mrl7sNxyyay1qK7JlaFvkQ4vOJqXx4sDI1IxaNR0txa7YC5zE1s+m72bdgfcS8Z33AofXlLvPbbsG7iesgcKKzvXmOA7vz19chE35Nksz5BGqhbxWVl4mJxjUyad2+S7xaUhE3sEG0Ao83w4GVJXn+iuWAjPZsVL4g55jQa5TMuxudAr7qKwTNyLyzfwjGzNWv269FnCBRT6x5/Gayw6RUPhwKfAjnOUUfeRERvKestMnUq5jLLKoKRVMvNXDmwEgu+N7/bNKebOdjUNf6i/BrC1nz9Y2eCi8kI4BR7zElFuuWcGJLDKV80BzqvrHASqddyqQzgvRfPfLgRbswSC6Mc26wxGEmXo+jZOgKNXQXcavrxJg/bVteGv1slbeGv/uvfQJK5+VYsYILTIvjronf5fbM2u5UmVIXQjuaHoZBPDo4Epaar7njZXw9m9eZnDOm1npnCOX3ZXQq1H+cLZoPqc+8TldlGntGcHCn/WHp6eFw8koTcT1Z56kjP8/vpDIN1Jb9x9plrE7z5JB5XaMQDpjzgVNlyaFvXUfi8nBoO8zAqckoScsCHD1elSWkUUEhZF0FyHqOt9TN8dySm+bAsmz+p4OujCuPB1b1JACML98VdJpQRIo7pES01Xwb5/kjniKzRYjO6936SA1vkWmzsjW/b+LyBy3rouMguQsfVBoOmLdaLTcw0CXqmxKHqy/AC4eTUNveXzxeyMu5ifaWlrPd6cA9cbIIN59hJaeYXVYWbAhOwLNn4LVw7yDGEO6OkQy/OAqbbMaO41g28O1J/CUba9Msv9gN4cvWvSzMBGKf8dYoMAOqAfQisPjsZQJ8dLg8q81x5b9pj1zr6acsBLayZ1K8IQzqLcOIyYv86O7vhtmOq9CAGlLfXzTQ0UpSY7FEXvfYpQznM9HSmm4ENi8N+ZfftPPGgExBM+CgO6fwcD6oEYesnhIax3SOzpLMD6jrphrVaAKeEzw2mLiXrhTZsiDSY4KJYsH8+st0wCRgB",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "Thanks for the order number, and I'm sorry for the hassle. I can't access order details or issue the replacement from this chat, so please send your photos of the screen and packaging, along with order #48213 and a note that you'd like a replacement, to our support team through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Keep the box and packing materials until the replacement is arranged, since the carrier may need them for pickup or inspection.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "How long will the replacement take to arrive?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSqAYKEAgTGAI4AUIIdGhpbmtpbmcSDDYquSLyNN+U0JaiJhoMKdj7G3J30+KdS8AYIjD5jM3odcGhDNTmbNZcbUpogOv0Poe30g9m7GIQhPcClkHYGN1z/EaggYv0iIKvsd0qxQVr4g6wv4Wn2v7ac701qf9IYhsC96mK3gzUL62RbhF+Yll8KytIBoupeg+/jYKNBoAeVjeI8ScwFJoVDK8NFXhrPDun0/UXM7NyTDcoFNdmYjYuNQ360lG5a1ErHBtjgYWvT6oLiUJTfJsPGGMGnSt+5CI467wn59m37zdmcQ/B4wQ97Eq/1hGtkuhKBln1bllWzBwjzW93fjQFc6pvWUFQZdK4BYk1mYLkSSGOrVEr9TL3BnXt/XOAfcvQWZSIkE1NRFeOH97K5QGeuyocEs9OrW8nJtSzLdl6+9qjLupDL3Iy2ovHy8Gx7YyrrGJ5OwreIRXPzHfBaNc2WD3QDIckxxWVV6t+SkuE380f7jQ5jVJ4k3dOBUCpBIvqMVye3FPC3yblgMDAUbANtLvnALJpYwrw9Yn/4I0Tgfg0ghQO14FP/BRnXa0/0B+BL4C8NbXN2OKPF/fvlHqvb4XS/e8CN1KhUdVpB5czC0Bmzw1ZkfbfguqgIEpNEZewFeRiYRRxl5hTEkvmYhNU6rVbpD8J3Yxg5Sti3jaw2MM5IIxltxhRIw5EB/b1e1FSEIb5qhuC8eYYu6uQ0Ittl/+vvMWwANffAeyPG8IpGh+cLAd2k8tWATySW5iEyDPnyh2JZ+gORefEuFo+594e0o+T/UjJy5Dc09WVEiHFIOmBb5L8iY82ry7jPsQDiQcw/5mWR+uwdXOrLtS2iYRY7AlEvKpL5RUe3vIxeoxD+8dq9LP5fvxW4ipVTK1N+rFTUYGp7NlzpL8uYzQs/nvqQQgUgAxajqpyrqKNgTXnT6kOykHfHr4xcbL+Yzbn1FHJPKtNCU2cZMal9T1t5Fw0hijYMMwGZCvP45BycXo/zFx6ifQpVukFl8VTWtFRIW5sd9apdgaYmogzRk1aKnh51EGEE45K+Y4I32geKMZgj/c/XUf1auXe0K6AGAE=",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I can't give you an exact date, since I don't have access to our replacement timelines or your order's details. Typically, a claim is reviewed first, and then the replacement ships, so the total time depends on how quickly the review is completed and on stock availability and shipping method. The support team can confirm a specific estimate when they approve your claim, so I'd ask for that in your request.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Can you send it to my office instead? It's 200 Market Street, Suite 4."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I can't change the shipping address from this chat, and I'm not able to confirm whether an address change is allowed for a replacement. Please include the new address (200 Market Street, Suite 4) in your claim request for order #48213 and ask the support team to confirm it before they ship. It's also worth including a contact phone number and checking that someone can receive the package at the office.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Do I need to send the cracked one back first?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxD5SqaPg5ST4CS36d4o",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "thinking",
+       "thinking": "",
+       "signature": "CAQS1AYKEAgTGAI4AUIIdGhpbmtpbmcSDEkcXZEUBYIvuuCRxhoM3o7p4KCVuZc2jSL8IjBJJK+DckcElimAbHupDxa+3PKa3YdtMcHL+HigTBRMFSzn77Doct1ADsPm215USRMq8QVGqWzZmEcudDHsBMBefuJMZaTi9R992h8hhG/BM9G8Vuq0OmNfOEgNiJwqLvvO5WnjPF6YctgEFy1Ox8IUVNMh25X4qC+ou3GDYV5z1XIOpTJood0sYCrjyUlIpUTykRxIlB1d8dV6M0r5/Tttqb4gVwUB0CSu49vDOA0thXxEDv+bEfQmSSkV8nIXkHN7mrHmRJhrFjsBl7S46GGVMc5wmsAdQnS068azbHvxPOmBJZItbkfgKH3qiDwurIDMgJFqwEPBFBZgCRjTCGYYo0SdCbknknWeF5Z6/wK2kxpMprSxjrLotqhyLJ/+0KcKy1fo9nk8OBdg3TTgabI8YiGqXYp8oG2kR1stfL9Li2jUPFyTq4TPOFn87u9MhcRUOjvalm0JDCbr/bMWKoJ/zsSAhN7gWv3JcMk5JBRH9gURERmqmiHH6rrFF9hy1hh99Pm6abR0FaG1aClTKZvwa4dnI0bhrklHTvsic14NfUasSrTScPl2x6FYDxyh7kzPOIQt/9TL8zqfp8lWPa1OqcndRf/Jfss/l5qnc4tj6dOLGYV27oDrjWq2JBc+OfZitf8aHcqAcrJfBI7ppLh2MySbjKjpkM9cAitF93i9csbcaoMW5l+cfXR00kvBdIujPSFbehsTqOvc2QCSyQmSOeF23KyaJp9cdLPO8QTq/DbzasZmPGXC1QIxbQTWIR4lt8c95I4ue3MPBkTyspAjq31g2WKZmcL9AjjytLLS0n7ijuLRC8uKk5YbrdObcMVdQB4+ufW3JAUMoGStsA0s6hLYBYR4IQMsjiTml8VlTuooiq1P+ogtRC8kvq2543BwU+a6lxw7sRiZT3iXrQGRsRc3PzPFFKEvCHXb+NVic9XT9vzO6/VO4u49o6YQLKr+uBsOhp0iByM2gYNSCNJqUbLtMLPCFclx0yDRky+hiZdtBNPK3lSaiCmLLRmWox/j2o5PccD6TSwSJP5/nflOyNjQvqIV522HNtlDbvi72pgjwbAYAQ=="
+      },
+      {
+       "type": "text",
+       "text": "I can't say for certain, because I don't have access to our return policy details for damage claims. Some stores ship the replacement right after approving the claim, while others require the damaged item to be sent back or picked up first. Ask the support team to confirm this when you submit your request, and keep the cracked item and its packaging until they tell you what to do."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 750,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 149,
+      "output_tokens_details": {
+       "thinking_tokens": 44
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "5fdc60c9fe34b7da",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSpwcKEAgTGAI4AUIIdGhpbmtpbmcSDNRJEAS6Bgy7S85/kRoMdA/mvBVcPDmhMkTfIjC1adhH67vZbWpWuDOympfi97R5p30qe+kwlUPbpCCskwdko2ay5C577s3gxzcLVrYqxAZbnv5DPnPdIazM7rcAyPp5f5CN1XqaOEZAvE2sLNjbthr+WrrW9pgTAVDelK7WGPuxZVvhYlpWpMONISmzpl9x84kswW/JZyojTu18QAuOjDRp7Mrl7sNxyyay1qK7JlaFvkQ4vOJqXx4sDI1IxaNR0txa7YC5zE1s+m72bdgfcS8Z33AofXlLvPbbsG7iesgcKKzvXmOA7vz19chE35Nksz5BGqhbxWVl4mJxjUyad2+S7xaUhE3sEG0Ao83w4GVJXn+iuWAjPZsVL4g55jQa5TMuxudAr7qKwTNyLyzfwjGzNWv269FnCBRT6x5/Gayw6RUPhwKfAjnOUUfeRERvKestMnUq5jLLKoKRVMvNXDmwEgu+N7/bNKebOdjUNf6i/BrC1nz9Y2eCi8kI4BR7zElFuuWcGJLDKV80BzqvrHASqddyqQzgvRfPfLgRbswSC6Mc26wxGEmXo+jZOgKNXQXcavrxJg/bVteGv1slbeGv/uvfQJK5+VYsYILTIvjronf5fbM2u5UmVIXQjuaHoZBPDo4Epaar7njZXw9m9eZnDOm1npnCOX3ZXQq1H+cLZoPqc+8TldlGntGcHCn/WHp6eFw8koTcT1Z56kjP8/vpDIN1Jb9x9plrE7z5JB5XaMQDpjzgVNlyaFvXUfi8nBoO8zAqckoScsCHD1elSWkUUEhZF0FyHqOt9TN8dySm+bAsmz+p4OujCuPB1b1JACML98VdJpQRIo7pES01Xwb5/kjniKzRYjO6936SA1vkWmzsjW/b+LyBy3rouMguQsfVBoOmLdaLTcw0CXqmxKHqy/AC4eTUNveXzxeyMu5ifaWlrPd6cA9cbIIN59hJaeYXVYWbAhOwLNn4LVw7yDGEO6OkQy/OAqbbMaO41g28O1J/CUba9Msv9gN4cvWvSzMBGKf8dYoMAOqAfQisPjsZQJ8dLg8q81x5b9pj1zr6acsBLayZ1K8IQzqLcOIyYv86O7vhtmOq9CAGlLfXzTQ0UpSY7FEXvfYpQznM9HSmm4ENi8N+ZfftPPGgExBM+CgO6fwcD6oEYesnhIax3SOzpLMD6jrphrVaAKeEzw2mLiXrhTZsiDSY4KJYsH8+st0wCRgB",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "Thanks for the order number, and I'm sorry for the hassle. I can't access order details or issue the replacement from this chat, so please send your photos of the screen and packaging, along with order #48213 and a note that you'd like a replacement, to our support team through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Keep the box and packing materials until the replacement is arranged, since the carrier may need them for pickup or inspection.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "How long will the replacement take to arrive?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSqAYKEAgTGAI4AUIIdGhpbmtpbmcSDDYquSLyNN+U0JaiJhoMKdj7G3J30+KdS8AYIjD5jM3odcGhDNTmbNZcbUpogOv0Poe30g9m7GIQhPcClkHYGN1z/EaggYv0iIKvsd0qxQVr4g6wv4Wn2v7ac701qf9IYhsC96mK3gzUL62RbhF+Yll8KytIBoupeg+/jYKNBoAeVjeI8ScwFJoVDK8NFXhrPDun0/UXM7NyTDcoFNdmYjYuNQ360lG5a1ErHBtjgYWvT6oLiUJTfJsPGGMGnSt+5CI467wn59m37zdmcQ/B4wQ97Eq/1hGtkuhKBln1bllWzBwjzW93fjQFc6pvWUFQZdK4BYk1mYLkSSGOrVEr9TL3BnXt/XOAfcvQWZSIkE1NRFeOH97K5QGeuyocEs9OrW8nJtSzLdl6+9qjLupDL3Iy2ovHy8Gx7YyrrGJ5OwreIRXPzHfBaNc2WD3QDIckxxWVV6t+SkuE380f7jQ5jVJ4k3dOBUCpBIvqMVye3FPC3yblgMDAUbANtLvnALJpYwrw9Yn/4I0Tgfg0ghQO14FP/BRnXa0/0B+BL4C8NbXN2OKPF/fvlHqvb4XS/e8CN1KhUdVpB5czC0Bmzw1ZkfbfguqgIEpNEZewFeRiYRRxl5hTEkvmYhNU6rVbpD8J3Yxg5Sti3jaw2MM5IIxltxhRIw5EB/b1e1FSEIb5qhuC8eYYu6uQ0Ittl/+vvMWwANffAeyPG8IpGh+cLAd2k8tWATySW5iEyDPnyh2JZ+gORefEuFo+594e0o+T/UjJy5Dc09WVEiHFIOmBb5L8iY82ry7jPsQDiQcw/5mWR+uwdXOrLtS2iYRY7AlEvKpL5RUe3vIxeoxD+8dq9LP5fvxW4ipVTK1N+rFTUYGp7NlzpL8uYzQs/nvqQQgUgAxajqpyrqKNgTXnT6kOykHfHr4xcbL+Yzbn1FHJPKtNCU2cZMal9T1t5Fw0hijYMMwGZCvP45BycXo/zFx6ifQpVukFl8VTWtFRIW5sd9apdgaYmogzRk1aKnh51EGEE45K+Y4I32geKMZgj/c/XUf1auXe0K6AGAE=",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I can't give you an exact date, since I don't have access to our replacement timelines or your order's details. Typically, a claim is reviewed first, and then the replacement ships, so the total time depends on how quickly the review is completed and on stock availability and shipping method. The support team can confirm a specific estimate when they approve your claim, so I'd ask for that in your request.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Can you send it to my office instead? It's 200 Market Street, Suite 4."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I can't change the shipping address from this chat, and I'm not able to confirm whether an address change is allowed for a replacement. Please include the new address (200 Market Street, Suite 4) in your claim request for order #48213 and ask the support team to confirm it before they ship. It's also worth including a contact phone number and checking that someone can receive the package at the office.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Do I need to send the cracked one back first?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQS1AYKEAgTGAI4AUIIdGhpbmtpbmcSDEkcXZEUBYIvuuCRxhoM3o7p4KCVuZc2jSL8IjBJJK+DckcElimAbHupDxa+3PKa3YdtMcHL+HigTBRMFSzn77Doct1ADsPm215USRMq8QVGqWzZmEcudDHsBMBefuJMZaTi9R992h8hhG/BM9G8Vuq0OmNfOEgNiJwqLvvO5WnjPF6YctgEFy1Ox8IUVNMh25X4qC+ou3GDYV5z1XIOpTJood0sYCrjyUlIpUTykRxIlB1d8dV6M0r5/Tttqb4gVwUB0CSu49vDOA0thXxEDv+bEfQmSSkV8nIXkHN7mrHmRJhrFjsBl7S46GGVMc5wmsAdQnS068azbHvxPOmBJZItbkfgKH3qiDwurIDMgJFqwEPBFBZgCRjTCGYYo0SdCbknknWeF5Z6/wK2kxpMprSxjrLotqhyLJ/+0KcKy1fo9nk8OBdg3TTgabI8YiGqXYp8oG2kR1stfL9Li2jUPFyTq4TPOFn87u9MhcRUOjvalm0JDCbr/bMWKoJ/zsSAhN7gWv3JcMk5JBRH9gURERmqmiHH6rrFF9hy1hh99Pm6abR0FaG1aClTKZvwa4dnI0bhrklHTvsic14NfUasSrTScPl2x6FYDxyh7kzPOIQt/9TL8zqfp8lWPa1OqcndRf/Jfss/l5qnc4tj6dOLGYV27oDrjWq2JBc+OfZitf8aHcqAcrJfBI7ppLh2MySbjKjpkM9cAitF93i9csbcaoMW5l+cfXR00kvBdIujPSFbehsTqOvc2QCSyQmSOeF23KyaJp9cdLPO8QTq/DbzasZmPGXC1QIxbQTWIR4lt8c95I4ue3MPBkTyspAjq31g2WKZmcL9AjjytLLS0n7ijuLRC8uKk5YbrdObcMVdQB4+ufW3JAUMoGStsA0s6hLYBYR4IQMsjiTml8VlTuooiq1P+ogtRC8kvq2543BwU+a6lxw7sRiZT3iXrQGRsRc3PzPFFKEvCHXb+NVic9XT9vzO6/VO4u49o6YQLKr+uBsOhp0iByM2gYNSCNJqUbLtMLPCFclx0yDRky+hiZdtBNPK3lSaiCmLLRmWox/j2o5PccD6TSwSJP5/nflOyNjQvqIV522HNtlDbvi72pgjwbAYAQ==",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I can't say for certain, because I don't have access to our return policy details for damage claims. Some stores ship the replacement right after approving the claim, while others require the damaged item to be sent back or picked up first. Ask the support team to confirm this when you submit your request, and keep the cracked item and its packaging until they tell you what to do.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Thanks. Can you summarize what happens next?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 919
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "5ec517d420e9f667",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "query": "",
+    "body": {
+     "max_tokens": 1024,
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. What can I do?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I'm sorry your order arrived damaged! Please take clear photos of the cracked screen and the packaging, then contact us with your order number so we can start a replacement or refund. Avoid throwing away the box and packing materials, as we may need them for the claim or carrier return.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "The order number is 48213. I'd prefer a replacement to a refund."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSpwcKEAgTGAI4AUIIdGhpbmtpbmcSDNRJEAS6Bgy7S85/kRoMdA/mvBVcPDmhMkTfIjC1adhH67vZbWpWuDOympfi97R5p30qe+kwlUPbpCCskwdko2ay5C577s3gxzcLVrYqxAZbnv5DPnPdIazM7rcAyPp5f5CN1XqaOEZAvE2sLNjbthr+WrrW9pgTAVDelK7WGPuxZVvhYlpWpMONISmzpl9x84kswW/JZyojTu18QAuOjDRp7Mrl7sNxyyay1qK7JlaFvkQ4vOJqXx4sDI1IxaNR0txa7YC5zE1s+m72bdgfcS8Z33AofXlLvPbbsG7iesgcKKzvXmOA7vz19chE35Nksz5BGqhbxWVl4mJxjUyad2+S7xaUhE3sEG0Ao83w4GVJXn+iuWAjPZsVL4g55jQa5TMuxudAr7qKwTNyLyzfwjGzNWv269FnCBRT6x5/Gayw6RUPhwKfAjnOUUfeRERvKestMnUq5jLLKoKRVMvNXDmwEgu+N7/bNKebOdjUNf6i/BrC1nz9Y2eCi8kI4BR7zElFuuWcGJLDKV80BzqvrHASqddyqQzgvRfPfLgRbswSC6Mc26wxGEmXo+jZOgKNXQXcavrxJg/bVteGv1slbeGv/uvfQJK5+VYsYILTIvjronf5fbM2u5UmVIXQjuaHoZBPDo4Epaar7njZXw9m9eZnDOm1npnCOX3ZXQq1H+cLZoPqc+8TldlGntGcHCn/WHp6eFw8koTcT1Z56kjP8/vpDIN1Jb9x9plrE7z5JB5XaMQDpjzgVNlyaFvXUfi8nBoO8zAqckoScsCHD1elSWkUUEhZF0FyHqOt9TN8dySm+bAsmz+p4OujCuPB1b1JACML98VdJpQRIo7pES01Xwb5/kjniKzRYjO6936SA1vkWmzsjW/b+LyBy3rouMguQsfVBoOmLdaLTcw0CXqmxKHqy/AC4eTUNveXzxeyMu5ifaWlrPd6cA9cbIIN59hJaeYXVYWbAhOwLNn4LVw7yDGEO6OkQy/OAqbbMaO41g28O1J/CUba9Msv9gN4cvWvSzMBGKf8dYoMAOqAfQisPjsZQJ8dLg8q81x5b9pj1zr6acsBLayZ1K8IQzqLcOIyYv86O7vhtmOq9CAGlLfXzTQ0UpSY7FEXvfYpQznM9HSmm4ENi8N+ZfftPPGgExBM+CgO6fwcD6oEYesnhIax3SOzpLMD6jrphrVaAKeEzw2mLiXrhTZsiDSY4KJYsH8+st0wCRgB",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "Thanks for the order number, and I'm sorry for the hassle. I can't access order details or issue the replacement from this chat, so please send your photos of the screen and packaging, along with order #48213 and a note that you'd like a replacement, to our support team through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Keep the box and packing materials until the replacement is arranged, since the carrier may need them for pickup or inspection.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "How long will the replacement take to arrive?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQSqAYKEAgTGAI4AUIIdGhpbmtpbmcSDDYquSLyNN+U0JaiJhoMKdj7G3J30+KdS8AYIjD5jM3odcGhDNTmbNZcbUpogOv0Poe30g9m7GIQhPcClkHYGN1z/EaggYv0iIKvsd0qxQVr4g6wv4Wn2v7ac701qf9IYhsC96mK3gzUL62RbhF+Yll8KytIBoupeg+/jYKNBoAeVjeI8ScwFJoVDK8NFXhrPDun0/UXM7NyTDcoFNdmYjYuNQ360lG5a1ErHBtjgYWvT6oLiUJTfJsPGGMGnSt+5CI467wn59m37zdmcQ/B4wQ97Eq/1hGtkuhKBln1bllWzBwjzW93fjQFc6pvWUFQZdK4BYk1mYLkSSGOrVEr9TL3BnXt/XOAfcvQWZSIkE1NRFeOH97K5QGeuyocEs9OrW8nJtSzLdl6+9qjLupDL3Iy2ovHy8Gx7YyrrGJ5OwreIRXPzHfBaNc2WD3QDIckxxWVV6t+SkuE380f7jQ5jVJ4k3dOBUCpBIvqMVye3FPC3yblgMDAUbANtLvnALJpYwrw9Yn/4I0Tgfg0ghQO14FP/BRnXa0/0B+BL4C8NbXN2OKPF/fvlHqvb4XS/e8CN1KhUdVpB5czC0Bmzw1ZkfbfguqgIEpNEZewFeRiYRRxl5hTEkvmYhNU6rVbpD8J3Yxg5Sti3jaw2MM5IIxltxhRIw5EB/b1e1FSEIb5qhuC8eYYu6uQ0Ittl/+vvMWwANffAeyPG8IpGh+cLAd2k8tWATySW5iEyDPnyh2JZ+gORefEuFo+594e0o+T/UjJy5Dc09WVEiHFIOmBb5L8iY82ry7jPsQDiQcw/5mWR+uwdXOrLtS2iYRY7AlEvKpL5RUe3vIxeoxD+8dq9LP5fvxW4ipVTK1N+rFTUYGp7NlzpL8uYzQs/nvqQQgUgAxajqpyrqKNgTXnT6kOykHfHr4xcbL+Yzbn1FHJPKtNCU2cZMal9T1t5Fw0hijYMMwGZCvP45BycXo/zFx6ifQpVukFl8VTWtFRIW5sd9apdgaYmogzRk1aKnh51EGEE45K+Y4I32geKMZgj/c/XUf1auXe0K6AGAE=",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I can't give you an exact date, since I don't have access to our replacement timelines or your order's details. Typically, a claim is reviewed first, and then the replacement ships, so the total time depends on how quickly the review is completed and on stock availability and shipping method. The support team can confirm a specific estimate when they approve your claim, so I'd ask for that in your request.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Can you send it to my office instead? It's 200 Market Street, Suite 4."
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "text": "I can't change the shipping address from this chat, and I'm not able to confirm whether an address change is allowed for a replacement. Please include the new address (200 Market Street, Suite 4) in your claim request for order #48213 and ask the support team to confirm it before they ship. It's also worth including a contact phone number and checking that someone can receive the package at the office.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Do I need to send the cracked one back first?"
+      },
+      {
+       "role": "assistant",
+       "content": [
+        {
+         "signature": "CAQS1AYKEAgTGAI4AUIIdGhpbmtpbmcSDEkcXZEUBYIvuuCRxhoM3o7p4KCVuZc2jSL8IjBJJK+DckcElimAbHupDxa+3PKa3YdtMcHL+HigTBRMFSzn77Doct1ADsPm215USRMq8QVGqWzZmEcudDHsBMBefuJMZaTi9R992h8hhG/BM9G8Vuq0OmNfOEgNiJwqLvvO5WnjPF6YctgEFy1Ox8IUVNMh25X4qC+ou3GDYV5z1XIOpTJood0sYCrjyUlIpUTykRxIlB1d8dV6M0r5/Tttqb4gVwUB0CSu49vDOA0thXxEDv+bEfQmSSkV8nIXkHN7mrHmRJhrFjsBl7S46GGVMc5wmsAdQnS068azbHvxPOmBJZItbkfgKH3qiDwurIDMgJFqwEPBFBZgCRjTCGYYo0SdCbknknWeF5Z6/wK2kxpMprSxjrLotqhyLJ/+0KcKy1fo9nk8OBdg3TTgabI8YiGqXYp8oG2kR1stfL9Li2jUPFyTq4TPOFn87u9MhcRUOjvalm0JDCbr/bMWKoJ/zsSAhN7gWv3JcMk5JBRH9gURERmqmiHH6rrFF9hy1hh99Pm6abR0FaG1aClTKZvwa4dnI0bhrklHTvsic14NfUasSrTScPl2x6FYDxyh7kzPOIQt/9TL8zqfp8lWPa1OqcndRf/Jfss/l5qnc4tj6dOLGYV27oDrjWq2JBc+OfZitf8aHcqAcrJfBI7ppLh2MySbjKjpkM9cAitF93i9csbcaoMW5l+cfXR00kvBdIujPSFbehsTqOvc2QCSyQmSOeF23KyaJp9cdLPO8QTq/DbzasZmPGXC1QIxbQTWIR4lt8c95I4ue3MPBkTyspAjq31g2WKZmcL9AjjytLLS0n7ijuLRC8uKk5YbrdObcMVdQB4+ufW3JAUMoGStsA0s6hLYBYR4IQMsjiTml8VlTuooiq1P+ogtRC8kvq2543BwU+a6lxw7sRiZT3iXrQGRsRc3PzPFFKEvCHXb+NVic9XT9vzO6/VO4u49o6YQLKr+uBsOhp0iByM2gYNSCNJqUbLtMLPCFclx0yDRky+hiZdtBNPK3lSaiCmLLRmWox/j2o5PccD6TSwSJP5/nflOyNjQvqIV522HNtlDbvi72pgjwbAYAQ==",
+         "thinking": "",
+         "type": "thinking"
+        },
+        {
+         "text": "I can't say for certain, because I don't have access to our return policy details for damage claims. Some stores ship the replacement right after approving the claim, while others require the damaged item to be sent back or picked up first. Ask the support team to confirm this when you submit your request, and keep the cracked item and its packaging until they tell you what to do.",
+         "type": "text"
+        }
+       ]
+      },
+      {
+       "role": "user",
+       "content": "Thanks. Can you summarize what happens next?"
+      }
+     ],
+     "model": "claude-sonnet-5-5",
+     "system": "You are a support assistant for an online electronics store. Answer in two or three sentences."
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "model": "claude-sonnet-5-5",
+     "id": "msg_011CgxD5eFuxnEui1PtmfGM4",
+     "type": "message",
+     "role": "assistant",
+     "content": [
+      {
+       "type": "text",
+       "text": "Here's what to do next:\n\n1. **Submit your claim** through the \"Returns & Damage Claims\" form or by replying to your order confirmation email. Include order #48213, your photos of the screen and packaging, and a note that you'd like a replacement.\n2. **Request the details:** the new delivery address (200 Market Street, Suite 4), a contact phone number, an estimated delivery time, and whether you need to return the cracked item first.\n3. **Hold on to everything.** Keep the item, box, and packing materials until the support team tells you how to proceed.\n\nAfter that, the team will review your claim and let you know the next steps."
+      }
+     ],
+     "container": null,
+     "stop_reason": "end_turn",
+     "stop_sequence": null,
+     "stop_details": null,
+     "usage": {
+      "input_tokens": 919,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 200,
+      "output_tokens_details": {
+       "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global",
+      "speed": "standard"
+     },
+     "diagnostics": null
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  }
+ ]
+}

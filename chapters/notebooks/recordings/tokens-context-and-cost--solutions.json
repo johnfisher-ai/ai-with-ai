@@ -1,0 +1,90 @@
+{
+ "notebook": "tokens-context-and-cost--solutions",
+ "format": 1,
+ "exchanges": [
+  {
+   "key": "2d9443d25018055e",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. I'd like a replacement sent to the same address, please."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 38
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "e87e84234d3e51de",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 317
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  },
+  {
+   "key": "1bc3b47320b1b61a",
+   "call": 1,
+   "request": {
+    "method": "POST",
+    "path": "/v1/messages/count_tokens",
+    "query": "",
+    "body": {
+     "messages": [
+      {
+       "role": "user",
+       "content": "My order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please.\nMy order arrived with a cracked screen. I'd like a replacement sent to the same address, please."
+      }
+     ],
+     "model": "claude-sonnet-5-5"
+    }
+   },
+   "response": {
+    "status": 200,
+    "content_type": "application/json",
+    "body": {
+     "input_tokens": 3107
+    }
+   },
+   "model": "claude-sonnet-5-5",
+   "recorded": "2026-11-12",
+   "sdk": "2.7.0"
+  }
+ ]
+}
